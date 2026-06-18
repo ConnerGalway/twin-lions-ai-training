@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Trades | Twin Lions Contracting</title>
+<meta name="description" content="Session-by-session record of the AI for Trades coaching series for the Twin Lions Contracting team: summaries, key lessons, homework, and a shared prompt library.">
+
+<!--
+====================================================================
+  TWIN LIONS: "AI FOR TRADES" SESSION TRACKER
+  How to update this page
+  --------------------------------------------------------------------
+  The page is built as TABS. Each session has (a) a tab button up top
+  and (b) a matching content panel below. They are linked by id:
+        tab-s2  ->  panel-s2   (do not change these pairings)
+
+  TO MARK A SESSION COMPLETE (e.g. after Session 2):
+  1. On its TAB button (search: id="tab-s2"):
+        - change class "is-upcoming" to "is-complete"
+        - change the tab eyebrow to:  <svg.../> Session 02   (copy the
+          check + text from the Session 01 tab)
+  2. In its PANEL (search: id="panel-s2"): replace the "upcoming"
+     contents with the same block structure used in Session 01's panel
+     (search: id="panel-s1") and fill in:
+        - Session summary
+        - Key lessons
+        - What we surfaced / built
+        - Your homework
+     Change the panel's status badge from "Upcoming" to "Completed".
+  3. Update the hero progress: search PROGRESS-COUNT for the "X of 4"
+     count and PROGRESS-BAR for the fill width (25 / 50 / 75 / 100%).
+     Also update the "Next up" line (search: NEXT-UP).
+  4. Update the footer date (search: LAST-UPDATED).
+
+  TO ADD A PROMPT TO THE LIBRARY (panel-lib):
+  - Copy the commented .prompt-card template inside that panel, paste it
+    into the .prompt-list, and fill in Role / Task / Prompt / Notes.
+  - Once at least one card exists, delete the .lib-empty block.
+
+  No build step, no dependencies. Just edit and commit.
+====================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#0D2D51; --navy-deep:#081d36;
+    --green:#146F46; --green-bright:#1a8a56;
+    --slate:#5A6B7B; --slate-soft:#7d8b98;
+    --paper:#F4F6F8; --line:#e3e8ed; --line-soft:#eef2f5;
+    --ink:#16222e; --white:#ffffff;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(13,45,81,.04), 0 12px 32px rgba(13,45,81,.07);
+    --shadow-soft:0 1px 2px rgba(13,45,81,.03), 0 6px 18px rgba(13,45,81,.05);
+    --display:"Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --body:"Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{color:inherit;}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{background:var(--white);border-bottom:1px solid var(--line);}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:16px;padding-bottom:16px;}
+  .brand img{display:block;height:40px;width:auto;}
+  .topbar .ey{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);text-align:right;line-height:1.5;}
+  .topbar .ey b{color:var(--navy);font-weight:600;}
+
+  /* ---------- HERO (compact) ---------- */
+  .hero{position:relative;overflow:hidden;color:#eaf0f6;
+    background:radial-gradient(120% 130% at 88% -20%, rgba(20,111,70,.28), transparent 55%),
+      linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);}
+  .hero::before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:46px 46px;mask-image:radial-gradient(120% 90% at 30% 0%, #000 35%, transparent 80%);pointer-events:none;}
+  .hero .wrap{position:relative;padding-top:44px;padding-bottom:40px;display:flex;flex-wrap:wrap;gap:30px;align-items:flex-end;justify-content:space-between;}
+  .hero .lead{max-width:560px;}
+  .hero .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#8fd3ad;margin:0 0 16px;display:inline-flex;align-items:center;gap:10px;}
+  .hero .eyebrow::before{content:"";width:24px;height:1px;background:#8fd3ad;display:inline-block;}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,6vw,56px);line-height:1;letter-spacing:-.02em;margin:0;color:#fff;}
+  .hero .sub{margin:14px 0 0;font-size:16px;color:#c2d0de;}
+
+  .progress{flex:1 1 300px;max-width:380px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:15px 17px;}
+  .progress .row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+  .progress .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9fb4c8;}
+  .progress .count{font-family:var(--display);font-weight:700;font-size:13.5px;color:#fff;}
+  .progress .count b{color:var(--green-bright);}
+  .progress .track{height:6px;border-radius:99px;background:rgba(255,255,255,.14);margin-top:11px;overflow:hidden;}
+  .progress .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--green-bright));}
+  .progress .next{margin-top:10px;font-size:13px;color:#aebfce;}
+  .progress .next b{color:#eaf0f6;font-weight:600;}
+
+  /* ---------- TABS ---------- */
+  .tabwrap{position:sticky;top:0;z-index:50;background:var(--white);border-bottom:1px solid var(--line);}
+  .tabs{max-width:1020px;margin:0 auto;display:flex;gap:2px;padding:0 14px;overflow-x:auto;scrollbar-width:thin;}
+  .tabs::-webkit-scrollbar{height:6px;}
+  .tabs::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+  .tab{appearance:none;background:none;border:0;border-bottom:3px solid transparent;cursor:pointer;
+    font-family:var(--body);flex:0 0 auto;text-align:left;padding:13px 16px 11px;
+    display:flex;flex-direction:column;gap:3px;border-radius:8px 8px 0 0;
+    transition:background .15s ease, border-color .15s ease;}
+  .tab:hover{background:var(--paper);}
+  .tab-ey{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);display:flex;align-items:center;gap:5px;white-space:nowrap;}
+  .tab-ey .chk{width:12px;height:12px;color:var(--green);flex:0 0 auto;}
+  .tab-t{font-family:var(--display);font-weight:700;font-size:15px;color:var(--slate);white-space:nowrap;letter-spacing:-.01em;}
+  .tab.is-complete .tab-ey{color:var(--green);}
+  .tab.tab-lib{margin-left:auto;}
+  .tab.tab-lib .tab-ey{color:var(--slate-soft);}
+  .tab[aria-selected="true"]{border-bottom-color:var(--green);background:var(--paper);}
+  .tab[aria-selected="true"] .tab-t{color:var(--navy);}
+  .tab:focus-visible{outline:3px solid var(--green-bright);outline-offset:-3px;border-radius:8px;}
+
+  /* ---------- PANELS ---------- */
+  .panels{max-width:1020px;margin:0 auto;padding:30px 24px 12px;}
+  .panel[hidden]{display:none;}
+  .panel:focus{outline:none;}
+
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 34px;}
+  .card.soft{box-shadow:var(--shadow-soft);}
+
+  .card-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px;}
+  .meta-mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--slate);}
+  .meta-dot{color:var(--line);}
+  .badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:99px;font-weight:600;}
+  .badge-done{background:rgba(20,111,70,.1);color:var(--green);}
+  .badge-next{background:rgba(90,107,123,.12);color:var(--slate);}
+
+  .card h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,3.4vw,30px);color:var(--navy);margin:0;letter-spacing:-.01em;line-height:1.12;}
+  .card .one-liner{color:var(--slate);font-size:16.5px;margin:9px 0 0;max-width:64ch;}
+
+  .block{margin-top:26px;}
+  .block-label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin:0 0 12px;display:flex;align-items:center;gap:9px;}
+  .block-label::after{content:"";flex:1;height:1px;background:var(--line-soft);}
+  .block p{margin:0 0 13px;}
+  .block p:last-child{margin-bottom:0;}
+
+  .lessons{list-style:none;margin:0;padding:0;display:grid;gap:12px;}
+  .lessons li{position:relative;padding-left:30px;font-size:16px;}
+  .lessons li::before{content:"";position:absolute;left:0;top:8px;width:14px;height:14px;border-radius:4px;background:rgba(20,111,70,.12);border:1.5px solid var(--green);}
+
+  .audit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .audit-group{border:1px solid var(--line);border-radius:11px;padding:15px 16px;background:#fcfdfe;}
+  .audit-group h4{font-family:var(--display);font-weight:700;font-size:14px;color:var(--navy);margin:0 0 3px;}
+  .audit-group .role{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-soft);display:block;margin-bottom:10px;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{font-size:12.5px;background:#eef2f5;color:#43566a;padding:4px 9px;border-radius:6px;line-height:1.3;}
+  .tag.pick{background:var(--green);color:#fff;font-weight:600;}
+
+  .callout{margin-top:6px;border-radius:12px;padding:22px 24px;position:relative;overflow:hidden;color:#e7eef5;
+    background:linear-gradient(150deg, rgba(13,45,81,.97), rgba(8,29,54,.97));}
+  .callout::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--green);}
+  .callout .tagline{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8fd3ad;margin:0 0 9px;}
+  .callout h4{font-family:var(--display);font-weight:700;font-size:20px;color:#fff;margin:0 0 9px;}
+  .callout p{margin:0 0 11px;color:#c3d2e1;font-size:15.5px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout .demo{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);font-size:14.5px;color:#aebfce;}
+
+  .homework{list-style:none;margin:0;padding:0;display:grid;gap:13px;}
+  .homework li{position:relative;padding-left:34px;font-size:16px;}
+  .homework li::before{content:"";position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:6px;border:2px solid var(--slate-soft);background:#fff;}
+  .due{display:inline-block;margin-top:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);background:#f1f4f7;border:1px solid var(--line);border-radius:8px;padding:8px 13px;}
+  .due b{color:var(--green);font-weight:600;}
+
+  /* ---------- UPCOMING PANEL ---------- */
+  .join-block{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;
+    background:linear-gradient(150deg, rgba(13,45,81,.97), rgba(8,29,54,.97));color:#e7eef5;border-radius:12px;padding:22px 24px;margin-top:4px;}
+  .join-when{display:flex;flex-direction:column;gap:2px;}
+  .join-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8fd3ad;}
+  .join-date{font-family:var(--display);font-weight:700;font-size:22px;color:#fff;line-height:1.1;}
+  .join-time{font-size:14px;color:#aebfce;}
+  .focus{color:var(--ink);font-size:16.5px;margin:22px 0 0;max-width:64ch;}
+  .bring{display:block;font-size:15px;color:var(--slate);margin-top:14px;}
+  .after-note{margin-top:22px;font-size:14.5px;color:var(--slate);padding:14px 16px;background:var(--paper);border:1px dashed var(--line);border-radius:10px;}
+
+  .zoom-btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:var(--green);color:#fff;font-family:var(--display);font-weight:600;font-size:15px;padding:12px 21px;border-radius:9px;transition:background .18s ease, transform .18s ease;}
+  .zoom-btn:hover{background:var(--green-bright);transform:translateY(-1px);}
+  .zoom-btn svg{width:17px;height:17px;}
+
+  /* ---------- LIBRARY PANEL ---------- */
+  .lib-lead{color:var(--slate);font-size:16.5px;max-width:66ch;margin:9px 0 0;}
+  .lib-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+  .lib-legend .col{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 10px;}
+  .lib-empty{margin-top:22px;border:1px dashed var(--line);border-radius:12px;padding:38px 28px;text-align:center;background:#fbfcfd;}
+  .lib-empty svg{width:32px;height:32px;color:var(--slate-soft);}
+  .lib-empty h4{font-family:var(--display);font-weight:700;color:var(--navy);font-size:18px;margin:12px 0 6px;}
+  .lib-empty p{color:var(--slate);max-width:48ch;margin:0 auto;font-size:15px;}
+  .prompt-list{display:grid;gap:14px;}
+  .prompt-card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:#fff;}
+  .pc-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;}
+  .pc-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--green);color:#fff;padding:4px 9px;border-radius:6px;}
+  .pc-task{font-family:var(--display);font-weight:700;color:var(--navy);font-size:16px;}
+  .pc-prompt{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px;white-space:pre-wrap;color:#33414f;overflow-x:auto;margin:0;}
+  .pc-notes{font-size:14px;color:var(--slate);margin:10px 0 0;}
+
+  /* ---------- FOOTER ---------- */
+  .foot{background:var(--navy);color:#aebfce;margin-top:30px;}
+  .foot .wrap{padding:32px 24px;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;justify-content:space-between;}
+  .foot .who{font-family:var(--display);font-weight:700;color:#fff;font-size:15px;}
+  .foot .who span{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7d93aa;font-weight:500;margin-top:4px;}
+  .foot a.j{color:#8fd3ad;text-decoration:none;font-weight:600;border-bottom:1px solid rgba(143,211,173,.4);}
+  .foot a.j:hover{border-bottom-color:#8fd3ad;}
+  .foot .right{font-size:13px;color:#7d93aa;text-align:right;line-height:1.7;}
+  .foot .right b{color:#c3d2e1;font-weight:600;}
+
+  /* ---------- MOTION ---------- */
+  .panel:not([hidden]){animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:680px){
+    .wrap{padding:0 18px;}
+    .hero .wrap{padding-top:34px;padding-bottom:30px;}
+    .brand img{height:34px;}
+    .topbar .ey{font-size:10px;}
+    .tabs{padding:0 10px;}
+    .tab{padding:11px 13px 9px;}
+    .tab-t{font-size:14px;}
+    .tab.tab-lib{margin-left:0;}
+    .panels{padding:22px 16px 10px;}
+    .card{padding:22px 20px;}
+    .audit-grid{grid-template-columns:1fr;}
+    .join-block{padding:18px 18px;}
+    .join-date{font-size:19px;}
+    .foot .wrap{flex-direction:column;align-items:flex-start;}
+    .foot .right{text-align:left;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+    html{scroll-behavior:auto;}
+  }
+  a:focus-visible,.zoom-btn:focus-visible{outline:3px solid var(--green-bright);outline-offset:3px;border-radius:6px;}
+</style>
+</head>
+<body>
+
+  <!-- ================= TOP BAR ================= -->
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand"><img src="data:image/jpeg;base64,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" alt="Twin Lions Contracting"></div>
+      <div class="ey"><b>AI for Trades</b><br>4-Session Coaching Series</div>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="lead">
+        <p class="eyebrow">Coaching Series &middot; Twin Lions Contracting</p>
+        <h1>AI for Trades</h1>
+        <p class="sub">Less time on the paperwork, more time on the build. Pick a session below to see the recap, or jump ahead to join the next call.</p>
+      </div>
+      <div class="progress">
+        <div class="row">
+          <span class="label">Program progress</span>
+          <!-- PROGRESS-COUNT -->
+          <span class="count"><b>1</b> of 4 sessions complete</span>
+        </div>
+        <div class="track">
+          <!-- PROGRESS-BAR : 25 / 50 / 75 / 100% -->
+          <div class="fill" style="width:25%"></div>
+        </div>
+        <!-- NEXT-UP -->
+        <p class="next">Next up is <b>Session 2 &middot; June 23 at 2:30&nbsp;PM</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TABS ================= -->
+  <div class="tabwrap">
+    <div class="tabs" role="tablist" aria-label="AI for Trades sessions">
+
+      <button class="tab is-complete" role="tab" id="tab-s1" aria-controls="panel-s1" aria-selected="true">
+        <span class="tab-ey"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Session 01</span>
+        <span class="tab-t">AI Foundations</span>
+      </button>
+
+      <button class="tab is-upcoming" role="tab" id="tab-s2" aria-controls="panel-s2" aria-selected="false" tabindex="-1">
+        <span class="tab-ey">Session 02 &middot; Jun 23</span>
+        <span class="tab-t">Prompting</span>
+      </button>
+
+      <button class="tab is-upcoming" role="tab" id="tab-s3" aria-controls="panel-s3" aria-selected="false" tabindex="-1">
+        <span class="tab-ey">Session 03 &middot; Jul 7</span>
+        <span class="tab-t">Build Session</span>
+      </button>
+
+      <button class="tab is-upcoming" role="tab" id="tab-s4" aria-controls="panel-s4" aria-selected="false" tabindex="-1">
+        <span class="tab-ey">Session 04 &middot; Jul 14</span>
+        <span class="tab-t">Scaling AI</span>
+      </button>
+
+      <button class="tab tab-lib" role="tab" id="tab-lib" aria-controls="panel-lib" aria-selected="false" tabindex="-1">
+        <span class="tab-ey">Resource</span>
+        <span class="tab-t">Prompt Library</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ================= PANELS ================= -->
+  <main class="panels">
+
+    <!-- ===================== SESSION 1 (COMPLETE) ===================== -->
+    <section class="panel" role="tabpanel" id="panel-s1" aria-labelledby="tab-s1" tabindex="0">
+      <div class="card">
+        <div class="card-top">
+          <span class="meta-mono">Session 01</span>
+          <span class="meta-dot">&bull;</span>
+          <span class="meta-mono">In-person</span>
+          <span class="meta-dot">&bull;</span>
+          <span class="meta-mono">~60 min</span>
+          <span class="badge badge-done">Completed</span>
+        </div>
+        <h2>AI Foundations &amp; Your Workflow Audit</h2>
+        <p class="one-liner">What these tools actually do well, where they fall short, and where they can save Twin Lions the most time.</p>
+
+        <div class="block">
+          <p class="block-label">Session summary</p>
+          <p>We started by getting honest about what these tools really are. Claude, ChatGPT, Gemini and Copilot aren't magic. Think of them as very fast drafters that are good at spotting patterns. They can get a first version of writing, a summary, or a reformat done in seconds, and they're only ever as good as the instructions you hand them.</p>
+          <p>We talked through the two ways teams get burned: trusting AI blindly, when it can be confidently wrong, and barely using it, which leaves easy time on the table. The whole point here is to get the thinking and drafting done faster, so the team spends its hours where they count.</p>
+          <p>Then we got to the heart of it. We went around the room and mapped the tasks that quietly eat the week. That audit became our menu for the next three sessions.</p>
+        </div>
+
+        <div class="block">
+          <p class="block-label">Key lessons</p>
+          <ul class="lessons">
+            <li>These tools are good drafters, but they don't really know things, so treat the first version as a starting point you read and sharpen before it goes anywhere.</li>
+            <li>What you put in decides what you get out. Give it a vague ask and you'll get a vague result; give it specifics and you'll get something you can use.</li>
+            <li>The tools don't know your business, so you have to hand over the context every time. A Claude Project fixes that by remembering it for you.</li>
+            <li>The repeatable jobs with a consistent shape are where AI earns its keep: scopes, notes, letters, postings. The one-off judgment calls still need a person.</li>
+            <li>The Copilot headaches come down to a filing and naming problem more than an AI one. The fix is to clean up the naming first and add the AI layer second.</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <p class="block-label">What we surfaced: the workflow audit</p>
+          <p>The tasks the team named, grouped by who owns them. This is the opportunity map we'll keep returning to.</p>
+          <div class="audit-grid">
+
+            <div class="audit-group">
+              <h4>Kevin</h4><span class="role">Field &amp; Operations</span>
+              <div class="tags">
+                <span class="tag">Field scheduling</span>
+                <span class="tag">Range budgeting from historicals</span>
+                <span class="tag">Invoice coding &amp; cataloguing</span>
+                <span class="tag">Tool sign-outs &amp; maintenance</span>
+                <span class="tag">Sales CRM</span>
+                <span class="tag">Buildertrend compliance</span>
+                <span class="tag">Budget updates</span>
+                <span class="tag">Preliminary &amp; working budgets</span>
+                <span class="tag">Process flows</span>
+                <span class="tag">Email &amp; action-item triage</span>
+                <span class="tag">Training benchmarking</span>
+                <span class="tag">SEO / AEO</span>
+                <span class="tag">Branding rollout</span>
+                <span class="tag">Aftercare &amp; warranty scheduling</span>
+                <span class="tag">Material takeoffs from plans</span>
+                <span class="tag">Comparing drawing revisions</span>
+                <span class="tag">Comparing trade quotes</span>
+                <span class="tag">Award submissions</span>
+              </div>
+            </div>
+
+            <div class="audit-group">
+              <h4>Alex</h4><span class="role">Project / Client-facing</span>
+              <div class="tags">
+                <span class="tag">Site meeting notes</span>
+                <span class="tag pick">Client-facing scope descriptions &rarr; building this</span>
+              </div>
+            </div>
+
+            <div class="audit-group">
+              <h4>Kim</h4><span class="role">HR</span>
+              <div class="tags">
+                <span class="tag">Resume screening</span>
+                <span class="tag">Personalized onboarding</span>
+                <span class="tag">Employee manual copywriting</span>
+                <span class="tag">Benefits help</span>
+                <span class="tag">More personal offboarding</span>
+                <span class="tag">Tailored HR letters</span>
+                <span class="tag">Team list management</span>
+                <span class="tag">Morale &amp; review analysis</span>
+                <span class="tag">Hiring forecasts</span>
+                <span class="tag">Payroll &amp; bonus admin</span>
+              </div>
+            </div>
+
+            <div class="audit-group">
+              <h4>Marketing</h4><span class="role">Brand &amp; Growth</span>
+              <div class="tags">
+                <span class="tag">Trend-aware social posts</span>
+                <span class="tag">Posting schedule</span>
+                <span class="tag">Website rewrites &amp; support</span>
+                <span class="tag">Photography support</span>
+                <span class="tag">Award &amp; copywriting</span>
+                <span class="tag">SEO help</span>
+                <span class="tag">Event booking</span>
+                <span class="tag">Where to spend time &amp; money</span>
+              </div>
+            </div>
+
+            <div class="audit-group">
+              <h4>Training</h4><span class="role">People Development</span>
+              <div class="tags">
+                <span class="tag">Agenda &amp; SOP templates</span>
+                <span class="tag">Keeping training records current</span>
+                <span class="tag">Annual training plans &amp; binders</span>
+                <span class="tag">Education-plan spreadsheets</span>
+              </div>
+            </div>
+
+            <div class="audit-group">
+              <h4>Ryan</h4><span class="role">Estimating / Admin</span>
+              <div class="tags">
+                <span class="tag">Invoice price lookups by trade/supplier</span>
+                <span class="tag">Fast spreadsheet formatting</span>
+                <span class="tag">Plain-English Excel formulas</span>
+                <span class="tag">Outlook meeting setup</span>
+              </div>
+            </div>
+
+          </div>
+          <p style="margin-top:16px;font-size:14.5px;color:var(--slate);">
+            One honest snag came up too. Copilot struggles to query a lot of the team's files. The root cause sits upstream: inconsistent invoice naming and filing means that finding one invoice can mean clicking through every scanned doc in a project folder, and scanned or merged PDFs make it hard to pull real costs by product, trade or supplier. The answer is to clean up the filing and naming first, then add an AI lookup layer on top. We'll treat that as its own project.
+          </p>
+        </div>
+
+        <div class="block">
+          <p class="block-label">The #1 bottleneck we're building</p>
+          <div class="callout">
+            <p class="tagline">Voted by the team</p>
+            <h4>Client-facing scope descriptions</h4>
+            <p>Turning internal budget line items into clear, plain-English scope the client can actually follow. Right now it's slow and tedious, and it comes up on every job. Because it repeats so often and follows a predictable shape, it's a smart place to start.</p>
+            <p class="demo">We proved it live. We took rough budget lines, had Claude turn them into client-ready scope, then refined the tone on the spot. We also started a Twin Lions Claude Project, loaded with the files we use for planning, scheduling and scoping, so the tools stop making us re-explain the business every time.</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <p class="block-label">Your homework before Session 2</p>
+          <ul class="homework">
+            <li>Pick one task from today's audit that lands in your lane.</li>
+            <li>Try Claude or ChatGPT on it at least once before June 23. Even a rough attempt counts.</li>
+            <li>Bring the prompt you used, what it gave back, and whether it actually helped.</li>
+            <li>Don't worry about getting it right. A bad result makes a great teaching example, so bring it anyway.</li>
+          </ul>
+          <span class="due">Due for <b>Session 2 &middot; June 23</b></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SESSION 2 (UPCOMING) ===================== -->
+    <section class="panel" role="tabpanel" id="panel-s2" aria-labelledby="tab-s2" tabindex="0" hidden>
+      <div class="card soft">
+        <div class="card-top">
+          <span class="meta-mono">Session 02</span>
+          <span class="meta-dot">&bull;</span>
+          <span class="meta-mono">Virtual</span>
+          <span class="badge badge-next">Upcoming</span>
+        </div>
+        <h2>Prompting That Actually Works</h2>
+
+        <div class="join-block">
+          <div class="join-when">
+            <span class="join-label">When</span>
+            <span class="join-date">Monday, June 23</span>
+            <span class="join-time">2:30 PM &middot; Virtual (Zoom)</span>
+          </div>
+          <a class="zoom-btn" href="https://us02web.zoom.us/j/88242175066?pwd=ApVk0OENi2ZXHeYEZxifBlPbacREsL.1&amp;jst=2" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2.5"/><path d="M22 8.5l-7 3.5 7 3.5z"/></svg>
+            Join the Zoom call
+          </a>
+        </div>
+
+        <p class="focus">The simple framework for getting useful output every time: Role, Context, Task and Format. We'll also start the team's shared prompt library, so a good prompt gets reused instead of rewritten.</p>
+        <span class="bring">Bring your homework attempt from Session 1.</span>
+        <p class="after-note">After we meet, the recap, key lessons and homework will show up right here.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SESSION 3 (UPCOMING) ===================== -->
+    <section class="panel" role="tabpanel" id="panel-s3" aria-labelledby="tab-s3" tabindex="0" hidden>
+      <div class="card soft">
+        <div class="card-top">
+          <span class="meta-mono">Session 03</span>
+          <span class="meta-dot">&bull;</span>
+          <span class="meta-mono">Virtual</span>
+          <span class="badge badge-next">Upcoming</span>
+        </div>
+        <h2>Build Session: The Scope Description Workflow</h2>
+
+        <div class="join-block">
+          <div class="join-when">
+            <span class="join-label">When</span>
+            <span class="join-date">Monday, July 7</span>
+            <span class="join-time">10:00 AM &middot; Virtual (Zoom)</span>
+          </div>
+          <a class="zoom-btn" href="https://us02web.zoom.us/j/85004109433?pwd=DYus1dZjU1PnbkBjMVSCUtjw1APPhb.1&amp;jst=2" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2.5"/><path d="M22 8.5l-7 3.5 7 3.5z"/></svg>
+            Join the Zoom call
+          </a>
+        </div>
+
+        <p class="focus">The hands-on one. We build the scope-description tool together, live, using the Twin Lions Claude Project, then hand it off so anyone on the team can run it the following week.</p>
+        <span class="bring">Bring two or three real examples: a typical budget and the scope you'd normally write from it.</span>
+        <p class="after-note">After we meet, the recap, key lessons and homework will show up right here.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SESSION 4 (UPCOMING) ===================== -->
+    <section class="panel" role="tabpanel" id="panel-s4" aria-labelledby="tab-s4" tabindex="0" hidden>
+      <div class="card soft">
+        <div class="card-top">
+          <span class="meta-mono">Session 04</span>
+          <span class="meta-dot">&bull;</span>
+          <span class="meta-mono">Virtual</span>
+          <span class="badge badge-next">Upcoming</span>
+        </div>
+        <h2>Scaling &amp; Sustaining AI at Twin Lions</h2>
+
+        <div class="join-block">
+          <div class="join-when">
+            <span class="join-label">When</span>
+            <span class="join-date">Monday, July 14</span>
+            <span class="join-time">10:00 AM &middot; Virtual (Zoom)</span>
+          </div>
+          <a class="zoom-btn" href="https://us02web.zoom.us/j/87328145264?pwd=xuXh0k3pIrgAmhLElgTUdKqBTEZHQn.1&amp;jst=2" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2.5"/><path d="M22 8.5l-7 3.5 7 3.5z"/></svg>
+            Join the Zoom call
+          </a>
+        </div>
+
+        <p class="focus">A look at what's working, what to build next, and a simple 90-day plan for keeping the momentum after the series ends, so the team carries the habit forward on its own.</p>
+        <span class="bring">Bring your notes from using the scope workflow on real jobs.</span>
+        <p class="after-note">After we meet, the recap, key lessons and homework will show up right here.</p>
+      </div>
+    </section>
+
+    <!-- ===================== PROMPT LIBRARY ===================== -->
+    <section class="panel" role="tabpanel" id="panel-lib" aria-labelledby="tab-lib" tabindex="0" hidden>
+      <div class="card">
+        <div class="card-top">
+          <span class="meta-mono">Resource</span>
+          <span class="badge badge-next">In progress</span>
+        </div>
+        <h2>The team's shared prompt library</h2>
+        <p class="lib-lead">A running collection of the prompts that work for Twin Lions, labelled by role and task. We'll build it together over Sessions 2 to 4, one tested prompt at a time, so a good prompt gets reused instead of rewritten from scratch.</p>
+
+        <div class="lib-legend">
+          <span class="col">Role</span>
+          <span class="col">Task</span>
+          <span class="col">Prompt</span>
+          <span class="col">Notes</span>
+        </div>
+
+        <!-- Prompt cards go in here. Delete the .lib-empty block once the first card is added. -->
+        <div class="prompt-list">
+
+          <!-- TEMPLATE: copy this card for each new prompt and fill it in
+          <div class="prompt-card">
+            <div class="pc-top">
+              <span class="pc-role">PM</span>
+              <span class="pc-task">Scope description</span>
+            </div>
+            <pre class="pc-prompt">You are a project manager at Twin Lions Contracting. Turn the budget line items below into clear, plain-English scope descriptions a homeowner can follow. Keep our warm, straightforward voice.
+
+[paste budget line items]</pre>
+            <p class="pc-notes">Notes: works best inside the Twin Lions Claude Project.</p>
+          </div>
+          -->
+
+        </div>
+
+        <div class="lib-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <h4>Filling up after Session 2</h4>
+          <p>This is where the team's working prompts will live. We start adding them in Session 2 and keep going through Sessions 3 and 4.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="who">Twin Lions Contracting<span>AI for Trades &middot; Coaching Series</span></div>
+      <div class="right">
+        Facilitated by <a class="j" href="https://wearejunction.com" target="_blank" rel="noopener">Junction Consulting</a><br>
+        <!-- LAST-UPDATED -->
+        <b>Last updated:</b> June 18, 2026
+      </div>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function activate(id, focusPanel, scroll){
+    tabs.forEach(function(t){
+      var sel = (t.id === id);
+      t.setAttribute('aria-selected', sel ? 'true' : 'false');
+      t.tabIndex = sel ? 0 : -1;
+    });
+    panels.forEach(function(p){
+      p.hidden = (p.getAttribute('aria-labelledby') !== id);
+    });
+    try { history.replaceState(null, '', '#' + id.replace('tab-','')); } catch(e){}
+    if(scroll){
+      var nav = document.querySelector('.tabwrap');
+      var y = nav.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+    }
+  }
+
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ activate(t.id, false, true); });
+    t.addEventListener('keydown', function(e){
+      var idx = null;
+      if(e.key === 'ArrowRight' || e.key === 'ArrowDown') idx = (i + 1) % tabs.length;
+      else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') idx = (i - 1 + tabs.length) % tabs.length;
+      else if(e.key === 'Home') idx = 0;
+      else if(e.key === 'End') idx = tabs.length - 1;
+      if(idx !== null){ e.preventDefault(); tabs[idx].focus(); activate(tabs[idx].id, false, false); }
+    });
+  });
+
+  // open from URL hash if valid, else default to the first tab
+  var fromHash = location.hash ? document.getElementById('tab' + '-' + location.hash.slice(1)) : null;
+  activate(fromHash ? fromHash.id : tabs[0].id, false, false);
+})();
+</script>
+
+</body>
+</html>
