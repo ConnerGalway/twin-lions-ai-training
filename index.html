@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI for Trades | Twin Lions Contracting</title>
 <meta name="description" content="Session-by-session record of the AI for Trades coaching series for the Twin Lions Contracting team: summaries, key lessons, homework, and a shared prompt library.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 
 <!--
 ====================================================================
@@ -158,6 +159,21 @@
   .rctf-k{flex:0 0 auto;width:34px;height:34px;border-radius:8px;background:var(--navy);color:#fff;font-family:var(--mono);font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;}
   .rctf-item b{font-family:var(--display);font-size:15px;color:var(--navy);}
   .rctf-item p{margin:3px 0 0;font-size:14px;color:var(--slate);line-height:1.5;}
+
+  .video-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000;margin-top:16px;}
+  .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .video-cap{font-size:13.5px;color:var(--slate);margin:10px 0 0;}
+  .video-cap a{color:var(--green);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(20,111,70,.3);}
+  .video-cap a:hover{border-bottom-color:var(--green);}
+
+  .video-facade{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;background-color:#000;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;}
+  .video-facade::after{content:"";position:absolute;inset:0;background:rgba(8,29,54,.28);transition:background .2s ease;}
+  .video-facade:hover::after{background:rgba(8,29,54,.12);}
+  .video-play{position:relative;z-index:1;width:72px;height:50px;display:block;filter:drop-shadow(0 3px 8px rgba(0,0,0,.45));transition:transform .2s ease;}
+  .video-facade:hover .video-play{transform:scale(1.07);}
+  .video-play svg{width:100%;height:100%;display:block;}
+  .video-play .yt-bg{fill:var(--green);}
+  .video-facade:focus-visible{outline:3px solid var(--green-bright);outline-offset:-3px;}
 
   .callout{margin-top:6px;border-radius:12px;padding:22px 24px;position:relative;overflow:hidden;color:#e7eef5;
     background:linear-gradient(150deg, rgba(13,45,81,.97), rgba(8,29,54,.97));}
@@ -528,6 +544,19 @@
           </ul>
           <span class="due">Due for <b>Session 3 &middot; July 7</b></span>
         </div>
+
+        <div class="block">
+          <p class="block-label">Bonus content</p>
+          <p>If you want to go deeper, this is a session where Anthropic's own engineers walk through how to write prompts that get the best results. The RCTF framework we used is a simplified take on what they teach. For anyone who wants to get the most out of their AI tools, the 24 minutes here are well worth it.</p>
+          <div class="video-wrap">
+            <button class="video-facade" type="button" aria-label="Play video: Anthropic engineers on writing better prompts" style="background-image:url('https://i.ytimg.com/vi/ysPbXH0LpIE/hqdefault.jpg')" data-embed="https://www.youtube-nocookie.com/embed/ysPbXH0LpIE?autoplay=1&amp;rel=0">
+              <span class="video-play" aria-hidden="true">
+                <svg viewBox="0 0 68 48"><path class="yt-bg" d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.4 0 34 0 34 0S12.6 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.3 13 .3 24 .3 24s0 11 1.2 16.3c.8 2.9 3 5.1 5.9 5.9C12.6 48 34 48 34 48s21.4 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C67.7 35 67.7 24 67.7 24s0-11-1.2-16.3z"/><path d="M27 34l18-10L27 14z" fill="#fff"/></svg>
+              </span>
+            </button>
+          </div>
+          <p class="video-cap">Anthropic engineers on prompt writing &middot; about 24 minutes &middot; <a href="https://youtu.be/ysPbXH0LpIE?si=vKO-4OQA7rnHgpS7" target="_blank" rel="noopener">watch on YouTube</a></p>
+        </div>
       </div>
     </section>
 
@@ -684,6 +713,22 @@
   // open from URL hash if valid, else default to the first tab
   var fromHash = location.hash ? document.getElementById('tab' + '-' + location.hash.slice(1)) : null;
   activate(fromHash ? fromHash.id : tabs[0].id, false, false);
+
+  // click-to-play video facade: load the player only on user click (valid referrer)
+  var facade = document.querySelector('.video-facade');
+  if(facade){
+    facade.addEventListener('click', function(){
+      var wrap = facade.parentNode;
+      var f = document.createElement('iframe');
+      f.src = facade.getAttribute('data-embed');
+      f.title = 'Anthropic engineers on writing better prompts';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.setAttribute('allowfullscreen', '');
+      f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      wrap.innerHTML = '';
+      wrap.appendChild(f);
+    });
+  }
 })();
 </script>
 
