@@ -35,9 +35,19 @@
   4. Update the footer date (search: LAST-UPDATED).
 
   TO ADD A PROMPT TO THE LIBRARY (panel-lib):
-  - Copy the commented .prompt-card template inside that panel, paste it
-    into the .prompt-list, and fill in Role / Task / Prompt / Notes.
-  - Once at least one card exists, delete the .lib-empty block.
+  - Copy the commented .prompt-card template inside that panel (search:
+    TEMPLATE: copy this card), paste it as the LAST card in .prompt-list,
+    and fill in: department badge + owner, task title, description, the
+    "how to use it" guidance, the prompt text itself, and notes.
+  - Give the card the right data-dept value so filtering works:
+        field | client | finance | estimating | hr
+    (add a new filter chip in .lib-chips if you introduce a new department)
+  - Fill in data-search with lowercase keywords (task name, owner, a few
+    words from the prompt) so the search box can find it.
+  - Give the <pre class="pc-prompt"> a unique id and match it on the
+    Copy button's data-target attribute, or the copy button won't work.
+  - Use the .tip span for any jargon worth explaining on hover
+    (see existing cards for the pattern).
 
   No build step, no dependencies. Just edit and commit.
 ====================================================================
@@ -207,19 +217,67 @@
 
   /* ---------- LIBRARY PANEL ---------- */
   .lib-lead{color:var(--slate);font-size:16.5px;max-width:66ch;margin:9px 0 0;}
-  .lib-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
-  .lib-legend .col{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 10px;}
+
+  /* -- tooltip (used inline in descriptions / guidance) -- */
+  .tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;
+    border-radius:50%;background:var(--line);color:var(--slate);font-family:var(--mono);font-size:10px;font-weight:700;
+    cursor:help;vertical-align:middle;margin-left:3px;top:-1px;}
+  .tip:hover,.tip:focus-visible{background:var(--green);color:#fff;outline:none;}
+  .tip:hover::after,.tip:focus-visible::after{content:attr(data-tip);position:absolute;left:50%;bottom:135%;
+    transform:translateX(-50%);background:var(--navy-deep);color:#eaf0f6;font-family:var(--body);font-weight:400;
+    font-size:12.5px;line-height:1.45;padding:9px 11px;border-radius:8px;width:max-content;max-width:250px;
+    box-shadow:var(--shadow);z-index:20;text-align:left;pointer-events:none;}
+  .tip:hover::before,.tip:focus-visible::before{content:"";position:absolute;left:50%;bottom:112%;
+    transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--navy-deep);z-index:20;}
+
+  /* -- filter bar -- */
+  .lib-toolbar{margin-top:22px;display:flex;flex-direction:column;gap:12px;}
+  .lib-search{position:relative;max-width:360px;}
+  .lib-search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--slate-soft);pointer-events:none;}
+  .lib-search input{width:100%;font-family:var(--body);font-size:14.5px;color:var(--ink);background:#fff;
+    border:1px solid var(--line);border-radius:9px;padding:10px 14px 10px 37px;transition:border-color .15s ease;}
+  .lib-search input:focus{outline:none;border-color:var(--green);}
+  .lib-search input::placeholder{color:var(--slate-soft);}
+  .lib-chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .lib-chip{appearance:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;cursor:pointer;
+    background:#fff;color:var(--slate);border:1px solid var(--line);border-radius:99px;padding:7px 13px;
+    transition:background .15s ease,border-color .15s ease,color .15s ease;}
+  .lib-chip:hover{border-color:var(--slate-soft);}
+  .lib-chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .lib-chip .n{opacity:.7;margin-left:1px;}
+  .lib-count{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-soft);margin-top:2px;}
+  .lib-count b{color:var(--navy);font-weight:600;}
+
   .lib-empty{margin-top:22px;border:1px dashed var(--line);border-radius:12px;padding:38px 28px;text-align:center;background:#fbfcfd;}
   .lib-empty svg{width:32px;height:32px;color:var(--slate-soft);}
   .lib-empty h4{font-family:var(--display);font-weight:700;color:var(--navy);font-size:18px;margin:12px 0 6px;}
   .lib-empty p{color:var(--slate);max-width:48ch;margin:0 auto;font-size:15px;}
-  .prompt-list{display:grid;gap:14px;}
-  .prompt-card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:#fff;}
-  .pc-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;}
+  .lib-empty[hidden]{display:none;}
+
+  .prompt-list{display:grid;gap:14px;margin-top:18px;}
+  .prompt-card{border:1px solid var(--line);border-radius:12px;padding:22px 24px;background:#fff;transition:box-shadow .15s ease;}
+  .prompt-card[hidden]{display:none;}
+  .pc-top{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:11px;}
   .pc-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--green);color:#fff;padding:4px 9px;border-radius:6px;}
-  .pc-task{font-family:var(--display);font-weight:700;color:var(--navy);font-size:16px;}
-  .pc-prompt{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px;white-space:pre-wrap;color:#33414f;overflow-x:auto;margin:0;}
-  .pc-notes{font-size:14px;color:var(--slate);margin:10px 0 0;}
+  .pc-owner{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-soft);}
+  .pc-task{font-family:var(--display);font-weight:700;color:var(--navy);font-size:17px;margin:0 0 8px;letter-spacing:-.01em;}
+  .pc-desc{font-size:15px;color:var(--ink);margin:0 0 14px;max-width:70ch;}
+  .pc-use{background:var(--paper);border:1px solid var(--line-soft);border-radius:9px;padding:11px 14px;margin-bottom:14px;}
+  .pc-use-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
+  .pc-use p{margin:0;font-size:14px;color:#43566a;line-height:1.55;}
+  .pc-prompt-wrap{position:relative;}
+  .pc-prompt{font-family:var(--mono);font-size:13px;line-height:1.6;background:#fbfcfd;border:1px solid var(--line);border-radius:8px;
+    padding:16px;padding-top:44px;white-space:pre-wrap;color:#33414f;overflow-x:auto;margin:0;}
+  .pc-copy{position:absolute;top:9px;right:9px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+    font-family:var(--display);font-weight:600;font-size:12.5px;color:var(--navy);background:#fff;
+    border:1px solid var(--line);border-radius:7px;padding:6px 11px;transition:background .15s ease,border-color .15s ease,color .15s ease;}
+  .pc-copy svg{width:13px;height:13px;flex:0 0 auto;}
+  .pc-copy:hover{border-color:var(--green);color:var(--green);}
+  .pc-copy:focus-visible{outline:3px solid var(--green-bright);outline-offset:2px;}
+  .pc-copy.is-copied{background:var(--green);border-color:var(--green);color:#fff;}
+  .pc-notes{font-size:13.5px;color:var(--slate);margin:12px 0 0;line-height:1.55;}
+  .pc-notes b{color:#43566a;font-weight:600;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
   /* ---------- FOOTER ---------- */
   .foot{background:var(--navy);color:#aebfce;margin-top:30px;}
@@ -623,41 +681,619 @@
       <div class="card">
         <div class="card-top">
           <span class="meta-mono">Resource</span>
-          <span class="badge badge-next">In progress</span>
+          <span class="badge badge-done">20 prompts live</span>
         </div>
         <h2>The team's shared prompt library</h2>
-        <p class="lib-lead">A running collection of the prompts that work for Twin Lions, labelled by role and task. We'll build it together over Sessions 2 to 4, one tested prompt at a time, so a good prompt gets reused instead of rewritten from scratch.</p>
+        <p class="lib-lead">Ready-to-use prompts built on the <span class="tip" tabindex="0" data-tip="Role, Context, Task, Format — the four-part structure from Session 2. Every prompt below is already built this way.">RCTF</span> framework from Session 2, pulled from the team's own homework and the workflow audit. Filter by who it's for or search by keyword, fill in the brackets, and hit Copy. We'll keep adding to this through Sessions 3 and 4.</p>
 
-        <div class="lib-legend">
-          <span class="col">Role</span>
-          <span class="col">Task</span>
-          <span class="col">Prompt</span>
-          <span class="col">Notes</span>
-        </div>
-
-        <!-- Prompt cards go in here. Delete the .lib-empty block once the first card is added. -->
-        <div class="prompt-list">
-
-          <!-- TEMPLATE: copy this card for each new prompt and fill it in
-          <div class="prompt-card">
-            <div class="pc-top">
-              <span class="pc-role">PM</span>
-              <span class="pc-task">Scope description</span>
-            </div>
-            <pre class="pc-prompt">You are a project manager at Twin Lions Contracting. Turn the budget line items below into clear, plain-English scope descriptions a homeowner can follow. Keep our warm, straightforward voice.
-
-[paste budget line items]</pre>
-            <p class="pc-notes">Notes: works best inside the Twin Lions Claude Project.</p>
+        <div class="lib-toolbar">
+          <div class="lib-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="search" id="libSearch" placeholder="Search prompts (e.g. budget, invoice, onboarding)&hellip;" aria-label="Search the prompt library">
           </div>
-          -->
+          <div class="lib-chips" role="group" aria-label="Filter prompts by department">
+            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(20)</span></button>
+            <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(5)</span></button>
+            <button class="lib-chip" type="button" data-filter="client" aria-pressed="false">Client-Facing <span class="n">(5)</span></button>
+            <button class="lib-chip" type="button" data-filter="finance" aria-pressed="false">Finance <span class="n">(4)</span></button>
+            <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(3)</span></button>
+            <button class="lib-chip" type="button" data-filter="hr" aria-pressed="false">HR <span class="n">(3)</span></button>
+          </div>
+          <p class="lib-count" id="libCount">Showing <b>20</b> of 20 prompts</p>
+        </div>
+
+        <!-- TEMPLATE: copy this card for each new prompt and fill it in
+        <article class="prompt-card" data-dept="field" data-search="keywords here, task name, owner name">
+          <div class="pc-top">
+            <span class="pc-role">Field &amp; Operations</span>
+            <span class="pc-owner">For Kevin</span>
+          </div>
+          <h4 class="pc-task">Task name</h4>
+          <p class="pc-desc">One or two sentences: what this prompt does and when to reach for it.</p>
+          <div class="pc-use">
+            <span class="pc-use-label">How to use it</span>
+            <p>Practical guidance: what to fill in, what to paste alongside it, what to double-check after.</p>
+          </div>
+          <div class="pc-prompt-wrap">
+            <pre class="pc-prompt" id="pXX">Full prompt text goes here, with [placeholders] in brackets.</pre>
+            <button class="pc-copy" type="button" data-target="pXX">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span class="pc-copy-label">Copy prompt</span>
+            </button>
+          </div>
+          <p class="pc-notes"><b>Notes:</b> caveats or tips for getting a better result.</p>
+        </article>
+        -->
+
+        <div class="prompt-list" id="promptList">
+
+          <!-- ============ KEVIN — FIELD & OPERATIONS ============ -->
+
+          <article class="prompt-card" data-dept="field" data-search="kevin field operations range budget working budget estimate">
+            <div class="pc-top">
+              <span class="pc-role">Field &amp; Operations</span>
+              <span class="pc-owner">For Kevin</span>
+            </div>
+            <h4 class="pc-task">Range / working budget from a few inputs</h4>
+            <p class="pc-desc">Turns a handful of project details into a category-by-category budget range you can give a client before the detailed estimate is done. This was voted the team's #1 priority to build a repeatable prompt for.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Fill in the project details, then paste in one or two <span class="tip" tabindex="0" data-tip="Real numbers from past, comparable projects. Without these, Claude has nothing of yours to base the range on and will flag its figures as placeholders instead.">historicals</span> if you have them &mdash; the closer in size and scope to the new job, the better. No historicals on hand is fine too; it will still hand back a solid category structure with placeholder numbers for you to swap in.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p01">You are an experienced construction estimator who works on renovations and custom homes. I need a working range budget for a new project so I can give the client a ballpark before we do a detailed estimate.
+
+Here are the project details:
+- Project type: [e.g. full kitchen renovation]
+- Location / neighbourhood: [area]
+- Approximate size: [square footage or room count]
+- Scope highlights: [e.g. new cabinets, quartz counters, move one wall, new flooring throughout]
+- Quality level: [budget / mid / high-end finishes]
+- Anything unusual: [e.g. old wiring, second-floor access, tight timeline]
+
+Here are budgets from past projects like this one, for you to base your numbers on:
+[paste one or more comparable past project budgets, or write "none available"]
+
+Build a range budget broken down by category (demolition, framing, electrical, plumbing, finishes, and so on). For each category show a low and a high number and list the assumptions behind it. Add a total range at the bottom and a short list of things that could push the price up.
+
+Base your numbers on the past projects I gave you. If I did not give you any, or a category is not covered by them, mark those figures clearly as rough placeholders I need to replace with our real costs, and do not present them as if they are ours. Put it in a simple table I can read quickly.</pre>
+              <button class="pc-copy" type="button" data-target="p01">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> This is only as good as the past numbers you feed it. Always sanity-check the range before it goes anywhere near a client.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="field" data-search="kevin field operations compare trade quotes bids subtrade">
+            <div class="pc-top">
+              <span class="pc-role">Field &amp; Operations</span>
+              <span class="pc-owner">For Kevin</span>
+            </div>
+            <h4 class="pc-task">Compare two trade quotes</h4>
+            <p class="pc-desc">Puts two bids for the same scope of work side by side so you can see what is actually included, not just which number is lower.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste both quotes in as they are, formatting and all &mdash; you do not need to clean them up first. Read the "questions to ask" section before you call either trade back.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p02">You are a construction estimator reviewing bids from trades. I have two quotes for the same work and I want to compare them properly before we pick one.
+
+Here is quote A:
+[paste quote A]
+
+Here is quote B:
+[paste quote B]
+
+Put them side by side in a table, line item by line item. Call out where the prices differ a lot, anything that is in one quote but missing from the other, and any scope that looks unclear or assumed. Also flag any adding-up or math errors you spot in either quote. At the end, tell me which quote looks more complete and what questions I should ask each trade before deciding. I care more about what is actually included than which is cheaper.</pre>
+              <button class="pc-copy" type="button" data-target="p02">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Works for lump-sum or itemized quotes. If a quote is a scanned image rather than text, you will need to type or paste the numbers in manually first.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="field" data-search="kevin field operations intake email client crm buildertrend">
+            <div class="pc-top">
+              <span class="pc-role">Field &amp; Operations</span>
+              <span class="pc-owner">For Kevin</span>
+            </div>
+            <h4 class="pc-task">Pull client details out of an intake email</h4>
+            <p class="pc-desc">Reads a new-client email and pulls the key fields into a clean table, ready to paste into a spreadsheet or into Buildertrend.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>You can paste several emails in at once and ask for one row per client. Because <span class="tip" tabindex="0" data-tip="Buildertrend does not currently allow outside AI tools to write directly into it, so this is a one-way pull: out of the email, into a sheet you keep. The manual entry into Buildertrend itself still has to happen by hand.">Buildertrend won't accept an outside AI writing into it directly</span>, keep a running sheet from this and copy from there.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p03">You are an office admin for a contracting company. I am going to paste an email from a potential client. Pull out the key details so I can drop them into our system.
+
+Here is the email:
+[paste the email]
+
+Give me back a clean table with these fields: client name, phone, email, project address, project type, description of what they want, budget if mentioned, timeline if mentioned, and how they found us if mentioned. If a field is not in the email, write "not provided" so I know to follow up. Keep it to just the table.</pre>
+              <button class="pc-copy" type="button" data-target="p03">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Copy the finished table straight into a Google Sheet or your CRM import.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="field" data-search="kevin field operations crew message schedule notes text">
+            <div class="pc-top">
+              <span class="pc-role">Field &amp; Operations</span>
+              <span class="pc-owner">For Kevin</span>
+            </div>
+            <h4 class="pc-task">Turn notes into a crew message</h4>
+            <p class="pc-desc">Turns rough bullet points about the week ahead into a clean, phone-friendly message you can text or email to the crew.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Jot your notes however is fastest, phone shorthand is fine. Add site addresses and start times if you have them and it will slot them in.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p04">You are an operations coordinator at a renovation company. Turn my rough notes into a clear message for the crew for the week.
+
+Here is what is happening:
+[your bullets: which crew, which site, what work, what days, any materials or deliveries, any client notes]
+
+Write it as a short, friendly message I can send in a text or email. Lead with the most important thing. Use a simple list for the daily plan. Keep it plain and easy to read on a phone.</pre>
+              <button class="pc-copy" type="button" data-target="p04">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Good for a quick Monday-morning send before the week gets away from you.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="field" data-search="kevin field operations email triage thread action items summary">
+            <div class="pc-top">
+              <span class="pc-role">Field &amp; Operations</span>
+              <span class="pc-owner">For Kevin</span>
+            </div>
+            <h4 class="pc-task">Triage a long email thread</h4>
+            <p class="pc-desc">Reads a long back-and-forth thread and hands you back what actually matters: where things stand, what was decided, and what you still owe someone.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste in the whole thread, newest or oldest first, it will sort it out. Good for jumping back into something you were cc'd on and half-forgot about.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p05">You are a sharp executive assistant. I am going to paste a long email thread. I need to know what actually matters and what I have to do.
+
+Here is the thread:
+[paste the thread]
+
+Give me a two or three sentence summary of where things stand, a list of decisions that were made, and a list of action items with who owns each one and any dates mentioned. Flag anything urgent or unresolved at the top.</pre>
+              <button class="pc-copy" type="button" data-target="p05">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Run this from inside the Twin Lions Project and it can usually match names in the thread to real people on the team.</p>
+          </article>
+
+          <!-- ============ ALEX — CLIENT-FACING ============ -->
+
+          <article class="prompt-card" data-dept="client" data-search="alex client facing scope description budget lines">
+            <div class="pc-top">
+              <span class="pc-role">Client-Facing</span>
+              <span class="pc-owner">For Alex</span>
+            </div>
+            <h4 class="pc-task">Client-facing scope description from budget lines</h4>
+            <p class="pc-desc">Turns internal budget line items into plain-English scope a homeowner can actually follow. This is the #1 bottleneck the team picked in Session 1 to build first.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste your internal line items in as they are, cost codes and shorthand included. Drop the result straight into the branded scope template. If a line item is vague, the description will come out generic, so add a note where you need more specificity.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p06">You are a project manager at a renovation company writing for a homeowner client. Turn our internal budget line items into a clear scope description the client can actually follow.
+
+Here are the line items:
+[paste the budget lines]
+
+Rewrite each one in plain English that a homeowner understands, grouped by area of the home or stage of work. Say what we are doing and what is included, without the internal cost codes or trade shorthand. Keep the tone warm and professional, like a trusted local pro explaining the job. Do not invent any work that is not in the line items.</pre>
+              <button class="pc-copy" type="button" data-target="p06">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> This is the one the branded scope template was built around. Read it over for anything that got flattened out too generically.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="client" data-search="alex client facing site meeting notes minutes">
+            <div class="pc-top">
+              <span class="pc-role">Client-Facing</span>
+              <span class="pc-owner">For Alex</span>
+            </div>
+            <h4 class="pc-task">Site meeting notes into clean minutes</h4>
+            <p class="pc-desc">Takes rough point-form notes from a site meeting and turns them into a structured set of minutes with clear action items.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Works well straight from a phone notes app or a voice-to-text dump, no need to clean it up first. Keep a blank copy of the output as your go-to template.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p07">You are a project manager writing up notes after a site meeting. Turn my rough notes into clean, structured minutes.
+
+Here are my notes:
+[paste your point-form notes]
+
+Format them as: meeting date and who was there (I will fill in blanks), key items discussed, decisions made, and action items with an owner and a due date for each. Keep it tight and skimmable. If something in my notes is unclear, list it under a short "to confirm" section rather than guessing.</pre>
+              <button class="pc-copy" type="button" data-target="p07">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Flagged in Session 2 as a strong next candidate to fully automate, once someone is capturing notes consistently.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="client" data-search="alex client facing status update email progress">
+            <div class="pc-top">
+              <span class="pc-role">Client-Facing</span>
+              <span class="pc-owner">For Alex</span>
+            </div>
+            <h4 class="pc-task">Client update email from status bullets</h4>
+            <p class="pc-desc">Turns quick status notes into a warm, professional progress email for a homeowner client.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Keep your bullets short and factual. If there is a delay or a piece of bad news in there, it will handle it honestly rather than burying it, which is what you want.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p08">You are a project manager sending a progress update to a homeowner client. Turn these status notes into a warm, professional email.
+
+Project: [name / address]
+Status notes:
+[your bullets: what is done, what is happening this week, anything the client needs to decide or approve, any delays]
+
+Write a short email with a clear subject line. Open with where things stand, cover the key updates in a simple list, and be upfront about anything delayed and why. Close with what happens next. Keep it friendly and clear, no corporate stiffness.</pre>
+              <button class="pc-copy" type="button" data-target="p08">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> A quick weekly habit: five minutes of bullets in, a client-ready email out.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="client" data-search="alex client facing cost change increase explain">
+            <div class="pc-top">
+              <span class="pc-role">Client-Facing</span>
+              <span class="pc-owner">For Alex</span>
+            </div>
+            <h4 class="pc-task">Explain a cost change to a client</h4>
+            <p class="pc-desc">Helps you tell a client the price is going up, and why, in a way that stays honest and doesn't read as defensive.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Say plainly whether the change came from a client request or a site condition, that changes the right tone. Read it once for anything that sounds like an over-apology before sending.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p09">You are a project manager explaining a cost change to a homeowner. I need to tell the client the price is going up and why, in a way that is honest and easy to accept.
+
+Here is the situation:
+[what changed, why, the old number, the new number, whose decision drove it]
+
+Write a short, calm email. Explain what changed and why in plain terms, show the cost difference clearly, and remind them of their options if there are any. Do not be defensive and do not over-apologize. Just be straight with them.</pre>
+              <button class="pc-copy" type="button" data-target="p09">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> One of the harder client emails to write cold, this gets you a solid first draft to react to instead of a blank page.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="client" data-search="alex client facing frustrated concerned complaint reply">
+            <div class="pc-top">
+              <span class="pc-role">Client-Facing</span>
+              <span class="pc-owner">For Alex</span>
+            </div>
+            <h4 class="pc-task">Reply to a concerned client</h4>
+            <p class="pc-desc">Drafts a reply to a frustrated client that acknowledges the issue honestly and moves the conversation toward a fix, rather than an argument.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Give it your honest version of events alongside the client's email, not just their side. Read this one closely before sending &mdash; you know the relationship, the draft doesn't.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p10">You are a project manager replying to a client who is frustrated. I want to respond in a way that calms things down and moves us toward a fix.
+
+Here is their email:
+[paste it]
+
+Here is my side and what actually happened:
+[your notes]
+
+Draft a reply that acknowledges their concern honestly, explains our view without being defensive, and proposes a clear next step. Keep it warm and professional. Do not admit fault for things that were not our fault, but do not brush off anything that was.</pre>
+              <button class="pc-copy" type="button" data-target="p10">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Treat this as a draft to react to and personalize, not a send-as-is. Tone matters most here.</p>
+          </article>
+
+          <!-- ============ TANYA — FINANCE ============ -->
+
+          <article class="prompt-card" data-dept="finance" data-search="tanya finance invoice coding categorize expenses">
+            <div class="pc-top">
+              <span class="pc-role">Finance</span>
+              <span class="pc-owner">For Tanya</span>
+            </div>
+            <h4 class="pc-task">Code and categorize an invoice</h4>
+            <p class="pc-desc">Categorizes one or more invoices the way Twin Lions already codes expenses, based on an example you give it.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>The worked example is what teaches it your pattern, so don't skip that part. You can paste several invoices at once. Once this is working well, ask Claude to <span class="tip" tabindex="0" data-tip="Once your coding rules are saved in a Project, you won't need to re-paste your category list and example every time — it remembers.">save your coding rules in a Project</span> so you're not re-explaining it each time.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p11">You are a bookkeeper who understands construction cost coding. I want you to categorize invoices the way we do.
+
+Here is how we code things:
+[paste your category list, e.g. Framing, Electrical, Plumbing, Finishes, Site, Materials, Subtrades]
+
+Here is an example of how we coded a past invoice:
+[paste one example so it learns your pattern]
+
+Now here are one or more new invoices:
+[paste the invoice text or details]
+
+For each invoice, tell me which category it belongs to and a one line reason. If a single invoice covers more than one category, split it out by line. If you are not sure about any of them, say so instead of guessing.</pre>
+              <button class="pc-copy" type="button" data-target="p11">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Works best on typed or clean invoice text. Scanned or merged PDFs read poorly, that's the separate filing cleanup project the team flagged.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="finance" data-search="tanya finance bonus structure payroll comp plan">
+            <div class="pc-top">
+              <span class="pc-role">Finance</span>
+              <span class="pc-owner">For Tanya</span>
+            </div>
+            <h4 class="pc-task">Draft a bonus structure</h4>
+            <p class="pc-desc">Drafts a few bonus structure options sized to a company like Twin Lions, using construction industry norms as the reference point.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Give it real numbers or ranges if you can, even rough ones. Treat this as a starting point to bring to ownership, not a finished plan.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p12">You are a senior financial accountant with deep experience in the construction industry. Twin Lions is looking to update the bonus structure for our team.
+
+Here is what we have now and what is not working:
+[current structure, pain points, roles you want to cover]
+
+Draft a few bonus structure options that fit a renovation and custom home builder our size. For each option, explain how it works, who it rewards, roughly what it might cost, and the upside and downside. Use construction industry norms as your reference. Lay it out so I can compare the options at a glance.</pre>
+              <button class="pc-copy" type="button" data-target="p12">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> This is the prompt Tanya ran live in Session 2. A solid structure, worth expanding with real comp figures.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="finance" data-search="tanya finance budget summary plain english report owner">
+            <div class="pc-top">
+              <span class="pc-role">Finance</span>
+              <span class="pc-owner">For Tanya</span>
+            </div>
+            <h4 class="pc-task">Plain-English budget summary</h4>
+            <p class="pc-desc">Turns raw budget numbers into a short summary an owner or client can read at a glance, no finance background needed.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste rows straight out of a spreadsheet, it can read them as-is. Tell it who the summary is for (owner vs. client) and it will adjust how much detail it includes.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p13">You are a finance person at a contracting company writing for someone who is not in finance. Turn these numbers into a summary an owner or client can read at a glance.
+
+Here are the figures:
+[paste your numbers or spreadsheet data]
+
+Write a short summary in plain language. Lead with the headline number and whether we are on, over, or under budget. Then break down the main categories in a simple list with the number and a one line note. Flag anything that stands out. No jargon.</pre>
+              <button class="pc-copy" type="button" data-target="p13">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Handy before a client call when you need the two-minute version of a spreadsheet.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="finance" data-search="tanya finance excel formula spreadsheet google sheets">
+            <div class="pc-top">
+              <span class="pc-role">Finance</span>
+              <span class="pc-owner">For Tanya</span>
+            </div>
+            <h4 class="pc-task">Excel formula in plain English</h4>
+            <p class="pc-desc">Describe what you're trying to calculate in plain words and get back the exact formula to paste in.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Say whether you're using Excel or Google Sheets if a formula doesn't work as expected, they differ slightly on some functions.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p14">You are an Excel expert. I will describe what I am trying to do in plain words and I want you to give me the formula.
+
+Here is what I have:
+[describe your columns, e.g. column B has costs, column C has categories]
+
+Here is what I want to happen:
+[e.g. add up all costs where the category is "Materials"]
+
+Give me the exact formula to paste in, tell me which cell to put it in, and explain in one plain sentence what it does. If there is a simpler or safer way to set it up, mention it.</pre>
+              <button class="pc-copy" type="button" data-target="p14">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> One of the fastest wins in the whole library, most people get an answer in under a minute.</p>
+          </article>
+
+          <!-- ============ BEN & RYAN — ESTIMATING / ADMIN ============ -->
+
+          <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin clean up spreadsheet messy data">
+            <div class="pc-top">
+              <span class="pc-role">Estimating &amp; Admin</span>
+              <span class="pc-owner">For Ben &amp; Ryan</span>
+            </div>
+            <h4 class="pc-task">Clean up a messy spreadsheet</h4>
+            <p class="pc-desc">Reorganizes messy or inconsistent spreadsheet data into clean columns without touching the actual numbers or names.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Say which column order you want if you have one in mind. For a very large sheet, work through it in smaller chunks rather than all at once. Check the before-and-after row count it gives you, then spot-check the numbers.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p15">You are a data cleanup expert. I have messy spreadsheet data and I want it organized.
+
+Here is the data:
+[paste the rows, however messy]
+
+Reorganize it into clean columns with clear headers. Fix obvious formatting issues like inconsistent dates or extra spaces. Do not change any actual numbers or names. Keep every row I gave you and do not drop or merge any. If a row is missing information, keep it and leave the gap blank. At the end, tell me how many rows you started with and how many you ended with, so I can confirm nothing went missing. Give it back as a table I can paste straight into a spreadsheet.</pre>
+              <button class="pc-copy" type="button" data-target="p15">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Always check that the row count matches. AI reformatting can quietly drop or merge rows without flagging it.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin invoice price lookup supplier trade">
+            <div class="pc-top">
+              <span class="pc-role">Estimating &amp; Admin</span>
+              <span class="pc-owner">For Ben &amp; Ryan</span>
+            </div>
+            <h4 class="pc-task">Pull prices from past invoices</h4>
+            <p class="pc-desc">Searches through pasted invoice text for what Twin Lions has actually paid for a specific material or item in the past.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Works best with typed or clean invoice text. Scanned or photographed invoices often won't read reliably, that's a separate filing and naming fix the team already flagged as its own project.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p16">You are an estimator looking up what we have paid for materials in the past. I will paste invoice details and I want the prices for specific items.
+
+Here are the invoices:
+[paste invoice text]
+
+I am looking for the price of: [e.g. 2x4x8 SPF, 1/2 inch drywall sheets, a specific fixture]
+
+Pull out each matching line with the supplier, the date if shown, the unit, and the price. Put it in a table sorted by item. If the same item shows up at different prices, list them all so I can see the range. If you cannot find an item, say so.</pre>
+              <button class="pc-copy" type="button" data-target="p16">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> This gets much stronger once invoices are consistently named and filed, which is the upstream fix from Session 1.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin outlook meeting invite agenda calendar">
+            <div class="pc-top">
+              <span class="pc-role">Estimating &amp; Admin</span>
+              <span class="pc-owner">For Ben &amp; Ryan</span>
+            </div>
+            <h4 class="pc-task">Outlook meeting invite and agenda</h4>
+            <p class="pc-desc">Turns a rough idea for a meeting into a clean invite with a short, time-boxed agenda.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste the result straight into the Outlook invite body, then add the date, time, and attendees in Outlook itself.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p17">You are an admin setting up a meeting. Turn my notes into a meeting invite with a clear agenda.
+
+Here is the meeting:
+[who, what it is about, roughly how long, any prep]
+
+Write a short invite: a clear title, a one or two sentence purpose, and a simple agenda with time estimates for each item. Add a line for what people should bring or review beforehand. Keep it professional and easy to skim.</pre>
+              <button class="pc-copy" type="button" data-target="p17">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Small task, but a nice one to have ready when a meeting is called on short notice.</p>
+          </article>
+
+          <!-- ============ KIM — HR ============ -->
+
+          <article class="prompt-card" data-dept="hr" data-search="kim hr job posting indeed hiring role">
+            <div class="pc-top">
+              <span class="pc-role">HR</span>
+              <span class="pc-owner">For Kim</span>
+            </div>
+            <h4 class="pc-task">Job posting from a requirements list</h4>
+            <p class="pc-desc">Turns a plain list of role requirements into a job posting that sounds like a real company, not a generic template.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste in one or two past postings you liked and say "match this style," this is what makes it sound like Twin Lions instead of anyone else.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p18">You are an HR manager writing a job posting for a contracting company that builds custom homes and does renovations. Turn this requirements list into a posting that makes good people want to apply.
+
+Here is the role and what we need:
+[role title, must-have skills, nice-to-haves, pay range if sharing, location, anything about the team or culture]
+
+Write a posting with a short intro about the company, a clear list of what the role does day to day, what we are looking for, and what we offer. Keep it warm and real, like a good local company talking to a real person, not a corporate template. End with how to apply.</pre>
+              <button class="pc-copy" type="button" data-target="p18">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> This is the one Kevin ran on the spot in Session 2. The structure was solid, more context on past postings is what levels it up.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="hr" data-search="kim hr letter offer employment verification salary">
+            <div class="pc-top">
+              <span class="pc-role">HR</span>
+              <span class="pc-owner">For Kim</span>
+            </div>
+            <h4 class="pc-task">HR letter</h4>
+            <p class="pc-desc">Drafts a formal HR letter, such as an offer, employment verification, or salary change letter, in a professional but warm tone.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Say which type of letter you need in the brackets. Anything you don't fill in comes back as a placeholder so nothing incorrect can slip through unnoticed.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p19">You are an HR manager writing a formal letter for a construction company. I need a [offer letter / employment verification letter / salary change letter].
+
+Here are the details:
+[employee name, role, start date or effective date, pay, and any specific terms]
+
+Write the letter in a professional but warm tone. Keep it correct and clear. Use placeholders in brackets for anything I have not given you so I can fill it in and nothing wrong goes out. Format it as a proper letter I can put on our letterhead.</pre>
+              <button class="pc-copy" type="button" data-target="p19">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Have the final version checked before it goes to the employee, especially numbers, dates, and any terms around termination or probation. This is a drafting head start, not legal advice.</p>
+          </article>
+
+          <article class="prompt-card" data-dept="hr" data-search="kim hr onboarding new hire plan checklist">
+            <div class="pc-top">
+              <span class="pc-role">HR</span>
+              <span class="pc-owner">For Kim</span>
+            </div>
+            <h4 class="pc-task">Onboarding plan for a new hire</h4>
+            <p class="pc-desc">Builds a simple day-one, first-week, first-month onboarding plan for a new team member.</p>
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Once you like the shape of one plan, save it as a base template and tweak the details per role. Most of the structure carries over as-is.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p20">You are an HR manager building an onboarding plan for a new team member at a renovation and custom home company.
+
+Here is the new hire:
+[role, who they report to, start date, any tools or systems they need, anything specific to this role]
+
+Build a simple onboarding plan for their first week and first month. Break it into day one, first week, and first month, with a short checklist for each. Cover the practical setup, who they should meet, and what they should be able to do by the end. Keep it friendly and clear so it feels welcoming.</pre>
+              <button class="pc-copy" type="button" data-target="p20">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Pairs well with Kim's other onboarding tasks from the Session 1 audit, like benefits help and tailored HR letters.</p>
+          </article>
 
         </div>
 
-        <div class="lib-empty">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          <h4>Filling up after Session 2</h4>
-          <p>This is where the team's working prompts will live. We start adding them in Session 2 and keep going through Sessions 3 and 4.</p>
+        <div class="lib-empty" id="libEmpty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <h4>No prompts match that search</h4>
+          <p>Try a different keyword, or clear the filter above to see the full library.</p>
         </div>
+
+        <p class="sr-only" role="status" aria-live="polite" id="libLiveRegion"></p>
       </div>
     </section>
 
@@ -729,6 +1365,95 @@
       wrap.appendChild(f);
     });
   }
+
+  // ---------- PROMPT LIBRARY: search + filter + copy ----------
+  (function(){
+    var list = document.getElementById('promptList');
+    if(!list) return;
+
+    var cards = Array.prototype.slice.call(list.querySelectorAll('.prompt-card'));
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.lib-chip'));
+    var searchInput = document.getElementById('libSearch');
+    var countEl = document.getElementById('libCount');
+    var emptyEl = document.getElementById('libEmpty');
+    var liveRegion = document.getElementById('libLiveRegion');
+    var currentFilter = 'all';
+
+    function applyFilters(){
+      var term = (searchInput.value || '').trim().toLowerCase();
+      var visible = 0;
+
+      cards.forEach(function(card){
+        var matchesDept = (currentFilter === 'all') || (card.getAttribute('data-dept') === currentFilter);
+        var haystack = (card.getAttribute('data-search') || '') + ' ' + card.textContent.toLowerCase();
+        var matchesTerm = !term || haystack.toLowerCase().indexOf(term) !== -1;
+        var show = matchesDept && matchesTerm;
+        card.hidden = !show;
+        if(show) visible++;
+      });
+
+      countEl.innerHTML = 'Showing <b>' + visible + '</b> of ' + cards.length + ' prompts';
+      emptyEl.hidden = visible !== 0;
+    }
+
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        chips.forEach(function(c){ c.setAttribute('aria-pressed', 'false'); });
+        chip.setAttribute('aria-pressed', 'true');
+        currentFilter = chip.getAttribute('data-filter');
+        applyFilters();
+      });
+    });
+
+    if(searchInput){
+      searchInput.addEventListener('input', applyFilters);
+    }
+
+    // copy-to-clipboard, with a manual-select fallback for older browsers
+    list.addEventListener('click', function(e){
+      var btn = e.target.closest ? e.target.closest('.pc-copy') : null;
+      if(!btn) return;
+      var targetId = btn.getAttribute('data-target');
+      var pre = document.getElementById(targetId);
+      if(!pre) return;
+      var text = pre.textContent.trim();
+
+      function onCopied(){
+        var label = btn.querySelector('.pc-copy-label');
+        var original = label ? label.textContent : '';
+        btn.classList.add('is-copied');
+        if(label) label.textContent = 'Copied!';
+        if(liveRegion) liveRegion.textContent = 'Prompt copied to clipboard';
+        setTimeout(function(){
+          btn.classList.remove('is-copied');
+          if(label) label.textContent = original || 'Copy prompt';
+        }, 1600);
+      }
+
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(onCopied, function(){
+          fallbackCopy(text, onCopied);
+        });
+      } else {
+        fallbackCopy(text, onCopied);
+      }
+    });
+
+    function fallbackCopy(text, done){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+      done();
+    }
+
+    applyFilters();
+  })();
 })();
 </script>
 
