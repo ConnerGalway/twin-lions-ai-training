@@ -221,14 +221,15 @@
   /* -- tooltip (used inline in descriptions / guidance) -- */
   .tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;
     border-radius:50%;background:var(--line);color:var(--slate);font-family:var(--mono);font-size:10px;font-weight:700;
-    cursor:help;vertical-align:middle;margin-left:3px;top:-1px;}
+    cursor:help;vertical-align:baseline;margin:0 2px;flex-shrink:0;}
+  .tip::before{content:"?";}
   .tip:hover,.tip:focus-visible{background:var(--green);color:#fff;outline:none;}
-  .tip:hover::after,.tip:focus-visible::after{content:attr(data-tip);position:absolute;left:50%;bottom:135%;
+  .tip:hover::after,.tip:focus-visible::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);
     transform:translateX(-50%);background:var(--navy-deep);color:#eaf0f6;font-family:var(--body);font-weight:400;
     font-size:12.5px;line-height:1.45;padding:9px 11px;border-radius:8px;width:max-content;max-width:250px;
-    box-shadow:var(--shadow);z-index:20;text-align:left;pointer-events:none;}
-  .tip:hover::before,.tip:focus-visible::before{content:"";position:absolute;left:50%;bottom:112%;
-    transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--navy-deep);z-index:20;}
+    box-shadow:var(--shadow);z-index:100;text-align:left;pointer-events:none;white-space:normal;}
+  .pc-use .tip:hover::after,.pc-use .tip:focus-visible::after{left:auto;right:0;transform:none;}
+  .pc-use p{line-height:1.65;}
 
   /* -- filter bar -- */
   .lib-toolbar{margin-top:22px;display:flex;flex-direction:column;gap:12px;}
@@ -277,6 +278,25 @@
   .pc-copy.is-copied{background:var(--green);border-color:var(--green);color:#fff;}
   .pc-notes{font-size:13.5px;color:var(--slate);margin:12px 0 0;line-height:1.55;}
   .pc-notes b{color:#43566a;font-weight:600;}
+
+  /* -- collapsible card body -- */
+  .pc-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer;}
+  .pc-header-content{flex:1;min-width:0;}
+  .pc-toggle{flex:0 0 auto;appearance:none;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 10px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--slate);cursor:pointer;
+    display:inline-flex;align-items:center;gap:5px;transition:background .15s ease,border-color .15s ease,color .15s ease;}
+  .pc-toggle:hover{border-color:var(--green);color:var(--green);}
+  .pc-toggle:focus-visible{outline:3px solid var(--green-bright);outline-offset:2px;}
+  .pc-toggle svg{width:12px;height:12px;transition:transform .2s ease;}
+  .prompt-card.is-collapsed .pc-toggle svg{transform:rotate(-90deg);}
+  .pc-body{overflow:hidden;transition:max-height .3s ease,opacity .2s ease;}
+  .prompt-card.is-collapsed .pc-body{max-height:0;opacity:0;margin-top:0;}
+  .prompt-card:not(.is-collapsed) .pc-body{max-height:2000px;opacity:1;margin-top:14px;}
+  @media (prefers-reduced-motion:reduce){
+    .pc-body{transition:none;}
+    .pc-toggle svg{transition:none;}
+  }
+
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
   /* ---------- FOOTER ---------- */
@@ -730,15 +750,24 @@
           <!-- ============ KEVIN — FIELD & OPERATIONS ============ -->
 
           <article class="prompt-card" data-dept="field" data-search="kevin field operations range budget working budget estimate">
-            <div class="pc-top">
-              <span class="pc-role">Field &amp; Operations</span>
-              <span class="pc-owner">For Kevin</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-owner">For Kevin</span>
+                </div>
+                <h4 class="pc-task">Range / working budget from a few inputs</h4>
+                <p class="pc-desc">Turns a handful of project details into a category-by-category budget range you can give a client before the detailed estimate is done. This was voted the team's #1 priority to build a repeatable prompt for.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Range / working budget from a few inputs</h4>
-            <p class="pc-desc">Turns a handful of project details into a category-by-category budget range you can give a client before the detailed estimate is done. This was voted the team's #1 priority to build a repeatable prompt for.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
-              <p>Fill in the project details, then paste in one or two <span class="tip" tabindex="0" data-tip="Real numbers from past, comparable projects. Without these, Claude has nothing of yours to base the range on and will flag its figures as placeholders instead.">historicals</span> if you have them &mdash; the closer in size and scope to the new job, the better. No historicals on hand is fine too; it will still hand back a solid category structure with placeholder numbers for you to swap in.</p>
+              <p>Fill in the project details, then paste in one or two historicals (real numbers from past, comparable projects) if you have them — the closer in size and scope to the new job, the better. No historicals on hand is fine too; it will still hand back a solid category structure with placeholder numbers for you to swap in.</p>
             </div>
             <div class="pc-prompt-wrap">
               <pre class="pc-prompt" id="p01">You are an experienced construction estimator who works on renovations and custom homes. I need a working range budget for a new project so I can give the client a ballpark before we do a detailed estimate.
@@ -763,18 +792,28 @@ Base your numbers on the past projects I gave you. If I did not give you any, or
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> This is only as good as the past numbers you feed it. Always sanity-check the range before it goes anywhere near a client.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="field" data-search="kevin field operations compare trade quotes bids subtrade">
-            <div class="pc-top">
-              <span class="pc-role">Field &amp; Operations</span>
-              <span class="pc-owner">For Kevin</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-owner">For Kevin</span>
+                </div>
+                <h4 class="pc-task">Compare two trade quotes</h4>
+                <p class="pc-desc">Puts two bids for the same scope of work side by side so you can see what is actually included, not just which number is lower.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Compare two trade quotes</h4>
-            <p class="pc-desc">Puts two bids for the same scope of work side by side so you can see what is actually included, not just which number is lower.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
-              <p>Paste both quotes in as they are, formatting and all &mdash; you do not need to clean them up first. Read the "questions to ask" section before you call either trade back.</p>
+              <p>Paste both quotes in as they are, formatting and all — you do not need to clean them up first. Read the "questions to ask" section before you call either trade back.</p>
             </div>
             <div class="pc-prompt-wrap">
               <pre class="pc-prompt" id="p02">You are a construction estimator reviewing bids from trades. I have two quotes for the same work and I want to compare them properly before we pick one.
@@ -792,18 +831,28 @@ Put them side by side in a table, line item by line item. Call out where the pri
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Works for lump-sum or itemized quotes. If a quote is a scanned image rather than text, you will need to type or paste the numbers in manually first.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="field" data-search="kevin field operations intake email client crm buildertrend">
-            <div class="pc-top">
-              <span class="pc-role">Field &amp; Operations</span>
-              <span class="pc-owner">For Kevin</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-owner">For Kevin</span>
+                </div>
+                <h4 class="pc-task">Pull client details out of an intake email</h4>
+                <p class="pc-desc">Reads a new-client email and pulls the key fields into a clean table, ready to paste into a spreadsheet or into Buildertrend.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Pull client details out of an intake email</h4>
-            <p class="pc-desc">Reads a new-client email and pulls the key fields into a clean table, ready to paste into a spreadsheet or into Buildertrend.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
-              <p>You can paste several emails in at once and ask for one row per client. Because <span class="tip" tabindex="0" data-tip="Buildertrend does not currently allow outside AI tools to write directly into it, so this is a one-way pull: out of the email, into a sheet you keep. The manual entry into Buildertrend itself still has to happen by hand.">Buildertrend won't accept an outside AI writing into it directly</span>, keep a running sheet from this and copy from there.</p>
+              <p>You can paste several emails in at once and ask for one row per client. Because Buildertrend does not currently allow outside AI tools to write directly into it, keep a running sheet from this and copy from there.</p>
             </div>
             <div class="pc-prompt-wrap">
               <pre class="pc-prompt" id="p03">You are an office admin for a contracting company. I am going to paste an email from a potential client. Pull out the key details so I can drop them into our system.
@@ -818,15 +867,25 @@ Give me back a clean table with these fields: client name, phone, email, project
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Copy the finished table straight into a Google Sheet or your CRM import.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="field" data-search="kevin field operations crew message schedule notes text">
-            <div class="pc-top">
-              <span class="pc-role">Field &amp; Operations</span>
-              <span class="pc-owner">For Kevin</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-owner">For Kevin</span>
+                </div>
+                <h4 class="pc-task">Turn notes into a crew message</h4>
+                <p class="pc-desc">Turns rough bullet points about the week ahead into a clean, phone-friendly message you can text or email to the crew.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Turn notes into a crew message</h4>
-            <p class="pc-desc">Turns rough bullet points about the week ahead into a clean, phone-friendly message you can text or email to the crew.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Jot your notes however is fastest, phone shorthand is fine. Add site addresses and start times if you have them and it will slot them in.</p>
@@ -844,15 +903,25 @@ Write it as a short, friendly message I can send in a text or email. Lead with t
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Good for a quick Monday-morning send before the week gets away from you.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="field" data-search="kevin field operations email triage thread action items summary">
-            <div class="pc-top">
-              <span class="pc-role">Field &amp; Operations</span>
-              <span class="pc-owner">For Kevin</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-owner">For Kevin</span>
+                </div>
+                <h4 class="pc-task">Triage a long email thread</h4>
+                <p class="pc-desc">Reads a long back-and-forth thread and hands you back what actually matters: where things stand, what was decided, and what you still owe someone.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Triage a long email thread</h4>
-            <p class="pc-desc">Reads a long back-and-forth thread and hands you back what actually matters: where things stand, what was decided, and what you still owe someone.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Paste in the whole thread, newest or oldest first, it will sort it out. Good for jumping back into something you were cc'd on and half-forgot about.</p>
@@ -870,17 +939,27 @@ Give me a two or three sentence summary of where things stand, a list of decisio
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Run this from inside the Twin Lions Project and it can usually match names in the thread to real people on the team.</p>
+            </div>
           </article>
 
           <!-- ============ ALEX — CLIENT-FACING ============ -->
 
           <article class="prompt-card" data-dept="client" data-search="alex client facing scope description budget lines">
-            <div class="pc-top">
-              <span class="pc-role">Client-Facing</span>
-              <span class="pc-owner">For Alex</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Client-Facing</span>
+                  <span class="pc-owner">For Alex</span>
+                </div>
+                <h4 class="pc-task">Client-facing scope description from budget lines</h4>
+                <p class="pc-desc">Turns internal budget line items into plain-English scope a homeowner can actually follow. This is the #1 bottleneck the team picked in Session 1 to build first.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Client-facing scope description from budget lines</h4>
-            <p class="pc-desc">Turns internal budget line items into plain-English scope a homeowner can actually follow. This is the #1 bottleneck the team picked in Session 1 to build first.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Paste your internal line items in as they are, cost codes and shorthand included. Drop the result straight into the branded scope template. If a line item is vague, the description will come out generic, so add a note where you need more specificity.</p>
@@ -898,15 +977,25 @@ Rewrite each one in plain English that a homeowner understands, grouped by area 
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> This is the one the branded scope template was built around. Read it over for anything that got flattened out too generically.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="client" data-search="alex client facing site meeting notes minutes">
-            <div class="pc-top">
-              <span class="pc-role">Client-Facing</span>
-              <span class="pc-owner">For Alex</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Client-Facing</span>
+                  <span class="pc-owner">For Alex</span>
+                </div>
+                <h4 class="pc-task">Site meeting notes into clean minutes</h4>
+                <p class="pc-desc">Takes rough point-form notes from a site meeting and turns them into a structured set of minutes with clear action items.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Site meeting notes into clean minutes</h4>
-            <p class="pc-desc">Takes rough point-form notes from a site meeting and turns them into a structured set of minutes with clear action items.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Works well straight from a phone notes app or a voice-to-text dump, no need to clean it up first. Keep a blank copy of the output as your go-to template.</p>
@@ -924,15 +1013,25 @@ Format them as: meeting date and who was there (I will fill in blanks), key item
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Flagged in Session 2 as a strong next candidate to fully automate, once someone is capturing notes consistently.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="client" data-search="alex client facing status update email progress">
-            <div class="pc-top">
-              <span class="pc-role">Client-Facing</span>
-              <span class="pc-owner">For Alex</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Client-Facing</span>
+                  <span class="pc-owner">For Alex</span>
+                </div>
+                <h4 class="pc-task">Client update email from status bullets</h4>
+                <p class="pc-desc">Turns quick status notes into a warm, professional progress email for a homeowner client.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Client update email from status bullets</h4>
-            <p class="pc-desc">Turns quick status notes into a warm, professional progress email for a homeowner client.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Keep your bullets short and factual. If there is a delay or a piece of bad news in there, it will handle it honestly rather than burying it, which is what you want.</p>
@@ -951,15 +1050,25 @@ Write a short email with a clear subject line. Open with where things stand, cov
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> A quick weekly habit: five minutes of bullets in, a client-ready email out.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="client" data-search="alex client facing cost change increase explain">
-            <div class="pc-top">
-              <span class="pc-role">Client-Facing</span>
-              <span class="pc-owner">For Alex</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Client-Facing</span>
+                  <span class="pc-owner">For Alex</span>
+                </div>
+                <h4 class="pc-task">Explain a cost change to a client</h4>
+                <p class="pc-desc">Helps you tell a client the price is going up, and why, in a way that stays honest and doesn't read as defensive.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Explain a cost change to a client</h4>
-            <p class="pc-desc">Helps you tell a client the price is going up, and why, in a way that stays honest and doesn't read as defensive.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Say plainly whether the change came from a client request or a site condition, that changes the right tone. Read it once for anything that sounds like an over-apology before sending.</p>
@@ -977,18 +1086,28 @@ Write a short, calm email. Explain what changed and why in plain terms, show the
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> One of the harder client emails to write cold, this gets you a solid first draft to react to instead of a blank page.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="client" data-search="alex client facing frustrated concerned complaint reply">
-            <div class="pc-top">
-              <span class="pc-role">Client-Facing</span>
-              <span class="pc-owner">For Alex</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Client-Facing</span>
+                  <span class="pc-owner">For Alex</span>
+                </div>
+                <h4 class="pc-task">Reply to a concerned client</h4>
+                <p class="pc-desc">Drafts a reply to a frustrated client that acknowledges the issue honestly and moves the conversation toward a fix, rather than an argument.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Reply to a concerned client</h4>
-            <p class="pc-desc">Drafts a reply to a frustrated client that acknowledges the issue honestly and moves the conversation toward a fix, rather than an argument.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
-              <p>Give it your honest version of events alongside the client's email, not just their side. Read this one closely before sending &mdash; you know the relationship, the draft doesn't.</p>
+              <p>Give it your honest version of events alongside the client's email, not just their side. Read this one closely before sending — you know the relationship, the draft doesn't.</p>
             </div>
             <div class="pc-prompt-wrap">
               <pre class="pc-prompt" id="p10">You are a project manager replying to a client who is frustrated. I want to respond in a way that calms things down and moves us toward a fix.
@@ -1006,20 +1125,30 @@ Draft a reply that acknowledges their concern honestly, explains our view withou
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Treat this as a draft to react to and personalize, not a send-as-is. Tone matters most here.</p>
+            </div>
           </article>
 
           <!-- ============ TANYA — FINANCE ============ -->
 
           <article class="prompt-card" data-dept="finance" data-search="tanya finance invoice coding categorize expenses">
-            <div class="pc-top">
-              <span class="pc-role">Finance</span>
-              <span class="pc-owner">For Tanya</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Finance</span>
+                  <span class="pc-owner">For Tanya</span>
+                </div>
+                <h4 class="pc-task">Code and categorize an invoice</h4>
+                <p class="pc-desc">Categorizes one or more invoices the way Twin Lions already codes expenses, based on an example you give it.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Code and categorize an invoice</h4>
-            <p class="pc-desc">Categorizes one or more invoices the way Twin Lions already codes expenses, based on an example you give it.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
-              <p>The worked example is what teaches it your pattern, so don't skip that part. You can paste several invoices at once. Once this is working well, ask Claude to <span class="tip" tabindex="0" data-tip="Once your coding rules are saved in a Project, you won't need to re-paste your category list and example every time — it remembers.">save your coding rules in a Project</span> so you're not re-explaining it each time.</p>
+              <p>The worked example is what teaches it your pattern, so don't skip that part. You can paste several invoices at once. Once this is working well, ask Claude to save your coding rules in a Project so you're not re-explaining it each time.</p>
             </div>
             <div class="pc-prompt-wrap">
               <pre class="pc-prompt" id="p11">You are a bookkeeper who understands construction cost coding. I want you to categorize invoices the way we do.
@@ -1040,15 +1169,25 @@ For each invoice, tell me which category it belongs to and a one line reason. If
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Works best on typed or clean invoice text. Scanned or merged PDFs read poorly, that's the separate filing cleanup project the team flagged.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="finance" data-search="tanya finance bonus structure payroll comp plan">
-            <div class="pc-top">
-              <span class="pc-role">Finance</span>
-              <span class="pc-owner">For Tanya</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Finance</span>
+                  <span class="pc-owner">For Tanya</span>
+                </div>
+                <h4 class="pc-task">Draft a bonus structure</h4>
+                <p class="pc-desc">Drafts a few bonus structure options sized to a company like Twin Lions, using construction industry norms as the reference point.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Draft a bonus structure</h4>
-            <p class="pc-desc">Drafts a few bonus structure options sized to a company like Twin Lions, using construction industry norms as the reference point.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Give it real numbers or ranges if you can, even rough ones. Treat this as a starting point to bring to ownership, not a finished plan.</p>
@@ -1066,15 +1205,25 @@ Draft a few bonus structure options that fit a renovation and custom home builde
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> This is the prompt Tanya ran live in Session 2. A solid structure, worth expanding with real comp figures.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="finance" data-search="tanya finance budget summary plain english report owner">
-            <div class="pc-top">
-              <span class="pc-role">Finance</span>
-              <span class="pc-owner">For Tanya</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Finance</span>
+                  <span class="pc-owner">For Tanya</span>
+                </div>
+                <h4 class="pc-task">Plain-English budget summary</h4>
+                <p class="pc-desc">Turns raw budget numbers into a short summary an owner or client can read at a glance, no finance background needed.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Plain-English budget summary</h4>
-            <p class="pc-desc">Turns raw budget numbers into a short summary an owner or client can read at a glance, no finance background needed.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Paste rows straight out of a spreadsheet, it can read them as-is. Tell it who the summary is for (owner vs. client) and it will adjust how much detail it includes.</p>
@@ -1092,15 +1241,25 @@ Write a short summary in plain language. Lead with the headline number and wheth
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Handy before a client call when you need the two-minute version of a spreadsheet.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="finance" data-search="tanya finance excel formula spreadsheet google sheets">
-            <div class="pc-top">
-              <span class="pc-role">Finance</span>
-              <span class="pc-owner">For Tanya</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Finance</span>
+                  <span class="pc-owner">For Tanya</span>
+                </div>
+                <h4 class="pc-task">Excel formula in plain English</h4>
+                <p class="pc-desc">Describe what you're trying to calculate in plain words and get back the exact formula to paste in.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Excel formula in plain English</h4>
-            <p class="pc-desc">Describe what you're trying to calculate in plain words and get back the exact formula to paste in.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Say whether you're using Excel or Google Sheets if a formula doesn't work as expected, they differ slightly on some functions.</p>
@@ -1121,17 +1280,27 @@ Give me the exact formula to paste in, tell me which cell to put it in, and expl
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> One of the fastest wins in the whole library, most people get an answer in under a minute.</p>
+            </div>
           </article>
 
           <!-- ============ BEN & RYAN — ESTIMATING / ADMIN ============ -->
 
           <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin clean up spreadsheet messy data">
-            <div class="pc-top">
-              <span class="pc-role">Estimating &amp; Admin</span>
-              <span class="pc-owner">For Ben &amp; Ryan</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Estimating &amp; Admin</span>
+                  <span class="pc-owner">For Ben &amp; Ryan</span>
+                </div>
+                <h4 class="pc-task">Clean up a messy spreadsheet</h4>
+                <p class="pc-desc">Reorganizes messy or inconsistent spreadsheet data into clean columns without touching the actual numbers or names.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Clean up a messy spreadsheet</h4>
-            <p class="pc-desc">Reorganizes messy or inconsistent spreadsheet data into clean columns without touching the actual numbers or names.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Say which column order you want if you have one in mind. For a very large sheet, work through it in smaller chunks rather than all at once. Check the before-and-after row count it gives you, then spot-check the numbers.</p>
@@ -1149,15 +1318,25 @@ Reorganize it into clean columns with clear headers. Fix obvious formatting issu
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Always check that the row count matches. AI reformatting can quietly drop or merge rows without flagging it.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin invoice price lookup supplier trade">
-            <div class="pc-top">
-              <span class="pc-role">Estimating &amp; Admin</span>
-              <span class="pc-owner">For Ben &amp; Ryan</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Estimating &amp; Admin</span>
+                  <span class="pc-owner">For Ben &amp; Ryan</span>
+                </div>
+                <h4 class="pc-task">Pull prices from past invoices</h4>
+                <p class="pc-desc">Searches through pasted invoice text for what Twin Lions has actually paid for a specific material or item in the past.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Pull prices from past invoices</h4>
-            <p class="pc-desc">Searches through pasted invoice text for what Twin Lions has actually paid for a specific material or item in the past.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Works best with typed or clean invoice text. Scanned or photographed invoices often won't read reliably, that's a separate filing and naming fix the team already flagged as its own project.</p>
@@ -1177,15 +1356,25 @@ Pull out each matching line with the supplier, the date if shown, the unit, and 
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> This gets much stronger once invoices are consistently named and filed, which is the upstream fix from Session 1.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin outlook meeting invite agenda calendar">
-            <div class="pc-top">
-              <span class="pc-role">Estimating &amp; Admin</span>
-              <span class="pc-owner">For Ben &amp; Ryan</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Estimating &amp; Admin</span>
+                  <span class="pc-owner">For Ben &amp; Ryan</span>
+                </div>
+                <h4 class="pc-task">Outlook meeting invite and agenda</h4>
+                <p class="pc-desc">Turns a rough idea for a meeting into a clean invite with a short, time-boxed agenda.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Outlook meeting invite and agenda</h4>
-            <p class="pc-desc">Turns a rough idea for a meeting into a clean invite with a short, time-boxed agenda.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Paste the result straight into the Outlook invite body, then add the date, time, and attendees in Outlook itself.</p>
@@ -1203,17 +1392,27 @@ Write a short invite: a clear title, a one or two sentence purpose, and a simple
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Small task, but a nice one to have ready when a meeting is called on short notice.</p>
+            </div>
           </article>
 
           <!-- ============ KIM — HR ============ -->
 
           <article class="prompt-card" data-dept="hr" data-search="kim hr job posting indeed hiring role">
-            <div class="pc-top">
-              <span class="pc-role">HR</span>
-              <span class="pc-owner">For Kim</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">HR</span>
+                  <span class="pc-owner">For Kim</span>
+                </div>
+                <h4 class="pc-task">Job posting from a requirements list</h4>
+                <p class="pc-desc">Turns a plain list of role requirements into a job posting that sounds like a real company, not a generic template.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Job posting from a requirements list</h4>
-            <p class="pc-desc">Turns a plain list of role requirements into a job posting that sounds like a real company, not a generic template.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Paste in one or two past postings you liked and say "match this style," this is what makes it sound like Twin Lions instead of anyone else.</p>
@@ -1231,15 +1430,25 @@ Write a posting with a short intro about the company, a clear list of what the r
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> This is the one Kevin ran on the spot in Session 2. The structure was solid, more context on past postings is what levels it up.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="hr" data-search="kim hr letter offer employment verification salary">
-            <div class="pc-top">
-              <span class="pc-role">HR</span>
-              <span class="pc-owner">For Kim</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">HR</span>
+                  <span class="pc-owner">For Kim</span>
+                </div>
+                <h4 class="pc-task">HR letter</h4>
+                <p class="pc-desc">Drafts a formal HR letter, such as an offer, employment verification, or salary change letter, in a professional but warm tone.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">HR letter</h4>
-            <p class="pc-desc">Drafts a formal HR letter, such as an offer, employment verification, or salary change letter, in a professional but warm tone.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Say which type of letter you need in the brackets. Anything you don't fill in comes back as a placeholder so nothing incorrect can slip through unnoticed.</p>
@@ -1257,15 +1466,25 @@ Write the letter in a professional but warm tone. Keep it correct and clear. Use
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Have the final version checked before it goes to the employee, especially numbers, dates, and any terms around termination or probation. This is a drafting head start, not legal advice.</p>
+            </div>
           </article>
 
           <article class="prompt-card" data-dept="hr" data-search="kim hr onboarding new hire plan checklist">
-            <div class="pc-top">
-              <span class="pc-role">HR</span>
-              <span class="pc-owner">For Kim</span>
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">HR</span>
+                  <span class="pc-owner">For Kim</span>
+                </div>
+                <h4 class="pc-task">Onboarding plan for a new hire</h4>
+                <p class="pc-desc">Builds a simple day-one, first-week, first-month onboarding plan for a new team member.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
             </div>
-            <h4 class="pc-task">Onboarding plan for a new hire</h4>
-            <p class="pc-desc">Builds a simple day-one, first-week, first-month onboarding plan for a new team member.</p>
+            <div class="pc-body">
             <div class="pc-use">
               <span class="pc-use-label">How to use it</span>
               <p>Once you like the shape of one plan, save it as a base template and tweak the details per role. Most of the structure carries over as-is.</p>
@@ -1283,6 +1502,7 @@ Build a simple onboarding plan for their first week and first month. Break it in
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Pairs well with Kim's other onboarding tasks from the Session 1 audit, like benefits help and tailored HR letters.</p>
+            </div>
           </article>
 
         </div>
@@ -1306,7 +1526,7 @@ Build a simple onboarding plan for their first week and first month. Break it in
       <div class="right">
         Facilitated by <a class="j" href="https://wearejunction.com" target="_blank" rel="noopener">Junction Consulting</a><br>
         <!-- LAST-UPDATED -->
-        <b>Last updated:</b> June 25, 2026
+        <b>Last updated:</b> July 6, 2026
       </div>
     </div>
   </footer>
@@ -1366,12 +1586,43 @@ Build a simple onboarding plan for their first week and first month. Break it in
     });
   }
 
-  // ---------- PROMPT LIBRARY: search + filter + copy ----------
+  // ---------- PROMPT LIBRARY: search + filter + copy + collapse ----------
   (function(){
     var list = document.getElementById('promptList');
     if(!list) return;
 
     var cards = Array.prototype.slice.call(list.querySelectorAll('.prompt-card'));
+
+    // Collapse/expand functionality
+    cards.forEach(function(card){
+      // Add collapsed class by default
+      card.classList.add('is-collapsed');
+
+      // Find the header area and add click handler
+      var header = card.querySelector('.pc-header');
+      var toggle = card.querySelector('.pc-toggle');
+
+      function toggleCard(e){
+        // Don't toggle if clicking the toggle button itself (it has its own handler)
+        if(e && e.target.closest('.pc-toggle')) return;
+        card.classList.toggle('is-collapsed');
+        var expanded = !card.classList.contains('is-collapsed');
+        if(toggle) toggle.setAttribute('aria-expanded', expanded);
+      }
+
+      if(header){
+        header.addEventListener('click', toggleCard);
+      }
+      if(toggle){
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.addEventListener('click', function(e){
+          e.stopPropagation();
+          card.classList.toggle('is-collapsed');
+          var expanded = !card.classList.contains('is-collapsed');
+          toggle.setAttribute('aria-expanded', expanded);
+        });
+      }
+    });
     var chips = Array.prototype.slice.call(document.querySelectorAll('.lib-chip'));
     var searchInput = document.getElementById('libSearch');
     var countEl = document.getElementById('libCount');
