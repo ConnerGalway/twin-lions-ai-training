@@ -259,9 +259,20 @@
   .prompt-card{border:1px solid var(--line);border-radius:12px;padding:22px 24px;background:#fff;transition:box-shadow .15s ease;}
   .prompt-card[hidden]{display:none;}
   .pc-top{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:11px;}
-  .pc-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--green);color:#fff;padding:4px 9px;border-radius:6px;}
-  .pc-owner{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-soft);}
-  .pc-task{font-family:var(--display);font-weight:700;color:var(--navy);font-size:17px;margin:0 0 8px;letter-spacing:-.01em;}
+  .pc-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;padding:4px 9px;border-radius:6px;}
+  .pc-task{font-family:var(--display);font-weight:700;font-size:17px;margin:0 0 8px;letter-spacing:-.01em;}
+
+  /* Department color coding */
+  .prompt-card[data-dept="field"] .pc-role{background:#2563eb;}
+  .prompt-card[data-dept="field"] .pc-task{color:#2563eb;}
+  .prompt-card[data-dept="client"] .pc-role{background:#7c3aed;}
+  .prompt-card[data-dept="client"] .pc-task{color:#7c3aed;}
+  .prompt-card[data-dept="finance"] .pc-role{background:#059669;}
+  .prompt-card[data-dept="finance"] .pc-task{color:#059669;}
+  .prompt-card[data-dept="estimating"] .pc-role{background:#d97706;}
+  .prompt-card[data-dept="estimating"] .pc-task{color:#d97706;}
+  .prompt-card[data-dept="hr"] .pc-role{background:#dc2626;}
+  .prompt-card[data-dept="hr"] .pc-task{color:#dc2626;}
   .pc-desc{font-size:15px;color:var(--ink);margin:0 0 14px;max-width:70ch;}
   .pc-use{background:var(--paper);border:1px solid var(--line-soft);border-radius:9px;padding:11px 14px;margin-bottom:14px;}
   .pc-use-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
@@ -726,7 +737,6 @@
         <article class="prompt-card" data-dept="field" data-search="keywords here, task name, owner name">
           <div class="pc-top">
             <span class="pc-role">Field &amp; Operations</span>
-            <span class="pc-owner">For Kevin</span>
           </div>
           <h4 class="pc-task">Task name</h4>
           <p class="pc-desc">One or two sentences: what this prompt does and when to reach for it.</p>
@@ -754,7 +764,6 @@
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Field &amp; Operations</span>
-                  <span class="pc-owner">For Kevin</span>
                 </div>
                 <h4 class="pc-task">Range / working budget from a few inputs</h4>
                 <p class="pc-desc">Turns a handful of project details into a category-by-category budget range you can give a client before the detailed estimate is done. This was voted the team's #1 priority to build a repeatable prompt for.</p>
@@ -800,7 +809,6 @@ Base your numbers on the past projects I gave you. If I did not give you any, or
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Field &amp; Operations</span>
-                  <span class="pc-owner">For Kevin</span>
                 </div>
                 <h4 class="pc-task">Compare two trade quotes</h4>
                 <p class="pc-desc">Puts two bids for the same scope of work side by side so you can see what is actually included, not just which number is lower.</p>
@@ -839,7 +847,6 @@ Put them side by side in a table, line item by line item. Call out where the pri
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Field &amp; Operations</span>
-                  <span class="pc-owner">For Kevin</span>
                 </div>
                 <h4 class="pc-task">Pull client details out of an intake email</h4>
                 <p class="pc-desc">Reads a new-client email and pulls the key fields into a clean table, ready to paste into a spreadsheet or into Buildertrend.</p>
@@ -875,7 +882,6 @@ Give me back a clean table with these fields: client name, phone, email, project
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Field &amp; Operations</span>
-                  <span class="pc-owner">For Kevin</span>
                 </div>
                 <h4 class="pc-task">Turn notes into a crew message</h4>
                 <p class="pc-desc">Turns rough bullet points about the week ahead into a clean, phone-friendly message you can text or email to the crew.</p>
@@ -911,7 +917,6 @@ Write it as a short, friendly message I can send in a text or email. Lead with t
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Field &amp; Operations</span>
-                  <span class="pc-owner">For Kevin</span>
                 </div>
                 <h4 class="pc-task">Triage a long email thread</h4>
                 <p class="pc-desc">Reads a long back-and-forth thread and hands you back what actually matters: where things stand, what was decided, and what you still owe someone.</p>
@@ -949,7 +954,6 @@ Give me a two or three sentence summary of where things stand, a list of decisio
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Client-Facing</span>
-                  <span class="pc-owner">For Alex</span>
                 </div>
                 <h4 class="pc-task">Client-facing scope description from budget lines</h4>
                 <p class="pc-desc">Turns internal budget line items into plain-English scope a homeowner can actually follow. This is the #1 bottleneck the team picked in Session 1 to build first.</p>
@@ -985,7 +989,6 @@ Rewrite each one in plain English that a homeowner understands, grouped by area 
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Client-Facing</span>
-                  <span class="pc-owner">For Alex</span>
                 </div>
                 <h4 class="pc-task">Site meeting notes into clean minutes</h4>
                 <p class="pc-desc">Takes rough point-form notes from a site meeting and turns them into a structured set of minutes with clear action items.</p>
@@ -1021,7 +1024,6 @@ Format them as: meeting date and who was there (I will fill in blanks), key item
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Client-Facing</span>
-                  <span class="pc-owner">For Alex</span>
                 </div>
                 <h4 class="pc-task">Client update email from status bullets</h4>
                 <p class="pc-desc">Turns quick status notes into a warm, professional progress email for a homeowner client.</p>
@@ -1058,7 +1060,6 @@ Write a short email with a clear subject line. Open with where things stand, cov
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Client-Facing</span>
-                  <span class="pc-owner">For Alex</span>
                 </div>
                 <h4 class="pc-task">Explain a cost change to a client</h4>
                 <p class="pc-desc">Helps you tell a client the price is going up, and why, in a way that stays honest and doesn't read as defensive.</p>
@@ -1094,7 +1095,6 @@ Write a short, calm email. Explain what changed and why in plain terms, show the
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Client-Facing</span>
-                  <span class="pc-owner">For Alex</span>
                 </div>
                 <h4 class="pc-task">Reply to a concerned client</h4>
                 <p class="pc-desc">Drafts a reply to a frustrated client that acknowledges the issue honestly and moves the conversation toward a fix, rather than an argument.</p>
@@ -1135,7 +1135,6 @@ Draft a reply that acknowledges their concern honestly, explains our view withou
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Finance</span>
-                  <span class="pc-owner">For Tanya</span>
                 </div>
                 <h4 class="pc-task">Code and categorize an invoice</h4>
                 <p class="pc-desc">Categorizes one or more invoices the way Twin Lions already codes expenses, based on an example you give it.</p>
@@ -1177,7 +1176,6 @@ For each invoice, tell me which category it belongs to and a one line reason. If
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Finance</span>
-                  <span class="pc-owner">For Tanya</span>
                 </div>
                 <h4 class="pc-task">Draft a bonus structure</h4>
                 <p class="pc-desc">Drafts a few bonus structure options sized to a company like Twin Lions, using construction industry norms as the reference point.</p>
@@ -1213,7 +1211,6 @@ Draft a few bonus structure options that fit a renovation and custom home builde
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Finance</span>
-                  <span class="pc-owner">For Tanya</span>
                 </div>
                 <h4 class="pc-task">Plain-English budget summary</h4>
                 <p class="pc-desc">Turns raw budget numbers into a short summary an owner or client can read at a glance, no finance background needed.</p>
@@ -1249,7 +1246,6 @@ Write a short summary in plain language. Lead with the headline number and wheth
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Finance</span>
-                  <span class="pc-owner">For Tanya</span>
                 </div>
                 <h4 class="pc-task">Excel formula in plain English</h4>
                 <p class="pc-desc">Describe what you're trying to calculate in plain words and get back the exact formula to paste in.</p>
@@ -1290,7 +1286,6 @@ Give me the exact formula to paste in, tell me which cell to put it in, and expl
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Estimating &amp; Admin</span>
-                  <span class="pc-owner">For Ben &amp; Ryan</span>
                 </div>
                 <h4 class="pc-task">Clean up a messy spreadsheet</h4>
                 <p class="pc-desc">Reorganizes messy or inconsistent spreadsheet data into clean columns without touching the actual numbers or names.</p>
@@ -1326,7 +1321,6 @@ Reorganize it into clean columns with clear headers. Fix obvious formatting issu
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Estimating &amp; Admin</span>
-                  <span class="pc-owner">For Ben &amp; Ryan</span>
                 </div>
                 <h4 class="pc-task">Pull prices from past invoices</h4>
                 <p class="pc-desc">Searches through pasted invoice text for what Twin Lions has actually paid for a specific material or item in the past.</p>
@@ -1364,7 +1358,6 @@ Pull out each matching line with the supplier, the date if shown, the unit, and 
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Estimating &amp; Admin</span>
-                  <span class="pc-owner">For Ben &amp; Ryan</span>
                 </div>
                 <h4 class="pc-task">Outlook meeting invite and agenda</h4>
                 <p class="pc-desc">Turns a rough idea for a meeting into a clean invite with a short, time-boxed agenda.</p>
@@ -1402,7 +1395,6 @@ Write a short invite: a clear title, a one or two sentence purpose, and a simple
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">HR</span>
-                  <span class="pc-owner">For Kim</span>
                 </div>
                 <h4 class="pc-task">Job posting from a requirements list</h4>
                 <p class="pc-desc">Turns a plain list of role requirements into a job posting that sounds like a real company, not a generic template.</p>
@@ -1438,7 +1430,6 @@ Write a posting with a short intro about the company, a clear list of what the r
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">HR</span>
-                  <span class="pc-owner">For Kim</span>
                 </div>
                 <h4 class="pc-task">HR letter</h4>
                 <p class="pc-desc">Drafts a formal HR letter, such as an offer, employment verification, or salary change letter, in a professional but warm tone.</p>
@@ -1474,7 +1465,6 @@ Write the letter in a professional but warm tone. Keep it correct and clear. Use
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">HR</span>
-                  <span class="pc-owner">For Kim</span>
                 </div>
                 <h4 class="pc-task">Onboarding plan for a new hire</h4>
                 <p class="pc-desc">Builds a simple day-one, first-week, first-month onboarding plan for a new team member.</p>
