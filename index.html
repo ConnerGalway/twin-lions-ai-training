@@ -372,14 +372,14 @@
         <div class="row">
           <span class="label">Program progress</span>
           <!-- PROGRESS-COUNT -->
-          <span class="count"><b>2</b> of 4 sessions complete</span>
+          <span class="count"><b>3</b> of 4 sessions complete</span>
         </div>
         <div class="track">
           <!-- PROGRESS-BAR : 25 / 50 / 75 / 100% -->
-          <div class="fill" style="width:50%"></div>
+          <div class="fill" style="width:75%"></div>
         </div>
         <!-- NEXT-UP -->
-        <p class="next">Next up is <b>Session 3 &middot; July 7 at 10:00&nbsp;AM</b></p>
+        <p class="next">Next up is <b>Session 4 &middot; July 14 at 10:00&nbsp;AM</b></p>
       </div>
     </div>
   </section>
@@ -398,8 +398,8 @@
         <span class="tab-t">Prompting</span>
       </button>
 
-      <button class="tab is-upcoming" role="tab" id="tab-s3" aria-controls="panel-s3" aria-selected="false" tabindex="-1">
-        <span class="tab-ey">Session 03 &middot; Jul 7</span>
+      <button class="tab is-complete" role="tab" id="tab-s3" aria-controls="panel-s3" aria-selected="false" tabindex="-1">
+        <span class="tab-ey"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Session 03</span>
         <span class="tab-t">Build Session</span>
       </button>
 
@@ -649,32 +649,163 @@
       </div>
     </section>
 
-    <!-- ===================== SESSION 3 (UPCOMING) ===================== -->
+    <!-- ===================== SESSION 3 (COMPLETE) ===================== -->
     <section class="panel" role="tabpanel" id="panel-s3" aria-labelledby="tab-s3" tabindex="0" hidden>
-      <div class="card soft">
+      <div class="card">
         <div class="card-top">
           <span class="meta-mono">Session 03</span>
           <span class="meta-dot">&bull;</span>
           <span class="meta-mono">Virtual</span>
-          <span class="badge badge-next">Upcoming</span>
+          <span class="meta-dot">&bull;</span>
+          <span class="meta-mono">~60 min</span>
+          <span class="badge badge-done">Completed</span>
         </div>
-        <h2>Build Session: Automating the Range Budget</h2>
+        <h2>Build Session: Creating Your AI Budget Assistant</h2>
+        <p class="one-liner">Teaching Claude to generate accurate budget ranges by building a document database from real Twin Lions projects.</p>
 
-        <div class="join-block">
-          <div class="join-when">
-            <span class="join-label">When</span>
-            <span class="join-date">Monday, July 7</span>
-            <span class="join-time">10:00 AM &middot; Virtual (Zoom)</span>
+        <div class="block">
+          <p class="block-label">Session summary</p>
+          <p>This session tackled the core challenge head-on: when Ryan tested budget ranging on a real project, Claude kept pulling wrong numbers from the internet, confusing new-construction paint pricing with repaint rates, and miscalculating square footage. The fix isn't to prompt harder, it's to give Claude your actual data to learn from.</p>
+          <p>The team designed a system where historical project documents, budgets, LMTRs, drawings, and specs, get organized into folders by quality tier. Claude indexes that data and builds a price catalogue the team controls. Instead of guessing, it asks the right questions, then pulls from your numbers.</p>
+        </div>
+
+        <div class="block">
+          <p class="block-label">Key lessons</p>
+          <ul class="lessons">
+            <li>When Claude gives wrong prices, the problem is usually missing context, not bad prompting. Give it your historical data and it stops wandering the internet.</li>
+            <li>Don't organize first, dump first. Put all your documents in one folder, describe what you want, and let Claude sort and structure the files itself. Saves hours.</li>
+            <li>Train Claude to ask, not guess. Put instructions in your Project that say "for these line items, interview me instead of assuming." Then it asks about service upgrades, wiring, quality tier, etc.</li>
+            <li>Once you get a workflow right once, turn it into a Skill. Next time you just say "run the budget skill" and it does every step automatically.</li>
+            <li>Projects sync across devices, but it's janky. Log out and back in, make sure both apps are updated to the same version, and give it time. Claude is worse at this than ChatGPT.</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <p class="block-label">What we're building: the budget range system</p>
+          <div class="callout">
+            <p class="tagline">Three-step workflow</p>
+            <h4>From raw documents to instant budget ranges</h4>
+            <p>The system starts with your existing files and ends with an AI assistant that interviews you and generates accurate ranges. No spreadsheet data entry required.</p>
           </div>
-          <a class="zoom-btn" href="https://us02web.zoom.us/j/85004109433?pwd=DYus1dZjU1PnbkBjMVSCUtjw1APPhb.1&amp;jst=2" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2.5"/><path d="M22 8.5l-7 3.5 7 3.5z"/></svg>
-            Join the Zoom call
-          </a>
+
+          <div class="rctf" style="margin-top:18px;">
+            <div class="rctf-item"><span class="rctf-k">1</span><div><b>Create the document library</b><p>Gather completed project files: budgets, LMTRs, drawings, spec packages. Organize by quality tier (Budget, Mid-Low, Mid, Mid-High, Luxury). Connect via SharePoint.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">2</span><div><b>Build the price catalogue</b><p>Claude analyzes your documents and creates a master list of price ranges by trade, material, and quality tier. You review and refine until the numbers match reality.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">3</span><div><b>Run the interview workflow</b><p>For new projects, Claude asks targeted questions (square footage, service upgrade, quality tier, etc.), then generates a range budget pulling from your catalogue.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">4</span><div><b>Save as a Skill</b><p>Once the workflow is dialed, turn it into a Skill. Next time: "Run the budget skill," answer the interview, get the output. Done.</p></div></div>
+          </div>
         </div>
 
-        <p class="focus">The hands-on one. We start automating the work the team does over and over, beginning with the range and working budget. The goal is to drop in a few project details and get a usable budget range back. We build it live, then hand it off so anyone on the team can run it.</p>
-        <span class="bring">Bring two or three recent projects with their budget ranges, so we can teach it from real numbers.</span>
-        <p class="after-note">After we meet, the recap, key lessons and homework will show up right here.</p>
+        <div class="block">
+          <p class="block-label">Documents to include per project</p>
+          <p>For each completed project in your library, include these four documents. This gives Claude everything it needs without overloading it with invoice scans.</p>
+          <div class="audit-grid">
+            <div class="audit-group">
+              <h4>Budget</h4><span class="role">Original estimate</span>
+              <div class="tags">
+                <span class="tag">Line-item costs</span>
+                <span class="tag">Scope descriptions</span>
+                <span class="tag">Client-facing ranges</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>LMTR</h4><span class="role">Labor &amp; Material Tracking Report</span>
+              <div class="tags">
+                <span class="tag">Actual final costs</span>
+                <span class="tag">Cost vs. estimate variance</span>
+                <span class="tag">Real-world benchmarks</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>Drawings</h4><span class="role">Architectural plans</span>
+              <div class="tags">
+                <span class="tag">Square footage</span>
+                <span class="tag">Room counts</span>
+                <span class="tag">Scope complexity</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>Spec Package</h4><span class="role">Finishes &amp; selections</span>
+              <div class="tags">
+                <span class="tag">Quality tier indicators</span>
+                <span class="tag">Material selections</span>
+                <span class="tag">Fixture allowances</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <p class="block-label">Quality tiers for the price catalogue</p>
+          <p>The team settled on five tiers to capture the full range of project types Twin Lions handles, from value-focused renovations to high-end custom builds.</p>
+          <div class="tags" style="margin-top:10px;">
+            <span class="tag">Budget</span>
+            <span class="tag">Mid-Low</span>
+            <span class="tag">Mid</span>
+            <span class="tag">Mid-High</span>
+            <span class="tag">Luxury</span>
+          </div>
+          <p style="margin-top:14px;font-size:14.5px;color:var(--slate);">Each line item in your price catalogue, paint, electrical, flooring, railings, etc. will have price ranges for each tier. When Claude interviews you about a new project, it asks which tier fits, then pulls the right numbers.</p>
+        </div>
+
+        <div class="block">
+          <p class="block-label">Connecting your documents to Claude</p>
+          <p>Twin Lions already has SharePoint connected to Claude, which works well for this use case. SharePoint handles the file storage and syncing; Claude's MCP connector lets it read and analyze those files on demand.</p>
+          <div class="callout" style="margin-top:12px;">
+            <p class="tagline">Recommendation</p>
+            <h4>Keep using SharePoint for this workflow</h4>
+            <p>SharePoint is a solid choice here. It's already connected, your team knows it, and it syncs across devices. The main alternative, Google Drive, offers similar Claude integration but would mean migrating files and retraining the team. Stick with what's working.</p>
+            <p class="demo" style="margin-top:12px;">One tip: create a dedicated folder structure for the budget system separate from your active project folders. Something like <code style="background:rgba(255,255,255,.12);padding:2px 6px;border-radius:4px;font-size:13px;">AI Training / Budget Library / [Tier] / [Project Name]</code>. This keeps the AI-indexed files clean and prevents it from getting confused by in-progress work.</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <p class="block-label">What the team tried this week</p>
+          <div class="audit-grid">
+            <div class="audit-group">
+              <h4>Kevin</h4><span class="role">CRM consolidation</span>
+              <div class="tags">
+                <span class="tag pick">Built ClickUp CRM from Word + Excel docs</span>
+                <span class="tag">Claude populated fields automatically</span>
+                <span class="tag">Exploring Buildertrend replacement</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>Ryan</h4><span class="role">Award submissions</span>
+              <div class="tags">
+                <span class="tag">Tested award submission automation</span>
+                <span class="tag">PDF editing limitations discovered</span>
+                <span class="tag">Fable suggested for plan redaction</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>Ben</h4><span class="role">Email triage</span>
+              <div class="tags">
+                <span class="tag pick">200 emails triaged to 1 action item</span>
+                <span class="tag">Grouped by trade for tendering</span>
+                <span class="tag">Word doc summary generated</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>Kim</h4><span class="role">RCTF practice</span>
+              <div class="tags">
+                <span class="tag">Sharpening prompt inputs</span>
+                <span class="tag">Framework becoming more natural</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <p class="block-label">Your homework before Session 4</p>
+          <ul class="homework">
+            <li>Try out the prompts in the shared library. Pick 2-3 that fit your work, run them on real tasks, and note what works and what needs adjusting.</li>
+            <li>Start gathering completed project files for the budget library. Identify 5-10 projects with good LMTR data that span different quality tiers.</li>
+            <li>Think about which quality tier each project falls into. You'll need to sort them into the 5-tier structure.</li>
+            <li>Note any burning questions or specific workflows you want to automate. Session 4 is the last one, so bring what matters most.</li>
+          </ul>
+          <span class="due">Due for <b>Session 4 &middot; July 14</b></span>
+        </div>
       </div>
     </section>
 
@@ -1516,7 +1647,7 @@ Build a simple onboarding plan for their first week and first month. Break it in
       <div class="right">
         Facilitated by <a class="j" href="https://wearejunction.com" target="_blank" rel="noopener">Junction Consulting</a><br>
         <!-- LAST-UPDATED -->
-        <b>Last updated:</b> July 6, 2026
+        <b>Last updated:</b> July 8, 2026
       </div>
     </div>
   </footer>
