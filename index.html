@@ -661,80 +661,65 @@
           <span class="badge badge-done">Completed</span>
         </div>
         <h2>Build Session: Creating Your AI Budget Assistant</h2>
-        <p class="one-liner">Teaching Claude to generate accurate budget ranges by building a document database from real Twin Lions projects.</p>
+        <p class="one-liner">Teaching Claude to generate accurate budget ranges by building a pricing spreadsheet from real Twin Lions projects.</p>
 
         <div class="block">
           <p class="block-label">Session summary</p>
           <p>This session tackled the core challenge head-on: when Ryan tested budget ranging on a real project, Claude kept pulling wrong numbers from the internet, confusing new-construction paint pricing with repaint rates, and miscalculating square footage. The fix isn't to prompt harder, it's to give Claude your actual data to learn from.</p>
-          <p>The team designed a system where historical project documents, budgets, LMTRs, drawings, and specs, get organized into folders by quality tier. Claude indexes that data and builds a price catalogue the team controls. Instead of guessing, it asks the right questions, then pulls from your numbers.</p>
+          <p>The solution is a pricing spreadsheet built from your historical projects. Claude does the heavy lifting: it creates the template structure based on your existing budgets, then extracts data from each completed project and adds it to the spreadsheet. Once you have 10-15 projects in there, you upload it to a Claude Project, add instructions telling it to interview you before estimating, and you've got a budget assistant that pulls from your real numbers instead of guessing.</p>
         </div>
 
         <div class="block">
           <p class="block-label">Key lessons</p>
           <ul class="lessons">
-            <li>When Claude gives wrong prices, the problem is usually missing context, not bad prompting. Give it your historical data and it stops wandering the internet.</li>
-            <li>Don't organize first, dump first. Put all your documents in one folder, describe what you want, and let Claude sort and structure the files itself. Saves hours.</li>
-            <li>Train Claude to ask, not guess. Put instructions in your Project that say "for these line items, interview me instead of assuming." Then it asks about service upgrades, wiring, quality tier, etc.</li>
-            <li>Once you get a workflow right once, turn it into a Skill. Next time you just say "run the budget skill" and it does every step automatically.</li>
-            <li>Projects sync across devices, but it's janky. Log out and back in, make sure both apps are updated to the same version, and give it time. Claude is worse at this than ChatGPT.</li>
+            <li>When Claude gives wrong prices, the problem is missing data, not bad prompting. Feed it your historical costs and it stops wandering the internet for generic numbers.</li>
+            <li>Let Claude build the spreadsheet structure. Upload a sample budget and LMTR, tell it what you need, and it creates a template that matches your actual line items.</li>
+            <li>Process projects one at a time. Upload each project's documents, have Claude extract the data and add a row to your spreadsheet. Review as you go so errors don't compound.</li>
+            <li>Train Claude to ask, not guess. Project instructions that say "interview me about quality tier, square footage, and scope before generating an estimate" prevent it from making assumptions.</li>
+            <li>A clean spreadsheet beats a messy document dump. Structured data is easier to verify, easier to update, and gives Claude less room to misinterpret.</li>
           </ul>
         </div>
 
         <div class="block">
           <p class="block-label">What we're building: the budget range system</p>
           <div class="callout">
-            <p class="tagline">Six-step workflow</p>
-            <h4>From raw documents to instant budget ranges</h4>
-            <p>The system starts with your existing files and ends with an AI assistant that interviews you and generates accurate ranges. No spreadsheet data entry required.</p>
+            <p class="tagline">Five-step workflow</p>
+            <h4>From project documents to instant budget ranges</h4>
+            <p>Claude builds the spreadsheet, Claude extracts the data, and Claude generates the estimates. You review and refine. The result is a budget assistant grounded in your actual project history.</p>
           </div>
 
           <div class="rctf" style="margin-top:18px;">
-            <div class="rctf-item"><span class="rctf-k">1</span><div><b>Create the document library</b><p>Gather completed project files: budgets, LMTRs, drawings, spec packages. Organize by quality tier (Budget, Mid-Low, Mid, Mid-High, Luxury). Store in SharePoint.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">2</span><div><b>Build the price catalogue</b><p>Claude analyzes your documents and creates a master list of price ranges by trade, material, and quality tier. You review and refine until the numbers match reality.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">3</span><div><b>Add to Project knowledge base</b><p>Create a Claude Project for budgeting and add your document library folder and finalized price catalogue. This gives Claude persistent access to your data across all conversations.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">4</span><div><b>Set up Project instructions</b><p>Add custom instructions that tell Claude: "Don't guess on these line items. Instead, interview me about service upgrades, wiring, quality tier, square footage, etc." This makes it ask instead of assume.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">5</span><div><b>Run the interview workflow</b><p>For new projects, Claude follows your instructions, asks the targeted questions you defined, then generates a range budget pulling from your catalogue.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">6</span><div><b>Save as a Skill</b><p>Once the workflow is dialed, turn it into a Skill. Next time: "Run the budget skill," answer the interview, get the output. Done.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">1</span><div><b>Have Claude create the template</b><p>Upload a sample Budget and LMTR to Claude. Ask it to create a spreadsheet template with columns for project name, quality tier, square footage, and every trade/line item it finds in your documents. Download the empty template.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">2</span><div><b>Build the spreadsheet project-by-project</b><p>For each completed project, upload the Budget + LMTR along with your template. Ask Claude to extract the costs and add a new row. Download the updated file. Repeat until you have 10-15 projects.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">3</span><div><b>Review and clean the data</b><p>Go through the spreadsheet and verify the numbers. Claude occasionally misreads documents, so catch errors now. This spreadsheet becomes your source of truth.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">4</span><div><b>Create the Budget Tool Project</b><p>Create a new Claude Project, upload your completed spreadsheet, and add instructions telling Claude to: reference this data for all estimates, interview you about project specifics before generating numbers, and output in your standard budget format.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">5</span><div><b>Maintain over time</b><p>After each project closes, add it to the spreadsheet and re-upload to your Project. Your pricing data stays current as costs change.</p></div></div>
           </div>
         </div>
 
         <div class="block">
-          <p class="block-label">Documents to include per project</p>
-          <p>For each completed project in your library, include these four documents. This gives Claude everything it needs without overloading it with invoice scans.</p>
+          <p class="block-label">Documents you'll need per project</p>
+          <p>For data extraction, you only need two documents per project. Keep it simple.</p>
           <div class="audit-grid">
             <div class="audit-group">
               <h4>Budget</h4><span class="role">Original estimate</span>
               <div class="tags">
-                <span class="tag">Line-item costs</span>
+                <span class="tag">Line-item structure</span>
                 <span class="tag">Scope descriptions</span>
-                <span class="tag">Client-facing ranges</span>
+                <span class="tag">Square footage</span>
+                <span class="tag">Quality tier context</span>
               </div>
             </div>
             <div class="audit-group">
               <h4>LMTR</h4><span class="role">Labor &amp; Material Tracking Report</span>
               <div class="tags">
                 <span class="tag">Actual final costs</span>
-                <span class="tag">Cost vs. estimate variance</span>
+                <span class="tag">Cost per trade</span>
                 <span class="tag">Real-world benchmarks</span>
               </div>
             </div>
-            <div class="audit-group">
-              <h4>Drawings</h4><span class="role">Architectural plans</span>
-              <div class="tags">
-                <span class="tag">Square footage</span>
-                <span class="tag">Room counts</span>
-                <span class="tag">Scope complexity</span>
-              </div>
-            </div>
-            <div class="audit-group">
-              <h4>Spec Package</h4><span class="role">Finishes &amp; selections</span>
-              <div class="tags">
-                <span class="tag">Quality tier indicators</span>
-                <span class="tag">Material selections</span>
-                <span class="tag">Fixture allowances</span>
-              </div>
-            </div>
           </div>
+          <p style="margin-top:14px;font-size:14.5px;color:var(--slate);">The Budget shows what you estimated; the LMTR shows what it actually cost. Together they give Claude everything it needs to build accurate ranges. You don't need drawings or spec packages for the spreadsheet, those are useful context for individual estimates later.</p>
         </div>
 
         <div class="block">
@@ -751,13 +736,25 @@
         </div>
 
         <div class="block">
-          <p class="block-label">Connecting your documents to Claude</p>
-          <p>Twin Lions already has SharePoint connected to Claude, which works well for this use case. SharePoint handles the file storage and syncing; Claude's MCP connector lets it read and analyze those files on demand.</p>
+          <p class="block-label">Prompts to use at each step</p>
+          <p>Copy these prompts and adjust as needed. They're designed to get Claude doing exactly what you need.</p>
+
           <div class="callout" style="margin-top:12px;">
-            <p class="tagline">Recommendation</p>
-            <h4>Keep using SharePoint for this workflow</h4>
-            <p>SharePoint is a solid choice here. It's already connected, your team knows it, and it syncs across devices. The main alternative, Google Drive, offers similar Claude integration but would mean migrating files and retraining the team. Stick with what's working.</p>
-            <p class="demo" style="margin-top:12px;">One tip: create a dedicated folder structure for the budget system separate from your active project folders. Something like <code style="background:rgba(255,255,255,.12);padding:2px 6px;border-radius:4px;font-size:13px;">AI Training / Budget Library / [Tier] / [Project Name]</code>. This keeps the AI-indexed files clean and prevents it from getting confused by in-progress work.</p>
+            <p class="tagline">Step 1: Create the template</p>
+            <h4>Prompt for building your spreadsheet structure</h4>
+            <p style="font-family:var(--mono);font-size:13px;line-height:1.6;color:#c3d2e1;margin-top:10px;">I've uploaded a sample Budget and LMTR from a completed construction project. Based on these documents, create an Excel spreadsheet template for tracking historical project costs. Include columns for: Project Name, Quality Tier (Budget/Mid-Low/Mid/Mid-High/Luxury), Square Footage, and then one column for each trade or line item category you find in the LMTR (Electrical, Plumbing, Paint, Drywall, Flooring, etc.). Leave it empty - this is just the template structure. Make sure the columns match how we actually categorize costs.</p>
+          </div>
+
+          <div class="callout" style="margin-top:12px;">
+            <p class="tagline">Step 2: Extract project data</p>
+            <h4>Prompt for adding each project to the spreadsheet</h4>
+            <p style="font-family:var(--mono);font-size:13px;line-height:1.6;color:#c3d2e1;margin-top:10px;">I've uploaded the Budget and LMTR for [PROJECT NAME], plus my pricing spreadsheet template. Extract the final costs from the LMTR for each trade/line item and add this project as a new row in the spreadsheet. Use the LMTR for actual costs (not the budget estimates). For Quality Tier, classify it as Budget, Mid-Low, Mid, Mid-High, or Luxury based on the scope and finishes described. Return the updated spreadsheet file.</p>
+          </div>
+
+          <div class="callout" style="margin-top:12px;">
+            <p class="tagline">Step 4: Project instructions</p>
+            <h4>Instructions to add to your Budget Tool Project</h4>
+            <p style="font-family:var(--mono);font-size:13px;line-height:1.6;color:#c3d2e1;margin-top:10px;">You are a budget assistant for Twin Lions Contracting. When asked to create a range budget for a new project, always: (1) Reference the uploaded pricing spreadsheet for all cost estimates - never use internet data. (2) Before generating any numbers, interview me about: square footage, quality tier, whether there's a service upgrade, scope of electrical/plumbing work, and any unusual conditions. (3) Output the budget in our standard format with low-mid-high ranges for each line item. (4) Flag any line items where the project scope seems outside what's in the historical data.</p>
           </div>
         </div>
 
@@ -801,10 +798,10 @@
         <div class="block">
           <p class="block-label">Your homework before Session 4</p>
           <ul class="homework">
-            <li>Try out the prompts in the shared library. Pick 2-3 that fit your work, run them on real tasks, and note what works and what needs adjusting.</li>
-            <li>Start gathering completed project files for the budget library. Identify 5-10 projects with good LMTR data that span different quality tiers.</li>
-            <li>Think about which quality tier each project falls into. You'll need to sort them into the 5-tier structure.</li>
-            <li>Note any burning questions or specific workflows you want to automate. Session 4 is the last one, so bring what matters most.</li>
+            <li>Use the Step 1 prompt above to have Claude create your spreadsheet template. Upload a sample Budget and LMTR and see what structure it builds.</li>
+            <li>Process at least 3 completed projects through Step 2. Upload the docs, have Claude extract the data, and start building your pricing spreadsheet.</li>
+            <li>Review the extracted data for accuracy. Note where Claude got things right and where it misread the documents.</li>
+            <li>Bring your questions and the spreadsheet-in-progress to Session 4. We'll troubleshoot any issues and finalize the Budget Tool Project.</li>
           </ul>
           <span class="due">Due for <b>Session 4 &middot; July 14</b></span>
         </div>
