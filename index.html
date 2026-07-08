@@ -855,14 +855,14 @@
             <input type="search" id="libSearch" placeholder="Search prompts (e.g. budget, invoice, onboarding)&hellip;" aria-label="Search the prompt library">
           </div>
           <div class="lib-chips" role="group" aria-label="Filter prompts by department">
-            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(24)</span></button>
-            <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(7)</span></button>
+            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(22)</span></button>
+            <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(6)</span></button>
             <button class="lib-chip" type="button" data-filter="client" aria-pressed="false">Client-Facing <span class="n">(5)</span></button>
-            <button class="lib-chip" type="button" data-filter="finance" aria-pressed="false">Finance <span class="n">(4)</span></button>
+            <button class="lib-chip" type="button" data-filter="finance" aria-pressed="false">Finance <span class="n">(3)</span></button>
             <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(5)</span></button>
             <button class="lib-chip" type="button" data-filter="hr" aria-pressed="false">HR <span class="n">(3)</span></button>
           </div>
-          <p class="lib-count" id="libCount">Showing <b>24</b> of 24 prompts</p>
+          <p class="lib-count" id="libCount">Showing <b>22</b> of 22 prompts</p>
         </div>
 
         <!-- TEMPLATE: copy this card for each new prompt and fill it in
@@ -890,51 +890,6 @@
         <div class="prompt-list" id="promptList">
 
           <!-- ============ KEVIN: FIELD & OPERATIONS ============ -->
-
-          <article class="prompt-card" data-dept="field" data-search="kevin field operations range budget working budget estimate">
-            <div class="pc-header">
-              <div class="pc-header-content">
-                <div class="pc-top">
-                  <span class="pc-role">Field &amp; Operations</span>
-                </div>
-                <h4 class="pc-task">Range / working budget from a few inputs</h4>
-                <p class="pc-desc">Turns a handful of project details into a category-by-category budget range you can give a client before the detailed estimate is done. This was voted the team's #1 priority to build a repeatable prompt for.</p>
-              </div>
-              <button class="pc-toggle" type="button" aria-label="Expand prompt">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                <span>View</span>
-              </button>
-            </div>
-            <div class="pc-body">
-            <div class="pc-use">
-              <span class="pc-use-label">How to use it</span>
-              <p>Fill in the project details, then paste in one or two historicals (real numbers from past, comparable projects) if you have them. The closer in size and scope to the new job, the better. No historicals on hand is fine too; it will still hand back a solid category structure with placeholder numbers for you to swap in.</p>
-            </div>
-            <div class="pc-prompt-wrap">
-              <pre class="pc-prompt" id="p01">You are an experienced construction estimator who works on renovations and custom homes. I need a working range budget for a new project so I can give the client a ballpark before we do a detailed estimate.
-
-Here are the project details:
-- Project type: [e.g. full kitchen renovation]
-- Location / neighbourhood: [area]
-- Approximate size: [square footage or room count]
-- Scope highlights: [e.g. new cabinets, quartz counters, move one wall, new flooring throughout]
-- Quality level: [budget / mid / high-end finishes]
-- Anything unusual: [e.g. old wiring, second-floor access, tight timeline]
-
-Here are budgets from past projects like this one, for you to base your numbers on:
-[paste one or more comparable past project budgets, or write "none available"]
-
-Build a range budget broken down by category (demolition, framing, electrical, plumbing, finishes, and so on). For each category show a low and a high number and list the assumptions behind it. Add a total range at the bottom and a short list of things that could push the price up.
-
-Base your numbers on the past projects I gave you. If I did not give you any, or a category is not covered by them, mark those figures clearly as rough placeholders I need to replace with our real costs, and do not present them as if they are ours. Put it in a simple table I can read quickly.</pre>
-              <button class="pc-copy" type="button" data-target="p01">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span class="pc-copy-label">Copy prompt</span>
-              </button>
-            </div>
-            <p class="pc-notes"><b>Notes:</b> This is only as good as the past numbers you feed it. Always sanity-check the range before it goes anywhere near a client.</p>
-            </div>
-          </article>
 
           <article class="prompt-card" data-dept="field" data-search="kevin field operations compare trade quotes bids subtrade">
             <div class="pc-header">
@@ -1108,7 +1063,10 @@ Here is the raw data:
 Here is the ClickUp list I'm importing into and its fields:
 [e.g. Contacts list with fields: Name, Company, Phone, Email, Notes]
 
-Convert this data into a clean table that matches the ClickUp fields. Put each record on its own row. If some information is missing, leave that cell blank. Flag any records that look incomplete or have issues. Give it back as a table I can copy into a CSV for import.</pre>
+Here is an example of how ClickUp expects the CSV formatted (export a few rows from ClickUp first):
+[paste a sample ClickUp CSV export, or write "no example available"]
+
+Convert this data into a clean table that matches the ClickUp format exactly, including column headers and any date/time formatting you see in the example. Put each record on its own row. If some information is missing, leave that cell blank. Flag any records that look incomplete or have issues. Give it back as a table I can copy into a CSV for import.</pre>
               <button class="pc-copy" type="button" data-target="p21">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span class="pc-copy-label">Copy prompt</span>
@@ -1156,7 +1114,7 @@ For each one, give me: who it's from, the subject, what they need from me, and h
                 <span class="pc-copy-label">Copy prompt</span>
               </button>
             </div>
-            <p class="pc-notes"><b>Notes:</b> Discussed in Session 3 as a way to catch opportunities that might have slipped. Works best when you're doing a periodic inbox review.</p>
+            <p class="pc-notes"><b>Notes:</b> This prompt assumes your AI assistant is connected to your inbox (e.g. via Outlook MCP connector or similar). If pasting emails manually, include your sent mail so it knows what you already replied to.</p>
             </div>
           </article>
 
@@ -1409,48 +1367,13 @@ For each invoice, tell me which category it belongs to and a one line reason. If
 Here is what we have now and what is not working:
 [current structure, pain points, roles you want to cover]
 
-Draft a few bonus structure options that fit a renovation and custom home builder our size. For each option, explain how it works, who it rewards, roughly what it might cost, and the upside and downside. Use construction industry norms as your reference. Lay it out so I can compare the options at a glance.</pre>
+Draft a few bonus structure options that fit a renovation and custom home builder our size. For each option, explain how it works, who it rewards, roughly what it might cost, and the upside and downside. Focus on the structure and mechanics of each option rather than specific percentages or dollar amounts. If you reference any industry benchmarks, clearly label them as "general guidance to verify with your accountant" rather than hard recommendations. Lay it out so I can compare the options at a glance.</pre>
               <button class="pc-copy" type="button" data-target="p12">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span class="pc-copy-label">Copy prompt</span>
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> This is the prompt Tanya ran live in Session 2. A solid structure, worth expanding with real comp figures.</p>
-            </div>
-          </article>
-
-          <article class="prompt-card" data-dept="finance" data-search="tanya finance budget summary plain english report owner">
-            <div class="pc-header">
-              <div class="pc-header-content">
-                <div class="pc-top">
-                  <span class="pc-role">Finance</span>
-                </div>
-                <h4 class="pc-task">Plain-English budget summary</h4>
-                <p class="pc-desc">Turns raw budget numbers into a short summary an owner or client can read at a glance, no finance background needed.</p>
-              </div>
-              <button class="pc-toggle" type="button" aria-label="Expand prompt">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                <span>View</span>
-              </button>
-            </div>
-            <div class="pc-body">
-            <div class="pc-use">
-              <span class="pc-use-label">How to use it</span>
-              <p>Paste rows straight out of a spreadsheet, it can read them as-is. Tell it who the summary is for (owner vs. client) and it will adjust how much detail it includes.</p>
-            </div>
-            <div class="pc-prompt-wrap">
-              <pre class="pc-prompt" id="p13">You are a finance person at a contracting company writing for someone who is not in finance. Turn these numbers into a summary an owner or client can read at a glance.
-
-Here are the figures:
-[paste your numbers or spreadsheet data]
-
-Write a short summary in plain language. Lead with the headline number and whether we are on, over, or under budget. Then break down the main categories in a simple list with the number and a one line note. Flag anything that stands out. No jargon.</pre>
-              <button class="pc-copy" type="button" data-target="p13">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span class="pc-copy-label">Copy prompt</span>
-              </button>
-            </div>
-            <p class="pc-notes"><b>Notes:</b> Handy before a client call when you need the two-minute version of a spreadsheet.</p>
             </div>
           </article>
 
