@@ -855,14 +855,14 @@
             <input type="search" id="libSearch" placeholder="Search prompts (e.g. budget, invoice, onboarding)&hellip;" aria-label="Search the prompt library">
           </div>
           <div class="lib-chips" role="group" aria-label="Filter prompts by department">
-            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(22)</span></button>
+            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(21)</span></button>
             <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(6)</span></button>
             <button class="lib-chip" type="button" data-filter="client" aria-pressed="false">Client-Facing <span class="n">(5)</span></button>
             <button class="lib-chip" type="button" data-filter="finance" aria-pressed="false">Finance <span class="n">(3)</span></button>
-            <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(5)</span></button>
+            <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(4)</span></button>
             <button class="lib-chip" type="button" data-filter="hr" aria-pressed="false">HR <span class="n">(3)</span></button>
           </div>
-          <p class="lib-count" id="libCount">Showing <b>22</b> of 22 prompts</p>
+          <p class="lib-count" id="libCount">Showing <b>21</b> of 21 prompts</p>
         </div>
 
         <!-- TEMPLATE: copy this card for each new prompt and fill it in
@@ -1521,47 +1521,6 @@ Write a short invite: a clear title, a one or two sentence purpose, and a simple
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Small task, but a nice one to have ready when a meeting is called on short notice.</p>
-            </div>
-          </article>
-
-          <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin tender opportunity email inbox scan rfp">
-            <div class="pc-header">
-              <div class="pc-header-content">
-                <div class="pc-top">
-                  <span class="pc-role">Estimating &amp; Admin</span>
-                  <span class="pc-new">New</span>
-                </div>
-                <h4 class="pc-task">Scan inbox for tendering opportunities</h4>
-                <p class="pc-desc">Reads through a large batch of emails and pulls out potential project opportunities, RFPs, or tenders into a summary document.</p>
-              </div>
-              <button class="pc-toggle" type="button" aria-label="Expand prompt">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                <span>View</span>
-              </button>
-            </div>
-            <div class="pc-body">
-            <div class="pc-use">
-              <span class="pc-use-label">How to use it</span>
-              <p>Export emails from Outlook for a date range (or paste them in batches). This is for when you have a backlog of 50-200+ emails and need to know which ones are actual opportunities worth pursuing.</p>
-            </div>
-            <div class="pc-prompt-wrap">
-              <pre class="pc-prompt" id="p23">You are helping me triage a large batch of emails to find tendering and project opportunities. I'm going to paste a lot of emails and I need you to pull out anything that looks like a potential job or RFP.
-
-Here are the emails:
-[paste exported emails]
-
-Go through all of them and create a summary document with:
-1. **Hot opportunities** - Clear RFPs, tender invites, or direct project inquiries with deadlines
-2. **Warm leads** - Emails that mention potential future work or ask about availability
-3. **Follow-ups needed** - Anything where someone is waiting for our response
-
-For each opportunity, include: sender, subject, project type if clear, deadline if mentioned, and a one-line summary of what they need. Skip newsletters, spam, and anything clearly not a project opportunity. Sort by deadline urgency.</pre>
-              <button class="pc-copy" type="button" data-target="p23">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span class="pc-copy-label">Copy prompt</span>
-              </button>
-            </div>
-            <p class="pc-notes"><b>Notes:</b> Came from Ben in Session 3 - he had 200 emails to get through. Works well as a weekly or monthly inbox triage to make sure nothing slips through.</p>
             </div>
           </article>
 
