@@ -260,6 +260,8 @@
   .prompt-card[hidden]{display:none;}
   .pc-top{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:11px;}
   .pc-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;padding:4px 9px;border-radius:6px;}
+  .pc-new{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--green);padding:4px 8px;border-radius:6px;animation:pulse-new 2s ease-in-out infinite;}
+  @keyframes pulse-new{0%,100%{opacity:1;}50%{opacity:.7;}}
   .pc-task{font-family:var(--display);font-weight:700;font-size:17px;margin:0 0 8px;letter-spacing:-.01em;}
 
   /* Department color coding (from brand palette) */
@@ -1082,6 +1084,7 @@ Give me a two or three sentence summary of where things stand, a list of decisio
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-new">New</span>
                 </div>
                 <h4 class="pc-task">Migrate data to ClickUp</h4>
                 <p class="pc-desc">Converts contact lists, project info, or other data from Word docs or Excel into the format ClickUp needs for import.</p>
@@ -1120,6 +1123,7 @@ Convert this data into a clean table that matches the ClickUp fields. Put each r
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-new">New</span>
                 </div>
                 <h4 class="pc-task">Find missed follow-ups in inbox</h4>
                 <p class="pc-desc">Scans a batch of emails to find anything that's waiting for your response or has slipped through the cracks.</p>
@@ -1602,6 +1606,7 @@ Write a short invite: a clear title, a one or two sentence purpose, and a simple
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Estimating &amp; Admin</span>
+                  <span class="pc-new">New</span>
                 </div>
                 <h4 class="pc-task">Scan inbox for tendering opportunities</h4>
                 <p class="pc-desc">Reads through a large batch of emails and pulls out potential project opportunities, RFPs, or tenders into a summary document.</p>
@@ -1642,6 +1647,7 @@ For each opportunity, include: sender, subject, project type if clear, deadline 
               <div class="pc-header-content">
                 <div class="pc-top">
                   <span class="pc-role">Estimating &amp; Admin</span>
+                  <span class="pc-new">New</span>
                 </div>
                 <h4 class="pc-task">Draft an award submission</h4>
                 <p class="pc-desc">Helps compile and write award applications by organizing project details, achievements, and supporting points into the submission format.</p>
