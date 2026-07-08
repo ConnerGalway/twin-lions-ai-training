@@ -853,14 +853,14 @@
             <input type="search" id="libSearch" placeholder="Search prompts (e.g. budget, invoice, onboarding)&hellip;" aria-label="Search the prompt library">
           </div>
           <div class="lib-chips" role="group" aria-label="Filter prompts by department">
-            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(20)</span></button>
-            <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(5)</span></button>
+            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(24)</span></button>
+            <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(7)</span></button>
             <button class="lib-chip" type="button" data-filter="client" aria-pressed="false">Client-Facing <span class="n">(5)</span></button>
             <button class="lib-chip" type="button" data-filter="finance" aria-pressed="false">Finance <span class="n">(4)</span></button>
-            <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(3)</span></button>
+            <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(5)</span></button>
             <button class="lib-chip" type="button" data-filter="hr" aria-pressed="false">HR <span class="n">(3)</span></button>
           </div>
-          <p class="lib-count" id="libCount">Showing <b>20</b> of 20 prompts</p>
+          <p class="lib-count" id="libCount">Showing <b>24</b> of 24 prompts</p>
         </div>
 
         <!-- TEMPLATE: copy this card for each new prompt and fill it in
@@ -1074,6 +1074,85 @@ Give me a two or three sentence summary of where things stand, a list of decisio
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Run this from inside the Twin Lions Project and it can usually match names in the thread to real people on the team.</p>
+            </div>
+          </article>
+
+          <article class="prompt-card" data-dept="field" data-search="kevin field operations crm clickup data migration contacts word excel">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                </div>
+                <h4 class="pc-task">Migrate data to ClickUp</h4>
+                <p class="pc-desc">Converts contact lists, project info, or other data from Word docs or Excel into the format ClickUp needs for import.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste the raw data from your Word doc or spreadsheet. Tell Claude what ClickUp list you're importing into so it can match the fields. Works best when you include an example of how ClickUp expects the data formatted.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p21">You are helping me migrate data into ClickUp. I have information in [Word / Excel / other format] that I need to convert into a format I can import into ClickUp.
+
+Here is the raw data:
+[paste your contact list, project info, or other data]
+
+Here is the ClickUp list I'm importing into and its fields:
+[e.g. Contacts list with fields: Name, Company, Phone, Email, Notes]
+
+Convert this data into a clean table that matches the ClickUp fields. Put each record on its own row. If some information is missing, leave that cell blank. Flag any records that look incomplete or have issues. Give it back as a table I can copy into a CSV for import.</pre>
+              <button class="pc-copy" type="button" data-target="p21">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Came out of Session 3 when Kevin was consolidating contact lists from multiple sources into ClickUp. Works for any CRM or project management tool with CSV import.</p>
+            </div>
+          </article>
+
+          <article class="prompt-card" data-dept="field" data-search="kevin field operations inbox email follow up missed pending response">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                </div>
+                <h4 class="pc-task">Find missed follow-ups in inbox</h4>
+                <p class="pc-desc">Scans a batch of emails to find anything that's waiting for your response or has slipped through the cracks.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Export a batch of emails from Outlook (select multiple, copy to clipboard or export) and paste them in. Best used for a week or month's worth of emails when you want to make sure nothing fell through.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p22">You are my executive assistant helping me catch up on email. I'm going to paste a batch of emails from my inbox. Find anything that's still waiting for my response or action.
+
+Here are the emails:
+[paste exported emails]
+
+Go through each one and identify:
+1. Emails where someone is clearly waiting for my reply
+2. Emails with action items assigned to me that I haven't acknowledged
+3. Emails that asked a question I never answered
+4. Any threads that went cold and might need follow-up
+
+For each one, give me: who it's from, the subject, what they need from me, and how old it is. Sort by urgency. Skip anything that's clearly resolved or doesn't need my input.</pre>
+              <button class="pc-copy" type="button" data-target="p22">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Discussed in Session 3 as a way to catch opportunities that might have slipped. Works best when you're doing a periodic inbox review.</p>
             </div>
           </article>
 
@@ -1515,6 +1594,89 @@ Write a short invite: a clear title, a one or two sentence purpose, and a simple
               </button>
             </div>
             <p class="pc-notes"><b>Notes:</b> Small task, but a nice one to have ready when a meeting is called on short notice.</p>
+            </div>
+          </article>
+
+          <article class="prompt-card" data-dept="estimating" data-search="ben ryan estimating admin tender opportunity email inbox scan rfp">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Estimating &amp; Admin</span>
+                </div>
+                <h4 class="pc-task">Scan inbox for tendering opportunities</h4>
+                <p class="pc-desc">Reads through a large batch of emails and pulls out potential project opportunities, RFPs, or tenders into a summary document.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Export emails from Outlook for a date range (or paste them in batches). This is for when you have a backlog of 50-200+ emails and need to know which ones are actual opportunities worth pursuing.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p23">You are helping me triage a large batch of emails to find tendering and project opportunities. I'm going to paste a lot of emails and I need you to pull out anything that looks like a potential job or RFP.
+
+Here are the emails:
+[paste exported emails]
+
+Go through all of them and create a summary document with:
+1. **Hot opportunities** - Clear RFPs, tender invites, or direct project inquiries with deadlines
+2. **Warm leads** - Emails that mention potential future work or ask about availability
+3. **Follow-ups needed** - Anything where someone is waiting for our response
+
+For each opportunity, include: sender, subject, project type if clear, deadline if mentioned, and a one-line summary of what they need. Skip newsletters, spam, and anything clearly not a project opportunity. Sort by deadline urgency.</pre>
+              <button class="pc-copy" type="button" data-target="p23">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Came from Ben in Session 3 - he had 200 emails to get through. Works well as a weekly or monthly inbox triage to make sure nothing slips through.</p>
+            </div>
+          </article>
+
+          <article class="prompt-card" data-dept="estimating" data-search="ryan estimating admin award submission application write nomination">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Estimating &amp; Admin</span>
+                </div>
+                <h4 class="pc-task">Draft an award submission</h4>
+                <p class="pc-desc">Helps compile and write award applications by organizing project details, achievements, and supporting points into the submission format.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste the award criteria or application questions, then give Claude the raw project details, photos descriptions, and any testimonials you have. It works best when you include the word limit or format requirements from the award guidelines.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p24">You are helping me write an award submission for a construction industry award. I need to turn project details into a compelling application.
+
+Here are the award criteria or questions:
+[paste the award guidelines, categories, or specific questions they ask]
+
+Here is information about the project I'm submitting:
+- Project name and location: [name, address]
+- Project type and scope: [what we built or renovated]
+- Key challenges we overcame: [site conditions, timeline, complexity]
+- Notable achievements: [came in under budget, innovative solutions, client testimonials]
+- Team involved: [key people and their roles]
+- Any other details: [timeline, budget, special features]
+
+Write a draft submission that addresses each criterion. Use specific details and numbers where possible. Keep the tone professional but genuine - we want it to sound like a real contractor telling our story, not marketing fluff. If they have word limits, stay within them. Flag anywhere you need more information from me.</pre>
+              <button class="pc-copy" type="button" data-target="p24">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Ryan mentioned working on award submissions in Session 3. Give it real details and let it organize them - then review and add the human touches that make it authentic.</p>
             </div>
           </article>
 
