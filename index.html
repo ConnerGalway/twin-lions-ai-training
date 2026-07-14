@@ -830,6 +830,14 @@
           <p>We also added a new capability: branded PDF export. The Budget Generator can now produce client-ready estimates formatted with Twin Lions colors, fonts, and professional disclaimers, ready to send after a quick polish in Google Docs or Word.</p>
         </div>
 
+        <div class="block" style="background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);border:1px solid #bbf7d0;border-radius:10px;padding:16px 20px;">
+          <p style="margin:0;font-size:15px;color:#166534;"><b>Already have the Budget Generator set up?</b> Jump to:
+            <a href="#s4-usage" style="color:#15803d;text-decoration:underline;">Usage examples</a> ·
+            <a href="#s4-maintenance" style="color:#15803d;text-decoration:underline;">Maintenance</a> ·
+            <a href="#s4-troubleshooting" style="color:#15803d;text-decoration:underline;">Troubleshooting</a>
+          </p>
+        </div>
+
         <div class="block">
           <p class="block-label">Key lessons</p>
           <ul class="lessons">
@@ -894,14 +902,19 @@
 
         <div class="block">
           <p class="block-label">Project instructions to paste</p>
+          <p style="margin-bottom:12px;">The summary below covers the essentials. For the complete instructions (including detailed PDF formatting templates), download the full file:</p>
+          <a href="claude-project-instructions.md" download style="display:inline-flex;align-items:center;gap:8px;background:#2a4930;color:#fff;padding:10px 18px;border-radius:6px;font-weight:600;font-size:14px;text-decoration:none;margin-bottom:16px;">
+            <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Full Instructions
+          </a>
           <div class="callout" style="margin-top:12px;">
-            <p class="tagline">Copy this into your Project Instructions</p>
+            <p class="tagline">Quick reference (summary version)</p>
             <h4>Budget Generator Instructions</h4>
             <p style="font-family:var(--mono);font-size:13px;line-height:1.6;color:#c3d2e1;margin-top:10px;">You are a budget estimation assistant for Twin Lions Contracting. Your job is to generate accurate budget ranges based on our actual pricing data.<br><br><b>You have access to:</b><br>• Pricing Catalogue: Our real costs for materials and labor across three tiers<br>• Brand Guide: Our visual identity and document formatting standards<br><br><b>Critical rules:</b><br>1. ONLY use pricing from the uploaded catalogue. Never use internet prices.<br>2. Always show Budget, Mid-Range, and Luxury tiers for each line item.<br>3. Ask questions before assuming. Interview me about: project type, square footage, quality tier, scope details, and any specific selections.<br>4. Flag any items not in the catalogue as "Price TBD."<br>5. Follow brand guidelines when generating PDF-ready content.<br><br><b>Standard additions:</b><br>• Permits: 1.5% of construction value<br>• Project Management: 8% (Budget), 10% (Mid-Range), 12% (Luxury)<br>• Contingency: 10% (Budget), 15% (Mid-Range), 20% (Luxury)<br><br><b>PDF Export:</b> When asked to "export as PDF" or "make this client-ready," reformat the budget following the Brand Guide with: cover section, executive summary, detailed breakdown, notes, terms, and contact footer.</p>
           </div>
         </div>
 
-        <div class="block">
+        <div class="block" id="s4-usage">
           <p class="block-label">Usage: How to generate budgets</p>
           <div class="audit-grid">
             <div class="audit-group">
@@ -939,12 +952,12 @@
           </div>
         </div>
 
-        <div class="block">
+        <div class="block" id="s4-maintenance">
           <p class="block-label">Maintenance: Keeping it accurate</p>
           <div class="audit-grid" style="margin-top:12px;">
             <div class="audit-group">
               <h4>After each project</h4><span class="role">Ongoing</span>
-              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Add the completed project to your spreadsheet. Pull final costs from the LMTR, calculate per-unit prices, add them to your pricing catalogue. Re-upload the updated file to your Claude Project.</p>
+              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Add the completed project to your spreadsheet. Pull final costs from your invoices and cost tracking system, calculate per-unit prices, and add them to your pricing catalogue. Re-upload the updated file to your Claude Project.</p>
             </div>
             <div class="audit-group">
               <h4>Monthly</h4><span class="role">Quick check</span>
@@ -993,7 +1006,16 @@
           </div>
         </div>
 
-        <div class="block">
+        <div class="block" style="background:linear-gradient(135deg,#fefce8 0%,#fef9c3 100%);border:1px solid #fde047;border-radius:10px;padding:16px 20px;">
+          <p style="margin:0 0 8px 0;font-weight:600;color:#854d0e;">Want to build your own Budget Generator from scratch?</p>
+          <p style="margin:0 0 12px 0;font-size:14.5px;color:#a16207;">The DIY Walkthrough covers everything: using Claude to extract costs from historical projects, building your pricing spreadsheet, creating a brand guide, and setting up the Claude Project. It's the complete recipe.</p>
+          <a href="twin-lions-diy-walkthrough.md" download style="display:inline-flex;align-items:center;gap:8px;background:#854d0e;color:#fff;padding:10px 18px;border-radius:6px;font-weight:600;font-size:14px;text-decoration:none;">
+            <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download DIY Walkthrough
+          </a>
+        </div>
+
+        <div class="block" id="s4-troubleshooting">
           <p class="block-label">Troubleshooting</p>
           <div class="audit-grid">
             <div class="audit-group">
@@ -1033,37 +1055,35 @@
 
         <div class="block">
           <p class="block-label">What's next for the team</p>
-          <p>Each team member committed to one specific action for the next two weeks:</p>
+          <p>Each team member committed to one specific action for the next two weeks. The format: <i>"I will use [specific prompt or AI task] for [specific situation] this week."</i></p>
           <div class="audit-grid">
             <div class="audit-group">
               <h4>Kevin</h4><span class="role">Budget Generator owner</span>
               <div class="tags">
-                <span class="tag pick">Enter 3-5 completed projects into the spreadsheet</span>
-                <span class="tag">Test the budget generation workflow</span>
+                <span class="tag pick">Enter 3-5 completed projects into the pricing spreadsheet</span>
+                <span class="tag">Test the full budget generation workflow</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Ben</h4><span class="role">Email triage</span>
+              <h4>Ben</h4><span class="role">Commitment from session</span>
               <div class="tags">
-                <span class="tag">Continue using AI for email processing</span>
-                <span class="tag">Add any new prompts to the library</span>
+                <span class="tag" style="font-style:italic;opacity:0.8;">[To be filled in during Session 4]</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Kim</h4><span class="role">RCTF practice</span>
+              <h4>Kim</h4><span class="role">Commitment from session</span>
               <div class="tags">
-                <span class="tag">Apply RCTF to one new workflow</span>
-                <span class="tag">Document what works</span>
+                <span class="tag" style="font-style:italic;opacity:0.8;">[To be filled in during Session 4]</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Ryan</h4><span class="role">Award submissions</span>
+              <h4>Ryan</h4><span class="role">Commitment from session</span>
               <div class="tags">
-                <span class="tag">Continue testing AI for documentation</span>
-                <span class="tag">Explore PDF editing alternatives</span>
+                <span class="tag" style="font-style:italic;opacity:0.8;">[To be filled in during Session 4]</span>
               </div>
             </div>
           </div>
+          <p style="margin-top:14px;font-size:14px;color:var(--slate);"><b>Tip:</b> Update this section after the session with each person's actual commitment. Small, specific commitments work better than ambitious plans.</p>
         </div>
 
         <div class="block">
