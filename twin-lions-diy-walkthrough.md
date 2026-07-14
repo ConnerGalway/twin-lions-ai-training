@@ -1,6 +1,6 @@
 # Build Your Own Budget Generator: Step-by-Step Walkthrough
 
-This guide walks you through creating your own AI-powered Budget Generator using your actual project data—including branded PDF export for client-ready estimates and a streamlined workflow for keeping your pricing data current.
+This guide walks you through creating your own AI-powered Budget Generator using your actual project data—including branded PDF export for client-ready estimates and a fully automated workflow for keeping your pricing data current.
 
 ---
 
@@ -8,18 +8,29 @@ This guide walks you through creating your own AI-powered Budget Generator using
 
 **What you're building:** A Claude Project that generates accurate budget ranges for new projects based on your historical pricing data, with the ability to export branded PDF estimates.
 
-**Key innovation:** Your pricing catalogue lives in SharePoint, and after each completed project, you simply drop your budget documents into Claude and run the "Update Catalogue" command. Claude extracts the costs and gives you ready-to-paste rows—no manual data entry.
+**Key innovation:** Your pricing catalogue lives in SharePoint, and Claude connects to it directly via the SharePoint connector. After each completed project, you simply drop your budget documents into Claude and say "update catalogue"—Claude extracts the costs and updates your SharePoint spreadsheet automatically. No copying, no pasting, no manual data entry.
 
 **Time required:**
 - Initial setup: 3-4 hours
-- Per project update: 2-3 minutes (just drop documents and paste results)
+- Per project update: Under 1 minute (just drop files and confirm)
 - Quarterly review: 30 minutes
 
 **What you'll need:**
 - Access to Claude (claude.ai) with a Pro or Team subscription
-- Access to SharePoint (for hosting your pricing catalogue)
+- SharePoint connector configured in Claude (MCP integration)
 - 10-15 completed project files (budgets, invoices, cost breakdowns)
 - Your company's brand assets (logo, colors, fonts)
+
+---
+
+## Prerequisites: SharePoint Connector
+
+Before starting, ensure your SharePoint connector is configured in Claude. This allows Claude to:
+- Read your pricing catalogue directly from SharePoint
+- Write updates back to the spreadsheet automatically
+- Access your brand guide and other project files
+
+If you haven't set up the SharePoint connector yet, follow the MCP setup guide for your organization.
 
 ---
 
@@ -82,16 +93,17 @@ And remove:
 
 1. Go to your company SharePoint site
 2. Navigate to a document library (or create one called "Pricing Data")
-3. Create a new Excel workbook: `[YourCompany]-pricing-catalogue.xlsx`
+3. Create a new Excel workbook: `pricing-catalogue.xlsx`
 4. Paste Claude's template into the first sheet
 5. Name the sheet "Catalogue"
 6. Format as a table (select all data, Insert > Table)
+7. Note the file path—you'll need it for the Claude Project setup
 
-**Why SharePoint?**
+**Why SharePoint with Claude connector?**
+- Claude can read and write directly—no manual syncing
 - Version history—you can always see what changed and when
 - Accessible from anywhere
-- Easy to share with team members who need it
-- Can be connected to Power Automate for advanced workflows later
+- Automatic backups
 
 ---
 
@@ -127,28 +139,31 @@ Project 1: Kitchen Renovation
 [PASTE BUDGET/INVOICE DETAILS]
 ```
 
-### Step 2.2: Copy Results to SharePoint
+### Step 2.2: Add Results to SharePoint
 
-As Claude processes each project, it will output formatted rows. Copy these directly into your SharePoint spreadsheet, placing each price in the appropriate tier column (Budget, Mid-Range, or Luxury).
+Once Claude has processed your historical projects:
+
+```
+Now write these results to my SharePoint pricing catalogue at [YOUR SHAREPOINT PATH]/pricing-catalogue.xlsx
+
+Place each price in the appropriate tier column based on the quality tier of the source project.
+```
+
+Claude will update your SharePoint spreadsheet directly.
 
 ### Step 2.3: Let Claude Identify Averages and Outliers
 
-After processing several projects, ask Claude:
+After processing several projects:
 
 ```
-I've processed all my historical projects. Now I need to establish final pricing tiers.
+Read my pricing catalogue from SharePoint and analyze it:
 
-Here are my data points for each category (I'll paste my spreadsheet):
-
-[PASTE YOUR CURRENT SPREADSHEET DATA]
-
-For items with multiple data points:
-1. Calculate recommended Budget, Mid-Range, and Luxury prices
+1. For items with multiple data points, calculate recommended Budget, Mid-Range, and Luxury prices
 2. Flag any outliers I should investigate
 3. Note items with only one data point (less reliable)
 4. Identify gaps where I have no data
 
-Output as a clean table I can paste back into my spreadsheet.
+Then update the catalogue with the recommended prices.
 ```
 
 ---
@@ -157,29 +172,36 @@ Output as a clean table I can paste back into my spreadsheet.
 
 ### Step 3.1: Identify Missing Items
 
-Review your spreadsheet. You'll likely have gaps—items that didn't appear in your sample projects but you still need to quote.
+Ask Claude to review your catalogue:
+
+```
+Read my pricing catalogue from SharePoint and list any common renovation items that are missing. Compare against typical bathroom, kitchen, and whole-home renovation scopes.
+```
 
 ### Step 3.2: Research Missing Prices
 
 For items with no historical data, you have options:
 
 **Option A: Use supplier quotes**
-Get current quotes from your suppliers and enter those costs plus your markup.
+Get current quotes from your suppliers and have Claude add them:
+
+```
+Add these supplier quotes to my pricing catalogue:
+
+[ITEM]: $X per [UNIT] - source: [SUPPLIER NAME], date: [DATE]
+[ITEM]: $X per [UNIT] - source: [SUPPLIER NAME], date: [DATE]
+
+Mark these as "Supplier quote" in the Notes column.
+```
 
 **Option B: Ask Claude to estimate (use cautiously)**
 ```
 I need to add pricing for [ITEM] to my catalogue. I don't have historical data for this.
 
-For context, here are some related items from my catalogue:
-- [Similar item 1]: Budget $X, Mid $Y, Luxury $Z
-- [Similar item 2]: Budget $X, Mid $Y, Luxury $Z
+Read the catalogue and find similar items, then suggest reasonable pricing tiers based on typical industry relationships.
 
-Based on typical industry relationships, what would be reasonable pricing tiers for [ITEM]?
-
-Note: I'll verify this against supplier quotes before finalizing.
+Mark any estimates with "ESTIMATE - verify" in the Notes column.
 ```
-
-**Important:** Always verify Claude's estimates against real quotes. Mark estimated prices in your Notes column with "ESTIMATE - verify" so you know to update them when you get real data.
 
 ---
 
@@ -236,25 +258,13 @@ Please create a comprehensive brand guide in markdown format that includes:
 9. Quality tier descriptions that match our brand voice
 ```
 
-### Step 4.3: Review and Customize
+### Step 4.3: Save Brand Guide to SharePoint
 
-Claude will generate a brand guide. Review it and ask for adjustments:
+Save the brand guide to your SharePoint Pricing Data folder:
 
 ```
-This is good. Please update:
-- [Any colors that need adjustment]
-- [Any messaging that doesn't fit your voice]
-- [Any sections to add or remove]
-
-Also add a standard disclaimer that reads:
-"[YOUR PREFERRED DISCLAIMER TEXT]"
+Save this brand guide to my SharePoint at [YOUR SHAREPOINT PATH]/brand-guide.md
 ```
-
-### Step 4.4: Save Your Brand Guide
-
-1. Copy Claude's output
-2. Save as `[YourCompany]-brand-guide.md`
-3. Also upload to your SharePoint "Pricing Data" folder for safekeeping
 
 ---
 
@@ -277,8 +287,9 @@ Click on **Project instructions** and paste the following (customize the bracket
 You are a budget estimation assistant for [YOUR COMPANY NAME], a [TYPE OF COMPANY - e.g., residential renovation company]. Your job is to generate accurate budget ranges based on our actual pricing data.
 
 You have access to:
-- **Pricing Catalogue**: Our actual costs for materials, labour, and services
-- **Brand Guide**: Our visual identity and document formatting standards
+- **Pricing Catalogue**: Located at [SHAREPOINT PATH]/pricing-catalogue.xlsx
+- **Brand Guide**: Located at [SHAREPOINT PATH]/brand-guide.md
+- **SharePoint Connector**: You can read from and write to our SharePoint directly
 
 Quality tiers:
 - **Budget**: Basic, cost-effective options
@@ -287,7 +298,7 @@ Quality tiers:
 
 ## Critical Rules
 
-1. **ONLY use pricing from the provided catalogue.** Never use internet prices or general knowledge. If an item isn't in the catalogue, say so.
+1. **ONLY use pricing from the catalogue.** Read the pricing catalogue from SharePoint. Never use internet prices or general knowledge. If an item isn't in the catalogue, say so.
 
 2. **Always present ranges, not single numbers.** Show Budget through Luxury so clients understand options.
 
@@ -295,7 +306,7 @@ Quality tiers:
 
 4. **Flag missing items.** If something isn't in the pricing data, note it as "Price TBD - not in catalogue."
 
-5. **Follow brand guidelines.** When generating PDF-ready content, use the formatting, colors, and language specified in the Brand Guide.
+5. **Follow brand guidelines.** Read the brand guide from SharePoint when generating PDF-ready content.
 
 ## How to Generate a Budget
 
@@ -307,6 +318,7 @@ Ask about:
 - Any specific selections already made
 
 ### Step 2: Build the Budget
+- Read current prices from the SharePoint catalogue
 - List applicable categories
 - Calculate quantities from measurements
 - Show all three tiers
@@ -318,48 +330,88 @@ Use tables. Show category subtotals. Include a summary at the top. Note any assu
 ## PDF Export
 
 When asked to "export as PDF" or "make this client-ready":
-1. Reformat the budget following the Brand Guide specifications
-2. Include the company logo in the header
-3. Include all required sections (cover, summary, breakdown, notes, terms, contact)
-4. Use brand colors, fonts, and tone of voice
-5. Include the standard disclaimer
-6. Provide instructions for finalizing the PDF
+1. Read the brand guide from SharePoint
+2. Reformat the budget following the Brand Guide specifications
+3. Include the company logo in the header
+4. Include all required sections (cover, summary, breakdown, notes, terms, contact)
+5. Use brand colors, fonts, and tone of voice
+6. Include the standard disclaimer
+7. Provide instructions for finalizing the PDF
 
 ## Standard Additions
 - Permits: 1.5% of construction value
 - Project Management: 8% (Budget), 10% (Mid-Range), 12% (Luxury)
 - Contingency: 10% (Budget), 15% (Mid-Range), 20% (Luxury)
 
-## Update Catalogue Command
+---
 
-When the user says "update catalogue" or "add project to catalogue":
-1. Ask them to paste their completed project documents (budget, invoices, cost breakdown)
-2. Ask for: project type, square footage, quality tier, completion date
-3. Extract per-unit costs for each line item
-4. Output as CSV-formatted rows ready to paste into the spreadsheet:
-   Category,Item,Description,Unit,Budget Price,Mid-Range Price,Luxury Price,Last Updated,Source,Notes
-5. Only populate the price column matching the project's quality tier
-6. Flag any items not currently in the catalogue as "NEW ITEM"
-7. Flag any prices that differ >20% from catalogue as "PRICE VARIANCE - review"
+## SKILL: Update Catalogue
 
-## Important
+**Trigger phrases:** "update catalogue", "add project to catalogue", "update pricing"
+
+When the user triggers this skill:
+
+### Step 1: Gather Project Information
+Ask the user to provide (or upload files containing):
+- Project type
+- Square footage
+- Quality tier (Budget / Mid-Range / Luxury)
+- Completion date
+- Final budget, invoices, or cost breakdown documents
+
+The user may upload PDFs, spreadsheets, or paste text directly.
+
+### Step 2: Extract Costs
+From the provided documents:
+- Identify all line items with costs
+- Calculate per-unit pricing (total cost ÷ quantity)
+- Categorize each item
+- Note the unit of measure
+
+### Step 3: Read Current Catalogue
+Read the pricing catalogue from SharePoint at [SHAREPOINT PATH]/pricing-catalogue.xlsx
+
+### Step 4: Compare and Prepare Updates
+For each extracted item:
+- Check if it exists in the catalogue
+- If exists: Compare the new price to the existing price
+  - Flag if difference > 20% as "PRICE VARIANCE"
+- If new: Mark as "NEW ITEM"
+
+### Step 5: Show Summary for Approval
+Present a summary table showing:
+| Item | Current Price | New Price | Variance | Action |
+|------|--------------|-----------|----------|--------|
+| [Item] | $X.XX | $Y.YY | +/-Z% | Update/Add/Skip |
+
+Ask: "I found X items to update and Y new items to add. Should I proceed with updating the catalogue?"
+
+### Step 6: Update SharePoint
+Upon confirmation:
+1. Write the updates to the pricing catalogue in SharePoint
+2. Set "Last Updated" to today's date
+3. Set "Source" to the project name/address
+4. For price variances, update the appropriate tier column
+5. For new items, add a new row
+
+### Step 7: Confirm Completion
+Report: "Catalogue updated successfully. X items updated, Y new items added. The changes are now live in SharePoint."
+
+---
+
+## Important Reminders
 - Round to reasonable precision (not $1,847.23—use $1,850)
 - These are estimates for budgeting, not formal quotes
 - Remind users that actual costs depend on site conditions and final selections
 - Always follow the Brand Guide for tone, language, and formatting
 ```
 
-### Step 5.3: Upload Your Project Files
+### Step 5.3: Upload Your Logo
 
 Click **Add content** or the **+** button and upload:
+- Company logo (PNG) - For PDF headers
 
-| File | Purpose |
-|------|---------|
-| `[YourCompany]-pricing-catalogue.xlsx` | Your pricing data (download from SharePoint) |
-| `[YourCompany]-brand-guide.md` | Your brand standards for PDF export |
-| Company logo (PNG) | For PDF headers |
-
-**Important:** When your SharePoint catalogue is updated, download the latest version and re-upload to keep Claude current.
+Note: The pricing catalogue and brand guide are accessed directly from SharePoint via the connector, so you don't need to upload them here.
 
 ### Step 5.4: Test Budget Generation
 
@@ -370,6 +422,7 @@ I need a budget range for a main bathroom renovation. About 60 square feet, full
 ```
 
 Claude should:
+- Read your prices from SharePoint
 - Ask any clarifying questions
 - Generate a budget using YOUR prices
 - Show all three tiers
@@ -384,137 +437,104 @@ Export this as a PDF for the client. Their name is John Smith.
 ```
 
 Claude should:
+- Read your brand guide from SharePoint
 - Reformat the budget following your brand guide
 - Include all required sections
 - Provide instructions for finalizing the PDF
-- Suggest a filename following your naming convention
 
 ---
 
-## Phase 6: The "Update Catalogue" Workflow
+## Phase 6: The Automated "Update Catalogue" Workflow
 
-This is the key workflow that makes maintenance effortless. After completing any project, you simply drop your documents into Claude and get ready-to-paste data for your SharePoint spreadsheet.
+This is the key workflow that makes maintenance effortless. After completing any project, you simply drop your documents into Claude—no copying, no pasting, no manual data entry.
 
 ### How It Works
 
 1. **Complete a project** and gather your final documents (budget, invoices, cost breakdown)
 2. **Open your Claude Project** (the Budget Generator)
-3. **Say "update catalogue"** and paste your documents
-4. **Claude extracts the data** and outputs CSV-formatted rows
-5. **Open your SharePoint spreadsheet** and paste the new rows
-6. **Download and re-upload** the updated spreadsheet to Claude (takes 30 seconds)
+3. **Upload your files** (PDFs, spreadsheets, or images of invoices)
+4. **Say "update catalogue"**
+5. **Claude extracts the data**, compares to your current prices, and shows you a summary
+6. **Confirm the update**
+7. **Claude writes directly to SharePoint**—done!
 
-### Step 6.1: Run the Update Catalogue Command
+### Example Session
 
-In your Claude Project, start a new conversation:
+**You:** [Upload: FinalBudget_123MainSt.pdf, Invoices_123MainSt.xlsx]
 
-```
-Update catalogue
-```
+**You:** Update catalogue
 
-Claude will ask for your project documents. Paste everything:
+**Claude:** I'll extract the costs from these documents and update your pricing catalogue. First, let me confirm the project details:
 
-```
-Here's the completed project data:
+- **Project type:** What type of project was this? (bathroom, kitchen, addition, etc.)
+- **Square footage:** What was the project area?
+- **Quality tier:** Was this Budget, Mid-Range, or Luxury?
+- **Completion date:** When was this completed?
 
-Project: Main Floor Bathroom Renovation
-Address: 123 Example Street
-Square footage: 55 sq ft
-Quality tier: Mid-Range
-Completed: July 2025
+**You:** Bathroom renovation, 55 sq ft, mid-range, completed July 2025
 
-[PASTE YOUR FINAL BUDGET/INVOICES]
-```
+**Claude:** I've extracted 23 line items from your documents. Let me read your current catalogue from SharePoint and compare...
 
-### Step 6.2: Review Claude's Output
+Here's what I found:
 
-Claude will output something like:
+| Item | Current Mid-Range | New Price | Variance | Action |
+|------|-------------------|-----------|----------|--------|
+| Demolition - bathroom | $12.00/sq ft | $12.50/sq ft | +4% | Update |
+| Tile - floor porcelain | $16.50/sq ft | $18.75/sq ft | +14% | Update |
+| Tile - wall subway | $18.00/sq ft | $22.00/sq ft | +22% | **VARIANCE** |
+| Heated floor mat | — | $15.00/sq ft | NEW | Add |
+| ... | ... | ... | ... | ... |
 
-```csv
-Category,Item,Description,Unit,Budget Price,Mid-Range Price,Luxury Price,Last Updated,Source,Notes
-Demolition,Bathroom demo,Full gut demo including fixtures,sq ft,,$12.50,,2025-07,123 Example St,
-Plumbing,Rough-in,Shower valve and drain relocation,each,,$850,,2025-07,123 Example St,
-Plumbing,Fixtures - shower,Shower trim and head install,each,,$425,,2025-07,123 Example St,
-Tile,Floor tile,Porcelain tile installed,sq ft,,$18.75,,2025-07,123 Example St,
-Tile,Wall tile,Subway tile to ceiling,sq ft,,$22.00,,2025-07,123 Example St,
-...
+**Summary:** 18 items to update, 3 new items to add, 2 items with significant variance (>20%)
 
-NOTES:
-- "Heated floor mat" is NEW ITEM - not in current catalogue
-- "Tile installation" shows PRICE VARIANCE: catalogue has $16.50/sq ft, this project was $18.75/sq ft (14% higher)
-```
+The wall tile variance is notable—this project was 22% higher than your catalogue. This could be due to material cost increases or project-specific factors.
 
-### Step 6.3: Paste into SharePoint
+Should I proceed with updating the catalogue?
 
-1. Open your SharePoint pricing catalogue
-2. Find the appropriate rows (or scroll to bottom for new items)
-3. Paste Claude's output or manually enter the values
-4. For price variances, decide whether to:
-   - Update the catalogue price (if the new price reflects current market)
-   - Keep the old price (if this project had unusual circumstances)
-   - Average the two prices
+**You:** Yes, update it
 
-### Step 6.4: Sync Claude's Copy
+**Claude:** Catalogue updated successfully:
+- 18 items updated with new pricing
+- 3 new items added
+- All changes are now live in SharePoint at [path]/pricing-catalogue.xlsx
+- Last Updated set to July 2025
+- Source set to "123 Main St bathroom"
 
-After updating SharePoint:
-1. Download the updated spreadsheet
-2. In your Claude Project, remove the old pricing catalogue
-3. Upload the new version
-
-**Tip:** Do this weekly rather than after every project if you're processing many jobs.
-
----
-
-## Advanced: Automate with SharePoint + Power Automate (Optional)
-
-For teams that want even less manual work, you can set up a Power Automate flow:
-
-### Option A: Manual Trigger Flow
-1. Create a flow triggered by a button in SharePoint
-2. Flow downloads the catalogue, calls Claude API, and returns processed data
-3. You still manually paste, but the Claude step is automated
-
-### Option B: Folder Watch Flow
-1. Create a "Completed Projects" folder in SharePoint
-2. Flow triggers when documents are added
-3. Sends documents to Claude API for processing
-4. Appends results to your pricing catalogue automatically
-
-**Note:** These advanced flows require:
-- Power Automate premium (for HTTP connectors)
-- Claude API access (separate from claude.ai subscription)
-- Some technical setup
-
-For most teams, the manual "Update Catalogue" workflow is fast enough and requires no additional subscriptions.
+Your next budget will automatically use these updated prices.
 
 ---
 
 ## Maintaining Your System
 
-### After Every Completed Project (2-3 minutes)
+### After Every Completed Project (Under 1 minute)
 
-1. Open Claude Project
-2. Run "update catalogue" with your documents
-3. Paste results into SharePoint
-4. Re-upload catalogue to Claude (weekly is fine)
+1. Upload your project documents to Claude
+2. Say "update catalogue"
+3. Review the summary and confirm
+4. Done—SharePoint is updated automatically
 
 ### Monthly Quick Check (15 minutes)
 
-- Spot-check 5-10 items against recent invoices
-- Update any prices that have drifted
-- Review "ESTIMATE - verify" notes and update with real data
+Ask Claude:
+```
+Review my pricing catalogue and flag any items where:
+- Last Updated is older than 6 months
+- Notes say "ESTIMATE - verify"
+- We have significant price variance history
+```
 
 ### Quarterly Review (30 minutes)
 
-- Get fresh quotes from main suppliers
-- Update material costs that have changed significantly
-- Archive items you no longer offer
-- Add items for new services
+```
+Compare my catalogue prices to typical current market rates and flag anything that looks outdated. Also identify any common items that are missing from my catalogue.
+```
+
+Then update with fresh supplier quotes as needed.
 
 ### When Branding Changes
 
 1. Update your brand guide document
-2. Re-upload to the Claude Project
+2. Save the updated version to SharePoint
 3. Test with a PDF export to verify
 
 ---
@@ -522,32 +542,37 @@ For most teams, the manual "Update Catalogue" workflow is fast enough and requir
 ## Troubleshooting
 
 ### Claude gives prices that seem wrong
-- Check if the item exists in your catalogue (exact name match matters)
+- Ask Claude to read the catalogue and show you the specific item
+- Check if the item name matches exactly
 - Verify the unit of measure is correct
-- Make sure you've uploaded the latest catalogue version
 
 ### Claude says it can't find an item
-- Add the item to your catalogue
-- Or try different wording (Claude matches on the item name in your CSV)
+```
+Add [ITEM] to my catalogue with these prices:
+- Budget: $X
+- Mid-Range: $Y
+- Luxury: $Z
+- Unit: [per sq ft / each / etc.]
+```
 
-### Budgets are consistently too high/low
-- Compare recent actuals to catalogue prices
-- Your contingency percentages may need adjustment
-- Some categories may have outdated pricing
+### Claude can't connect to SharePoint
+- Verify your SharePoint connector is configured correctly
+- Check that the file path in your project instructions is correct
+- Try: "Can you read the file at [SHAREPOINT PATH]/pricing-catalogue.xlsx?"
 
 ### "Update catalogue" isn't extracting costs correctly
-- Make sure you're providing complete documents (not just summaries)
-- Include quantities and totals, not just unit prices
-- Tell Claude the quality tier so it knows which column to populate
+- Make sure you're uploading complete documents (not just summaries)
+- PDFs with clear tables work best
+- For handwritten or unclear invoices, you may need to type key figures
+
+### Budgets are consistently too high/low
+```
+Compare my last 5 completed projects' actual costs to the budgets I generated for them. Identify which categories are consistently over or under.
+```
 
 ### Team members get different results
-- Make sure everyone is using the same Project (not regular Claude chat)
-- Verify everyone has the latest version of the catalogue uploaded
-
-### PDF formatting looks off
-- Check that your brand guide is uploaded to the Project
-- Make sure the logo file is uploaded
-- Use clear trigger phrases like "export as PDF" or "make this client-ready"
+- Make sure everyone is using the same Project
+- All team members will access the same SharePoint catalogue automatically
 
 ---
 
@@ -555,9 +580,8 @@ For most teams, the manual "Update Catalogue" workflow is fast enough and requir
 
 ### Update catalogue after a completed project:
 ```
+[Upload project documents]
 Update catalogue
-
-[PASTE: Project details, final budget, invoices]
 ```
 
 ### Generate a budget:
@@ -571,19 +595,32 @@ Budget for [PROJECT TYPE]: [SIZE], [SCOPE DETAILS], [QUALITY LEVEL].
 After you generate it, format as a client-ready PDF for [CLIENT NAME].
 ```
 
-### Compare catalogue to actual costs:
+### Check catalogue health:
 ```
-Compare these actual costs to the catalogue and flag any significant differences (>15%):
+Review my pricing catalogue and summarize:
+- How many items total
+- How many updated in the last 3 months
+- Any items marked as estimates that need verification
+- Any categories with sparse data
+```
 
-[PASTE ACTUAL COSTS]
+### Add a new item manually:
+```
+Add to my catalogue:
+Item: [NAME]
+Category: [CATEGORY]
+Unit: [UNIT]
+Budget: $[X]
+Mid-Range: $[Y]
+Luxury: $[Z]
+Source: [WHERE THIS PRICE CAME FROM]
 ```
 
-### Check for items needing updates:
+### Compare actual to estimated:
 ```
-Review the catalogue and list any items where:
-- Last Updated is older than 12 months
-- Notes say "ESTIMATE - verify"
-- We have only one data point
+Here are the actual costs from a completed project. Compare to what the catalogue would have estimated and flag any significant differences:
+
+[PASTE OR UPLOAD ACTUAL COSTS]
 ```
 
 ---
@@ -594,24 +631,25 @@ Review the catalogue and list any items where:
 1. Create pricing template from historical projects
 2. Set up spreadsheet in SharePoint
 3. Process 10-15 projects to populate data
-4. Create brand guide
-5. Set up Claude Project with catalogue, brand guide, and logo
+4. Create brand guide and save to SharePoint
+5. Set up Claude Project with SharePoint paths and the Update Catalogue skill
+6. Upload your logo
 
 ### Use Daily
-- Generate budgets using your real data
+- Generate budgets using your real data (Claude reads from SharePoint)
 - Export client-ready PDFs with your branding
 
-### After Each Project (2-3 minutes)
-1. Run "update catalogue" in Claude
-2. Paste your project documents
-3. Copy Claude's output to SharePoint
-4. Re-upload catalogue weekly
+### After Each Project (Under 1 minute)
+1. Upload project documents to Claude
+2. Say "update catalogue"
+3. Review and confirm
+4. SharePoint updates automatically
 
 ### Quarterly (30 minutes)
 - Review prices against current supplier quotes
-- Clean up estimates and single-data-point items
+- Clean up estimates and sparse data
 - Update brand guide if needed
 
 ---
 
-The more projects you process, the more accurate your budgets become. The SharePoint + Claude workflow means that accuracy improvement happens almost automatically—just drop your documents in and paste the results.
+The more projects you process, the more accurate your budgets become. With the SharePoint connector, this improvement happens automatically—just drop your documents and confirm. Your pricing catalogue stays current with zero manual data entry.
