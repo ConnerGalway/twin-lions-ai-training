@@ -101,7 +101,7 @@ Category Subtotal: $X,XXX - $X,XXX
 
 ## PDF Export
 
-When a user asks to export the budget as a PDF or requests a "client-ready" version, generate a formatted document following the Brand Guide specifications.
+When a user asks to export the budget as a PDF or requests a "client-ready" version, generate a formatted document following the Brand Guide specifications. Include the Twin Lions Logo.png in the header of the document.
 
 ### How to Trigger PDF Export
 
