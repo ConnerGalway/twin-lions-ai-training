@@ -826,8 +826,10 @@
 
         <div class="block">
           <p class="block-label">Session summary</p>
-          <p>This session wrapped up the series by reviewing what's working, walking through the complete Budget Generator setup, and making sure everyone leaves with a concrete next step. The core insight that emerged across all four sessions: <b>AI without your data equals generic or wrong results.</b> That single principle explains why vague prompts fail, why Projects matter, and why the Budget Generator needs historical pricing data to work.</p>
-          <p>We also added two key capabilities: <b>branded PDF export</b> (client-ready estimates with Twin Lions colors, fonts, and disclaimers) and the <b>"Update Catalogue" skill</b>. With the SharePoint connector, Claude reads your pricing data directly and can update it automatically after each project—just drop your invoices in and confirm. Zero manual data entry.</p>
+          <p>The final session opened with real wins from the team. Ben ran concrete takeoffs and trade quote comparisons through Claude, getting detailed breakdowns that helped with estimating. Kevin built a staff training tracking app using Claude Code—pushing it to GitHub and connecting a Supabase database without writing code himself. Kim set up automated employee anniversary tracking in Excel, with Claude writing the formulas and logic.</p>
+          <p>We walked through the complete Budget Generator workflow live, using a 1300 sq ft main floor renovation as the example. Claude pulled from the pricing catalogue, asked clarifying questions (sq ft, finishes, tier), and produced a detailed estimate. The PDF export worked smoothly—full branded output with Twin Lions logo, colors, and professional formatting. Kim compared the output to actual budget data and found it landed in the right range.</p>
+          <p>The second half introduced <b>Claude Design</b> for creating posters, letterhead, and slide decks that match your brand. Upload your brand guide to a Design System once, and everything Claude makes uses your colors, fonts, and logo—no more Canva. Kim's reaction: "How many hours do I spend moving things around?" For bigger projects like websites, the team landed on a split: use AI to get 75% of the way there, then bring in specialists for UX flow, conversion, and call-to-action placement.</p>
+          <p>The thread running through all four sessions: <b>AI without your data gives you generic or wrong results.</b> That's why vague prompts fail, why Projects matter, and why the Budget Generator needs your actual pricing to work.</p>
         </div>
 
         <div class="block" style="background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);border:1px solid #bbf7d0;border-radius:10px;padding:16px 20px;">
@@ -841,9 +843,11 @@
         <div class="block">
           <p class="block-label">Key lessons</p>
           <ul class="lessons">
-            <li>The dividing line between amateur and professional AI use is data. When Claude gives you something useless, the first question should always be: "What data is it missing?"</li>
+            <li>The difference between amateur and useful AI output is data. When Claude gives you junk, the first question is: "What data is it missing?"</li>
             <li>Projects store context so you don't have to repeat yourself. Upload your pricing catalogue once, and every conversation in that Project has access to it.</li>
             <li>Brand guides make AI output look professional. Give Claude your colors, fonts, and tone of voice, and it formats documents that look like they came from your company.</li>
+            <li><b>Claude Design can replace Canva.</b> Upload your brand guide to a Design System once, and every poster, letterhead, or slide deck Claude makes uses your colors, fonts, and logo. Edit the output yourself or just tell Claude what to fix.</li>
+            <li><b>For big projects, split the work.</b> Use AI to get 75% done, then bring in specialists for the 25% that needs a human eye. For websites, that's UX flow, conversion, and where to put the call-to-action.</li>
             <li>Small commitments beat big roadmaps. Instead of a 90-day plan, each person picked one specific thing to use AI for in the next two weeks.</li>
             <li>Maintenance is automated. After each project, just drop your documents into Claude and say "update catalogue"—it extracts the costs and updates your SharePoint spreadsheet automatically.</li>
           </ul>
@@ -854,7 +858,7 @@
           <div class="callout">
             <p class="tagline">What you're building</p>
             <h4>A Claude Project that generates accurate budget ranges from your historical data</h4>
-            <p>Connect Claude to your SharePoint via the MCP connector, paste in the project instructions, and you have a budget assistant that reads your pricing catalogue directly, asks the right questions before estimating, exports professional PDFs, and automatically updates your catalogue after each completed project.</p>
+            <p>Connect Claude to your SharePoint via the MCP connector, paste in the project instructions, and you've got a budget assistant that reads your pricing catalogue, asks questions before guessing at numbers, spits out branded PDFs, and updates your catalogue after each job. No manual data entry.</p>
           </div>
         </div>
 
@@ -1056,7 +1060,7 @@ Help clients understand the tiers:
 
 **Budget Tier** - Cost-effective solutions that meet code requirements and deliver solid functionality. Ideal for investment properties, secondary spaces, or projects with firm budget constraints.
 
-**Mid-Range Tier** - Quality materials and finishes that balance value with aesthetics. The choice of most homeowners for their primary residence—built to last and designed to impress.
+**Mid-Range Tier** - Quality materials and finishes that balance value with aesthetics. What most homeowners choose for their primary residence—built to last and look good doing it.
 
 **Luxury Tier** - Premium materials, custom craftsmanship, and high-end finishes throughout. For clients who want the best and appreciate the difference that exceptional quality makes.
 
@@ -1248,32 +1252,37 @@ Help clients understand the tiers:
           <p>Each team member committed to one specific action for the next two weeks. The format: <i>"I will use [specific prompt or AI task] for [specific situation] this week."</i></p>
           <div class="audit-grid">
             <div class="audit-group">
-              <h4>Kevin</h4><span class="role">Budget Generator owner</span>
+              <h4>Kevin</h4><span class="role">Budget Generator + Database</span>
               <div class="tags">
                 <span class="tag pick">Enter 3-5 completed projects into the pricing spreadsheet</span>
                 <span class="tag">Test the full budget generation workflow</span>
+                <span class="tag">Continue building training tracking app</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Ben</h4><span class="role">Commitment from session</span>
+              <h4>Ben</h4><span class="role">Estimating</span>
               <div class="tags">
-                <span class="tag" style="font-style:italic;opacity:0.8;">[To be filled in during Session 4]</span>
+                <span class="tag pick">Continue using Claude for concrete takeoffs from drawings</span>
+                <span class="tag">Trade quote comparisons for upcoming projects</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Kim</h4><span class="role">Commitment from session</span>
+              <h4>Kim</h4><span class="role">HR + Marketing</span>
               <div class="tags">
-                <span class="tag" style="font-style:italic;opacity:0.8;">[To be filled in during Session 4]</span>
+                <span class="tag pick">Set up Claude Design with Twin Lions brand guide</span>
+                <span class="tag">Create first poster/document using design system</span>
+                <span class="tag">Replace Canva workflow for routine marketing materials</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Ryan</h4><span class="role">Commitment from session</span>
+              <h4>Tanya</h4><span class="role">Finance</span>
               <div class="tags">
-                <span class="tag" style="font-style:italic;opacity:0.8;">[To be filled in during Session 4]</span>
+                <span class="tag pick">Continue bonus structure planning work</span>
+                <span class="tag">Reach out via email for any follow-up support</span>
               </div>
             </div>
           </div>
-          <p style="margin-top:14px;font-size:14px;color:var(--slate);"><b>Tip:</b> Update this section after the session with each person's actual commitment. Small, specific commitments work better than ambitious plans.</p>
+          <p style="margin-top:14px;font-size:14px;color:var(--slate);"><b>Series complete!</b> The team leaves with working tools, a shared prompt library, and specific next steps. For ongoing support, reach out to Conner via email.</p>
         </div>
 
         <div class="block">
@@ -1284,7 +1293,7 @@ Help clients understand the tiers:
             <span class="tag pick">Session 3: Budget Generator design</span>
             <span class="tag pick">Session 4: Complete setup + branded PDF export</span>
           </div>
-          <p style="margin-top:14px;">Over four sessions, you audited your workflows, learned structured prompting, built a 21-prompt library, designed a Budget Generator grounded in your real data, and added branded PDF export. The habit to carry forward: <b>when you start a task you've done before, ask yourself "Could Claude do the first draft of this?"</b> The answer is often yes.</p>
+          <p style="margin-top:14px;">Over four sessions, you audited your workflows, learned structured prompting, built a 25-prompt library, designed a Budget Generator grounded in your real data, and added branded PDF export. The habit to carry forward: <b>when you start a task you've done before, ask yourself "Could Claude do the first draft of this?"</b> The answer is often yes.</p>
         </div>
       </div>
     </section>
@@ -1294,10 +1303,10 @@ Help clients understand the tiers:
       <div class="card">
         <div class="card-top">
           <span class="meta-mono">Resource</span>
-          <span class="badge badge-done">20 prompts live</span>
+          <span class="badge badge-done">25 prompts live</span>
         </div>
         <h2>The team's shared prompt library</h2>
-        <p class="lib-lead">Ready-to-use prompts built on the <span class="tip" tabindex="0" data-tip="Role, Context, Task, Format. The four-part structure from Session 2. Every prompt below is already built this way.">RCTF</span> framework from Session 2, pulled from the team's own homework and the workflow audit. Filter by who it's for or search by keyword, fill in the brackets, and hit Copy. We'll keep adding to this through Sessions 3 and 4.</p>
+        <p class="lib-lead">Ready-to-use prompts built on the <span class="tip" tabindex="0" data-tip="Role, Context, Task, Format. The four-part structure from Session 2. Every prompt below is already built this way.">RCTF</span> framework from Session 2, pulled from the team's homework and workflow audit across all four sessions. Filter by who it's for or search by keyword, fill in the brackets, and hit Copy.</p>
 
         <div class="lib-toolbar">
           <div class="lib-search">
@@ -1305,14 +1314,14 @@ Help clients understand the tiers:
             <input type="search" id="libSearch" placeholder="Search prompts (e.g. budget, invoice, onboarding)&hellip;" aria-label="Search the prompt library">
           </div>
           <div class="lib-chips" role="group" aria-label="Filter prompts by department">
-            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(21)</span></button>
-            <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(6)</span></button>
-            <button class="lib-chip" type="button" data-filter="client" aria-pressed="false">Client-Facing <span class="n">(5)</span></button>
+            <button class="lib-chip" type="button" data-filter="all" aria-pressed="true">All <span class="n">(25)</span></button>
+            <button class="lib-chip" type="button" data-filter="field" aria-pressed="false">Field &amp; Operations <span class="n">(7)</span></button>
+            <button class="lib-chip" type="button" data-filter="client" aria-pressed="false">Client-Facing <span class="n">(6)</span></button>
             <button class="lib-chip" type="button" data-filter="finance" aria-pressed="false">Finance <span class="n">(3)</span></button>
-            <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(4)</span></button>
-            <button class="lib-chip" type="button" data-filter="hr" aria-pressed="false">HR <span class="n">(3)</span></button>
+            <button class="lib-chip" type="button" data-filter="estimating" aria-pressed="false">Estimating &amp; Admin <span class="n">(5)</span></button>
+            <button class="lib-chip" type="button" data-filter="hr" aria-pressed="false">HR <span class="n">(4)</span></button>
           </div>
-          <p class="lib-count" id="libCount">Showing <b>21</b> of 21 prompts</p>
+          <p class="lib-count" id="libCount">Showing <b>25</b> of 25 prompts</p>
         </div>
 
         <!-- TEMPLATE: copy this card for each new prompt and fill it in
@@ -2125,6 +2134,192 @@ Build a simple onboarding plan for their first week and first month. Break it in
             </div>
           </article>
 
+          <!-- ============ SESSION 4 ADDITIONS ============ -->
+
+          <article class="prompt-card" data-dept="estimating" data-search="ben estimating trade quote comparison compare bids concrete framing">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Estimating &amp; Admin</span>
+                  <span class="pc-new">New</span>
+                </div>
+                <h4 class="pc-task">Compare trade quotes side by side</h4>
+                <p class="pc-desc">Takes multiple trade quotes for the same scope and puts them in a comparison table with price, inclusions, exclusions, and notes highlighted.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Paste in all the quotes you want to compare. Works best when you include the full quote text—line items, exclusions, payment terms, everything. Claude will normalize them into a comparable format.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p25">You are helping a project manager compare trade quotes for a renovation project. I have multiple quotes for the same scope and need to see them side by side.
+
+Here is the scope of work we're pricing:
+[brief description of what we asked for quotes on, e.g. "concrete foundation for 1200 sq ft addition" or "framing labour for main floor renovation"]
+
+Here are the quotes:
+
+Quote 1 - [Company name]:
+[paste full quote text]
+
+Quote 2 - [Company name]:
+[paste full quote text]
+
+Quote 3 - [Company name]:
+[paste full quote text]
+
+Create a comparison table with these columns: Company, Total Price, Price per [sq ft / unit], What's Included, What's Excluded, Payment Terms, Timeline, Notes.
+
+After the table, summarize:
+1. Lowest price vs highest price (and the range)
+2. Any major differences in scope that explain price differences
+3. Red flags or things to clarify before choosing
+4. Your recommendation on which quotes are worth pursuing (don't just pick the cheapest—consider scope, reliability, and exclusions)</pre>
+              <button class="pc-copy" type="button" data-target="p25">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Ben used this in Session 4 for concrete quotes. The lesson: don't just compare prices—compare what's included. A "cheap" quote might exclude things the expensive one covers.</p>
+            </div>
+          </article>
+
+          <article class="prompt-card" data-dept="field" data-search="ben kevin field concrete takeoff quantities drawings plans scope">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Field &amp; Operations</span>
+                  <span class="pc-new">New</span>
+                </div>
+                <h4 class="pc-task">Extract quantities from drawings</h4>
+                <p class="pc-desc">Takes architectural drawings or plan descriptions and extracts material quantities, dimensions, and scope details for estimating.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Upload the drawing as an image or PDF, or describe the plan details in text. For best results with images, use clear, high-resolution plans. Claude can read dimensions and calculate areas, but always verify critical numbers.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p26">You are helping an estimator do a material takeoff from architectural drawings. I need quantities extracted for pricing.
+
+Here is the drawing or plan description:
+[upload image/PDF, or describe: room dimensions, wall lengths, ceiling heights, special features]
+
+I need a takeoff for: [concrete, framing, drywall, flooring, etc.]
+
+Extract and calculate:
+1. All relevant dimensions (length, width, height, area)
+2. Material quantities with units (sq ft, linear ft, cubic yards, sheets, etc.)
+3. Any details that affect pricing (thickness, type, special conditions)
+
+Present as a table with: Item, Quantity, Unit, Notes.
+
+After the table, list any assumptions you made and anything you couldn't determine from the information provided. Flag anything that needs verification on site.</pre>
+              <button class="pc-copy" type="button" data-target="p26">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Ben ran concrete takeoffs in Session 4 with good results. Claude can read drawings but isn't perfect—always double-check the math and verify dimensions on site for critical work.</p>
+            </div>
+          </article>
+
+          <article class="prompt-card" data-dept="hr" data-search="kim hr excel spreadsheet formula anniversary tracking dates employee">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">HR</span>
+                  <span class="pc-new">New</span>
+                </div>
+                <h4 class="pc-task">Excel formula for date tracking</h4>
+                <p class="pc-desc">Writes Excel formulas to track employee anniversaries, upcoming dates, tenure calculations, or any date-based alerts.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Describe your spreadsheet structure (which columns have what) and what you want to calculate or flag. Claude will give you the exact formula to paste. Test on a few rows before applying to the whole sheet.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p27">You are helping me set up date tracking in Excel. I need formulas to calculate and flag important dates.
+
+Here is my spreadsheet structure:
+[e.g. Column A = Employee Name, Column B = Start Date, Column C = Department, etc.]
+
+I want to:
+[describe what you need, e.g. "calculate years of tenure", "flag anniversaries coming up in the next 30 days", "highlight anyone who has been here more than 5 years", "show days until next anniversary"]
+
+Write the Excel formula(s) I need. For each formula, tell me:
+1. The exact formula to paste
+2. Which cell to put it in
+3. How to apply it to the whole column
+4. What the output will look like
+
+If I need conditional formatting to highlight rows, include those steps too. Keep instructions simple—I'm not an Excel expert.</pre>
+              <button class="pc-copy" type="button" data-target="p27">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> Kim set this up in Session 4 for employee anniversary tracking. Same pattern works for any date math: certification expiries, warranty end dates, project milestones, etc.</p>
+            </div>
+          </article>
+
+          <article class="prompt-card" data-dept="client" data-search="kim marketing poster flyer design canva brand event">
+            <div class="pc-header">
+              <div class="pc-header-content">
+                <div class="pc-top">
+                  <span class="pc-role">Client-Facing</span>
+                  <span class="pc-new">New</span>
+                </div>
+                <h4 class="pc-task">Quick marketing material with Claude Design</h4>
+                <p class="pc-desc">Creates posters, flyers, or one-pagers using your brand colors, fonts, and logo—all in Claude Design instead of Canva.</p>
+              </div>
+              <button class="pc-toggle" type="button" aria-label="Expand prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                <span>View</span>
+              </button>
+            </div>
+            <div class="pc-body">
+            <div class="pc-use">
+              <span class="pc-use-label">How to use it</span>
+              <p>Use this in Claude Design (the button at the bottom left of claude.ai). Set up your Design System first with your brand guide uploaded. Then this prompt makes materials that pull from your brand.</p>
+            </div>
+            <div class="pc-prompt-wrap">
+              <pre class="pc-prompt" id="p28">Create a [poster / flyer / one-pager] for [event or purpose].
+
+Details:
+- Event/Purpose: [e.g. "Lynn Valley Days community event" or "hiring fair" or "project completion announcement"]
+- Key information to include: [date, time, location, contact info, call to action]
+- Tone: [professional, friendly, celebratory, urgent, etc.]
+- Size: [standard poster 11x17, letter size flyer, social media square, etc.]
+
+Use our brand colors, fonts, and logo from the design system. Keep it clean and easy to read from a distance. The most important information should be the biggest. Include a clear call to action.
+
+If you need any information I haven't provided, ask before designing.</pre>
+              <button class="pc-copy" type="button" data-target="p28">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="pc-copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <p class="pc-notes"><b>Notes:</b> We covered this in Session 4 as a Canva replacement. Once you set up your Design System, everything Claude makes uses your brand. Edit the output yourself or just tell Claude what to fix.</p>
+            </div>
+          </article>
+
         </div>
 
         <div class="lib-empty" id="libEmpty" hidden>
@@ -2146,7 +2341,7 @@ Build a simple onboarding plan for their first week and first month. Break it in
       <div class="right">
         Facilitated by <a class="j" href="https://wearejunction.com" target="_blank" rel="noopener">Junction Consulting</a><br>
         <!-- LAST-UPDATED -->
-        <b>Last updated:</b> July 8, 2026
+        <b>Last updated:</b> July 14, 2026
       </div>
     </div>
   </footer>
