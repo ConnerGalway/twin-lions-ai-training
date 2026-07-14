@@ -827,7 +827,7 @@
         <div class="block">
           <p class="block-label">Session summary</p>
           <p>This session wrapped up the series by reviewing what's working, walking through the complete Budget Generator setup, and making sure everyone leaves with a concrete next step. The core insight that emerged across all four sessions: <b>AI without your data equals generic or wrong results.</b> That single principle explains why vague prompts fail, why Projects matter, and why the Budget Generator needs historical pricing data to work.</p>
-          <p>We also added a new capability: branded PDF export. The Budget Generator can now produce client-ready estimates formatted with Twin Lions colors, fonts, and professional disclaimers, ready to send after a quick polish in Google Docs or Word.</p>
+          <p>We also added two key capabilities: <b>branded PDF export</b> (client-ready estimates with Twin Lions colors, fonts, and disclaimers) and the <b>"Update Catalogue" skill</b>. With the SharePoint connector, Claude reads your pricing data directly and can update it automatically after each project—just drop your invoices in and confirm. Zero manual data entry.</p>
         </div>
 
         <div class="block" style="background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);border:1px solid #bbf7d0;border-radius:10px;padding:16px 20px;">
@@ -845,7 +845,7 @@
             <li>Projects store context so you don't have to repeat yourself. Upload your pricing catalogue once, and every conversation in that Project has access to it.</li>
             <li>Brand guides make AI output look professional. Give Claude your colors, fonts, and tone of voice, and it formats documents that look like they came from your company.</li>
             <li>Small commitments beat big roadmaps. Instead of a 90-day plan, each person picked one specific thing to use AI for in the next two weeks.</li>
-            <li>Maintenance matters. The Budget Generator gets more accurate over time, but only if you add each completed project's data back into the spreadsheet.</li>
+            <li>Maintenance is automated. After each project, just drop your documents into Claude and say "update catalogue"—it extracts the costs and updates your SharePoint spreadsheet automatically.</li>
           </ul>
         </div>
 
@@ -854,7 +854,7 @@
           <div class="callout">
             <p class="tagline">What you're building</p>
             <h4>A Claude Project that generates accurate budget ranges from your historical data</h4>
-            <p>Upload your pricing catalogue and brand guide, paste in the project instructions, and you have a budget assistant that pulls from your actual costs, asks the right questions before estimating, and exports professional PDFs ready to send to clients.</p>
+            <p>Connect Claude to your SharePoint via the MCP connector, paste in the project instructions, and you have a budget assistant that reads your pricing catalogue directly, asks the right questions before estimating, exports professional PDFs, and automatically updates your catalogue after each completed project.</p>
           </div>
         </div>
 
@@ -892,11 +892,11 @@
         <div class="block">
           <p class="block-label">Setup: Step by step</p>
           <div class="rctf" style="margin-top:12px;">
-            <div class="rctf-item"><span class="rctf-k">1</span><div><b>Create a new Claude Project</b><p>Go to claude.ai, click Projects in the sidebar, then + New Project. Name it "Twin Lions Budget Generator" (or whatever fits your company).</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">2</span><div><b>Upload your pricing catalogue</b><p>Click Add Content and upload your pricing spreadsheet (CSV or Excel). This should have categories, items, units, and three price tiers: Budget, Mid-Range, and Luxury.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">3</span><div><b>Upload your brand guide and logo</b><p>Upload the brand guide document (colors, fonts, tone of voice, document structure) and your company logo as a PNG file. These enable branded PDF export with your visual identity in the header.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">4</span><div><b>Add project instructions</b><p>Click Project Instructions and paste in the instructions below. These tell Claude how to behave: only use your data, ask questions before estimating, follow brand guidelines for PDFs.</p></div></div>
-            <div class="rctf-item"><span class="rctf-k">5</span><div><b>Test it</b><p>Start a conversation and ask for a budget. Claude should ask clarifying questions, then generate a breakdown using your prices. Try "export as PDF" to test branded output.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">1</span><div><b>Set up your SharePoint files</b><p>Create a folder in SharePoint (e.g., "Pricing Data") containing your pricing catalogue spreadsheet and brand guide. Note the file paths—you'll need them for the project instructions.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">2</span><div><b>Configure the SharePoint connector</b><p>Ensure the SharePoint MCP connector is configured in Claude. This allows Claude to read your pricing data and write updates directly to your spreadsheet.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">3</span><div><b>Create a new Claude Project</b><p>Go to claude.ai, click Projects in the sidebar, then + New Project. Name it "Twin Lions Budget Generator" (or whatever fits your company).</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">4</span><div><b>Upload your logo and add instructions</b><p>Upload your company logo (PNG) for PDF headers. Then click Project Instructions and paste in the instructions below, updating the SharePoint paths to match your setup.</p></div></div>
+            <div class="rctf-item"><span class="rctf-k">5</span><div><b>Test it</b><p>Ask for a budget—Claude should read your prices from SharePoint. Try "export as PDF" for branded output. Then test "update catalogue" with sample project documents.</p></div></div>
           </div>
         </div>
 
@@ -1107,6 +1107,14 @@ Help clients understand the tiers:
                 <span class="tag">Saves a round-trip</span>
               </div>
             </div>
+            <div class="audit-group">
+              <h4>Update catalogue</h4><span class="role">After completing a project</span>
+              <div class="tags">
+                <span class="tag">Upload invoices/final budget, say "update catalogue"</span>
+                <span class="tag">Claude extracts costs, shows variance summary</span>
+                <span class="tag">Confirm → SharePoint updates automatically</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1114,38 +1122,38 @@ Help clients understand the tiers:
           <p class="block-label">Maintenance: Keeping it accurate</p>
           <div class="audit-grid" style="margin-top:12px;">
             <div class="audit-group">
-              <h4>After each project</h4><span class="role">Ongoing</span>
-              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Add the completed project to your spreadsheet. Pull final costs from your invoices and cost tracking system, calculate per-unit prices, and add them to your pricing catalogue. Re-upload the updated file to your Claude Project.</p>
+              <h4>After each project</h4><span class="role">Under 1 minute</span>
+              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Upload your completed project documents (invoices, final budget) to Claude and say "update catalogue." Claude extracts the costs, shows you a summary with any price variances flagged, and updates SharePoint automatically upon confirmation.</p>
             </div>
             <div class="audit-group">
               <h4>Monthly</h4><span class="role">Quick check</span>
-              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Spot-check a few items against recent invoices. Update anything that's drifted from current market rates.</p>
+              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Ask Claude to review the catalogue and flag items that haven't been updated recently or have large price variances across projects.</p>
             </div>
             <div class="audit-group">
               <h4>Quarterly</h4><span class="role">Deep review</span>
-              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Get fresh quotes from your main suppliers. Update the catalogue for any significant price changes in materials or labor.</p>
+              <p style="font-size:14px;color:var(--slate);margin-top:8px;">Get fresh quotes from your main suppliers. Tell Claude to add them to the catalogue—it writes directly to SharePoint.</p>
             </div>
             <div class="audit-group">
               <h4>When branding changes</h4><span class="role">As needed</span>
-              <p style="font-size:14px;color:var(--slate);margin-top:8px;">New logo, new colors, new tagline? Update the brand guide document and re-upload to the Project to keep PDF exports current.</p>
+              <p style="font-size:14px;color:var(--slate);margin-top:8px;">New logo, new colors, new tagline? Update the brand guide in SharePoint. Claude reads it directly, so changes take effect immediately.</p>
             </div>
           </div>
-          <p style="margin-top:14px;font-size:14.5px;color:var(--slate);">The more projects you add, the more accurate your ranges become. This isn't a one-time setup, it's a system that improves with use.</p>
+          <p style="margin-top:14px;font-size:14.5px;color:var(--slate);">The more projects you process, the more accurate your ranges become. With the automated update workflow, this improvement happens with almost zero effort.</p>
         </div>
 
         <div class="block">
           <p class="block-label">Files you'll need</p>
           <div class="audit-grid">
             <div class="audit-group">
-              <h4>Pricing Catalogue</h4><span class="role">CSV or Excel</span>
+              <h4>Pricing Catalogue</h4><span class="role">Excel in SharePoint</span>
               <div class="tags">
                 <span class="tag">Category, Item, Description, Unit</span>
-                <span class="tag">Budget Price, Mid-Range Price, Luxury Price</span>
-                <span class="tag">Notes column for context</span>
+                <span class="tag">Budget, Mid-Range, Luxury prices</span>
+                <span class="tag">Last Updated, Source, Notes columns</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Brand Guide</h4><span class="role">Markdown or text file</span>
+              <h4>Brand Guide</h4><span class="role">Markdown in SharePoint</span>
               <div class="tags">
                 <span class="tag">Colors with hex codes</span>
                 <span class="tag">Font names and sizes</span>
@@ -1154,17 +1162,17 @@ Help clients understand the tiers:
               </div>
             </div>
             <div class="audit-group">
-              <h4>Project Instructions</h4><span class="role">Paste directly into Claude</span>
+              <h4>Project Instructions</h4><span class="role">Paste into Claude Project</span>
               <div class="tags">
-                <span class="tag">Rules for using the catalogue</span>
-                <span class="tag">Interview questions to ask</span>
+                <span class="tag">SharePoint file paths</span>
+                <span class="tag">Update Catalogue skill</span>
                 <span class="tag">PDF export formatting</span>
               </div>
             </div>
             <div class="audit-group">
-              <h4>Company Logo</h4><span class="role">PNG image file</span>
+              <h4>Company Logo</h4><span class="role">Upload to Claude Project</span>
               <div class="tags">
-                <span class="tag">High resolution for print</span>
+                <span class="tag">High resolution PNG</span>
                 <span class="tag">Transparent background preferred</span>
                 <span class="tag">Appears in PDF headers</span>
               </div>
@@ -1211,9 +1219,25 @@ Help clients understand the tiers:
             <div class="audit-group">
               <h4>PDF formatting issues</h4><span class="role">Check the brand guide</span>
               <div class="tags">
-                <span class="tag">Is it uploaded to the Project?</span>
+                <span class="tag">Is the brand guide in SharePoint?</span>
                 <span class="tag">Use clear triggers: "export as PDF"</span>
-                <span class="tag">Try re-uploading the file</span>
+                <span class="tag">Check SharePoint path in instructions</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>SharePoint connection issues</h4><span class="role">Check the connector</span>
+              <div class="tags">
+                <span class="tag">Verify MCP connector is configured</span>
+                <span class="tag">Check file paths in project instructions</span>
+                <span class="tag">Try: "Read the file at [path]"</span>
+              </div>
+            </div>
+            <div class="audit-group">
+              <h4>Update catalogue not working</h4><span class="role">Check the documents</span>
+              <div class="tags">
+                <span class="tag">Upload complete invoices, not summaries</span>
+                <span class="tag">Include project details (sq ft, tier)</span>
+                <span class="tag">PDFs with clear tables work best</span>
               </div>
             </div>
           </div>
